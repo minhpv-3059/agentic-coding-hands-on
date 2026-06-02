@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="Theme.KudosApp" parent="android:Theme.Material.Light.NoActionBar" />
+    <!-- Material3 DayNight base: works with enableEdgeToEdge() on API 26+ and
+         lets system bar icon tint follow the window flags. Compose drives the
+         actual UI theme via KudosAppTheme. -->
+    <style name="Theme.KudosApp" parent="Theme.Material3.DayNight.NoActionBar" />
 </resources>
