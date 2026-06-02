@@ -1,5 +1,17 @@
 # Project Changelog
 
+## [Unreleased] — Phase 02: App Navigation Setup
+
+### Added
+- `navigation-compose 2.8.0` dependency
+- `navigation/NavRoutes.kt` — sealed route constants and route-builder helpers for all 13 app destinations
+- `navigation/AppNavGraph.kt` — `NavHost` wiring all 13 routes to placeholder composables
+- `ui/KudosApp.kt` — root composable: `Scaffold` with `KudosBottomNav` + `AppNavGraph`
+- `BottomNavTab` gained a `route` field linking each tab to its nav destination
+- `MainActivity` now hosts `KudosApp()` as its sole content
+
+---
+
 ## [Unreleased] — Phase 01: Design System
 
 ### Added

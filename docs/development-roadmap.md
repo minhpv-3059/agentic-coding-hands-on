@@ -12,9 +12,21 @@ Established the foundational UI layer: brand color tokens, typography scale, app
 - `ui/components/KudosTopBar.kt` — top app bar (logo placeholder, language, search, notifications)
 - `ui/components/KudosBottomNav.kt` — bottom nav with `BottomNavTab` enum (4 tabs)
 
-## Phase 02 — Screens [Pending]
+## Phase 02 — App Navigation Setup [Complete]
 
-## Phase 03 — Navigation & Logo [Pending]
+Wired the full navigation skeleton: route constants, `NavHost`, and root composable shell.
+
+**Delivered:**
+- `navigation/NavRoutes.kt` — route constants + builders for all 13 destinations
+- `navigation/AppNavGraph.kt` — `NavHost` with placeholder composables for every route
+- `ui/KudosApp.kt` — root composable (`Scaffold` + bottom-nav shell)
+- `BottomNavTab.route` field added; `MainActivity` now hosts `KudosApp()`
+
+## Phase 03 — Screens [Pending]
+
+Real screen composables replacing the placeholder destinations (phases 03–11 per plan).
+
+## Phase 04 — Logo Asset [Pending]
 
 Includes replacing the `KudosTopBar` logo placeholder with the actual drawable asset.
 

@@ -15,18 +15,18 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
+import com.sun.kudos_demo.navigation.NavRoutes
 import com.sun.kudos_demo.ui.theme.KudosAppTheme
 import com.sun.kudos_demo.ui.theme.KudosContainer
 import com.sun.kudos_demo.ui.theme.KudosDivider
 import com.sun.kudos_demo.ui.theme.KudosGold
 import com.sun.kudos_demo.ui.theme.KudosGray
 
-enum class BottomNavTab(val label: String, val icon: ImageVector) {
-    SAA2025("SAA 2025", Icons.Default.Home),
-    Awards("Awards", Icons.Default.Star),
-    Kudos("Kudos", Icons.Default.Favorite),
-    Profile("Profile", Icons.Default.Person)
+enum class BottomNavTab(val label: String, val icon: ImageVector, val route: String) {
+    Saa2025("SAA 2025", Icons.Default.Home, NavRoutes.HOME),
+    Awards("Awards", Icons.Default.Star, NavRoutes.AWARDS),
+    Kudos("Kudos", Icons.Default.Favorite, NavRoutes.KUDOS_FEED),
+    Profile("Profile", Icons.Default.Person, NavRoutes.PROFILE_ME)
 }
 
 @Composable
@@ -37,7 +37,6 @@ fun KudosBottomNav(
 ) {
     NavigationBar(
         containerColor = KudosContainer,
-        tonalElevation = 0.dp,
         modifier = modifier
     ) {
         BottomNavTab.entries.forEach { tab ->

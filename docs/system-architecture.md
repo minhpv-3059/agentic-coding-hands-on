@@ -17,8 +17,12 @@ Single-module Android app (`app/`).
 
 ```
 com.sun.kudos_demo/
-├── MainActivity.kt          — entry point, hosts KudosAppTheme + Scaffold
+├── MainActivity.kt          — entry point, hosts KudosApp inside KudosAppTheme
+├── navigation/
+│   ├── NavRoutes.kt         — route constants + builder helpers (13 destinations)
+│   └── AppNavGraph.kt       — NavHost wiring all routes (placeholder composables)
 └── ui/
+    ├── KudosApp.kt          — root composable: Scaffold + KudosBottomNav + AppNavGraph
     ├── theme/
     │   ├── Color.kt         — brand color tokens (16 constants)
     │   ├── Type.kt          — KudosTypography (11 Material3 text styles)
@@ -26,8 +30,16 @@ com.sun.kudos_demo/
     └── components/
         ├── KudosButton.kt   — KudosPrimaryButton, KudosSecondaryButton, KudosTextButton
         ├── KudosTopBar.kt   — KudosTopBar (logo, language selector, search, notifications)
-        └── KudosBottomNav.kt — KudosBottomNav + BottomNavTab enum (4 tabs)
+        └── KudosBottomNav.kt — KudosBottomNav + BottomNavTab enum (4 tabs, each with route)
 ```
+
+## Navigation
+
+The app uses `navigation-compose 2.8.0` with a single `NavHost` defined in `AppNavGraph.kt`.
+
+- All 13 route strings live in `NavRoutes.kt` — the sole source of truth for destination names.
+- `KudosApp.kt` owns the `NavController` and passes it to both `KudosBottomNav` and `AppNavGraph`.
+- Placeholder composables fill every route; real screens are introduced in later phases.
 
 ## Theme System
 

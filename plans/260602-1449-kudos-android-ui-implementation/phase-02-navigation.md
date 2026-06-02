@@ -2,7 +2,7 @@
 phase: "02"
 title: App Navigation Setup
 priority: critical
-status: todo
+status: done
 blockedBy: ["phase-01-design-system"]
 ---
 
