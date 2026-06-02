@@ -1,0 +1,23 @@
+package com.sun.kudos_demo.ui.theme
+
+import androidx.compose.ui.graphics.Color
+
+// Brand palette — sourced from MoMorph design tokens (Color variable collection)
+val KudosBackground = Color(0xFF00101A)
+val KudosContainer = Color(0xFF101417)
+val KudosContainer2 = Color(0xFF00070C)
+val KudosBgUpdate = Color(0xFF1E2D39)
+val KudosBorder = Color(0xFF998C5F)
+val KudosDivider = Color(0xFF2E3940)
+val KudosError = Color(0xFFB3261E)
+
+// Text
+val KudosGold = Color(0xFFFFEA9E)       // Primary accent — headlines, active states
+val KudosDarkText = Color(0xFF00101A)   // Text on gold/light surfaces
+val KudosWhite = Color(0xFFFFFFFF)
+val KudosGray = Color(0xFF999999)
+
+// Button states
+val KudosPrimaryButtonHover = Color(0xFFFFF8E1)
+val KudosSecondaryButtonNormal = Color(0x1AFFEA9E)  // rgba(255,234,158, 0.10)
+val KudosSecondaryButtonHover = Color(0x66FFEA9E)   // rgba(255,234,158, 0.40)
