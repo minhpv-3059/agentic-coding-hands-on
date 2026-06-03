@@ -1,5 +1,6 @@
 package com.sun.kudos_demo.ui.components
 
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Home
@@ -37,7 +38,7 @@ fun KudosBottomNav(
 ) {
     NavigationBar(
         containerColor = KudosContainer,
-        modifier = modifier
+        modifier = modifier.navigationBarsPadding()
     ) {
         BottomNavTab.entries.forEach { tab ->
             val selected = tab == selectedTab

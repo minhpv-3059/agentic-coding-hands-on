@@ -1,5 +1,6 @@
 package com.sun.kudos_demo.ui
 
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
@@ -25,7 +26,9 @@ fun KudosApp(navController: NavHostController = rememberNavController()) {
     val showBottomBar = selectedTab != null
 
     Scaffold(
+        contentWindowInsets = WindowInsets(0),
         bottomBar = {
+            // Bottom nav hidden on LOGIN screen
             if (showBottomBar) {
                 KudosBottomNav(
                     selectedTab = selectedTab,

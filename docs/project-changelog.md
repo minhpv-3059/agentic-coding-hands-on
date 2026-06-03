@@ -1,5 +1,22 @@
 # Project Changelog
 
+## [Unreleased] — Phase 03: Authentication Login
+
+### Added
+- `feature/auth/LoginScreen.kt` — Login screen with background keyvisual, ROOT FURTHER logo, bilingual description (VN/EN), login button with 1s mock auth, language dropdown overlay
+- `feature/auth/LoginViewModel.kt` — `AppLanguage` enum (VN, EN), `loading: StateFlow<Boolean>`, `selectedLanguage: StateFlow<AppLanguage>`, `onLoginClick(callback)` for mock auth
+- Assets: `drawable-nodpi/bg_login_keyvisual.png`, `drawable-nodpi/ic_logo_saa.png`, `drawable-nodpi/img_root_further.png`, `drawable/ic_google.xml`
+- `lifecycle-viewmodel-compose 2.6.1` dependency
+
+### Changed
+- `AppNavGraph.kt` — LOGIN is now startDestination; login success navigates to HOME
+- `KudosBottomNav.kt` — added `navigationBarsPadding()` for edge-to-edge safe area support
+
+### Fixed
+- Edge-to-edge support: `contentWindowInsets = WindowInsets(0)` in `KudosApp.kt` for proper safe area handling
+
+---
+
 ## [Unreleased] — Phase 02: App Navigation Setup
 
 ### Added
