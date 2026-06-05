@@ -33,10 +33,20 @@ Implemented Login screen pixel-perfect from MoMorph design with bilingual suppor
 - Nav: LOGIN is startDestination; login success → HOME navigation
 - Edge-to-edge support with safe area handling (navigationBarsPadding)
 
-## Phase 04 — Logo Asset [Pending]
+## Phase 04 — Home Screen [Complete]
 
-Includes replacing the `KudosTopBar` logo placeholder with the actual drawable asset.
+Implemented the Home screen from MoMorph design with live countdown and upgraded shared components.
 
-## Phase 04 — Data Layer [Pending]
+**Delivered:**
+- `feature/home/HomeScreen.kt` + `HomeViewModel.kt` — scrollable Home with mock data; `HomeUiState`/`CountdownState` via `StateFlow`; live 1-second countdown (target: launch + 20d 20h 20m)
+- `feature/home/components/` — 9 composables: hero section, countdown row, awards section, kudos section, note section, FAB, section header, action buttons, award card
+- DSEG7 Classic font (`res/font/dseg7_classic_regular.ttf`); OFL license in `assets/`
+- `KudosTopBar` upgraded: real `ic_logo_saa` drawable, `ic_vn_flag` asset, notification `BadgedBox`, `statusBarsPadding()` + gradient overlay
+- `KudosBottomNav` upgraded: `BottomNavTab` now uses Figma vector drawables (`ic_nav_*`) instead of Material icons
+- HOME route wired to real `HomeScreen` in `AppNavGraph`
 
-## Phase 05 — Integration & Polish [Pending]
+**Deferred to Phase 10:** award trophy images (Top Project, Top Project Leader) — still placeholders
+
+## Phase 05 — Data Layer [Pending]
+
+## Phase 06 — Integration & Polish [Pending]

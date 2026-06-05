@@ -1,5 +1,21 @@
 # Project Changelog
 
+## [Unreleased] — Phase 04: Home Screen
+
+### Added
+- `feature/home/HomeScreen.kt` — scrollable Home screen: hero keyvisual + countdown, awards, kudos, note sections, and FAB
+- `feature/home/HomeViewModel.kt` — `HomeUiState` / `CountdownState` StateFlow; live 1-second countdown to a demo target (launch + 20d 20h 20m); mock badge count and language toggle
+- `feature/home/components/` — 9 composables: `HomeHeroSection`, `CountdownRow`, `HeroActionButtons`, `SectionHeader`, `HomeAwardsSection`, `AwardCard`, `HomeKudosSection`, `HomeNoteSection`, `HomeFab`
+- DSEG7 Classic font (`res/font/dseg7_classic_regular.ttf`) for seven-segment countdown digits; license bundled at `assets/dseg_font_OFL_license.txt` (SIL OFL)
+- Nav drawables: `ic_nav_home.xml`, `ic_nav_awards.xml`, `ic_nav_kudos.xml`, `ic_nav_profile.xml` (Figma vector exports)
+
+### Changed
+- `KudosTopBar.kt` — replaced `Text` logo placeholder with real `ic_logo_saa` drawable (48×44 dp); added `ic_vn_flag` image asset for VN locale; added `BadgedBox` notification badge; applies `statusBarsPadding()` + vertical gradient for edge-to-edge support
+- `KudosBottomNav.kt` — `BottomNavTab` enum now references `@DrawableRes ic_nav_*` vector drawables instead of Material icons
+- `AppNavGraph.kt` / `NavRoutes.kt` — HOME route wired to real `HomeScreen`
+
+---
+
 ## [Unreleased] — Phase 03: Authentication Login
 
 ### Added

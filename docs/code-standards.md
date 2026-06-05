@@ -46,18 +46,19 @@ Caller controls width via `modifier` — use `Modifier.fillMaxWidth()` for full-
 ### Top Bar
 
 `KudosTopBar` in `KudosTopBar.kt`:
-- Height: 56 dp, horizontal padding: 16 dp
-- Slots: logo (left), language selector + search + notification icons (right)
-- Logo is currently a `Text` placeholder ("SAA 2025"); replace with actual drawable in a later phase
-- Language selector meets 48 dp touch target via `minimumInteractiveComponentSize`
+- Height: 56 dp (below status bar), horizontal padding: 16 dp; applies `statusBarsPadding()` + vertical gradient for edge-to-edge legibility
+- Slots: `ic_logo_saa` drawable 48×44 dp (left); language selector + search + notification icons (right)
+- Language selector: shows `ic_vn_flag` image for VN locale, flag emoji for EN; meets 48 dp touch target via `minimumInteractiveComponentSize`
+- Notification slot: `BadgedBox` with a gold 8 dp badge dot when `unreadCount > 0`
 
 ### Bottom Navigation
 
 `KudosBottomNav` in `KudosBottomNav.kt`:
-- Four tabs defined in `BottomNavTab` enum: `SAA2025`, `Awards`, `Kudos`, `Profile`
+- Four tabs defined in `BottomNavTab` enum: `Saa2025`, `Awards`, `Kudos`, `Profile`
+- Each tab carries a `@DrawableRes` icon field — Figma vector drawables (`ic_nav_home`, `ic_nav_awards`, `ic_nav_kudos`, `ic_nav_profile`); do not use Material icon references here
 - Selected state: `KudosGold` icon + label, `KudosDivider` indicator background
 - Unselected state: `KudosGray` icon + label
-- `tonalElevation = 0.dp` (no tonal overlay)
+- `tonalElevation = 0.dp` (no tonal overlay); `navigationBarsPadding()` applied
 - Tab order is defined by `BottomNavTab.entries` — add new tabs by extending the enum
 
 ## Typography
