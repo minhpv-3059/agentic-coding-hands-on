@@ -9,6 +9,7 @@ object NavRoutes {
     const val HOME = "home"
 
     const val KUDOS_FEED = "kudos/feed"
+    const val KUDOS_ALL = "kudos/all"
     const val KUDOS_VIEW = "kudos/view/{id}"
     const val KUDOS_SEND = "kudos/send"
 

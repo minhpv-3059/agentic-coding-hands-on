@@ -21,3 +21,8 @@ val KudosGray = Color(0xFF999999)
 val KudosPrimaryButtonHover = Color(0xFFFFF8E1)
 val KudosSecondaryButtonNormal = Color(0x1AFFEA9E)  // rgba(255,234,158, 0.10)
 val KudosSecondaryButtonHover = Color(0x66FFEA9E)   // rgba(255,234,158, 0.40)
+
+// Kudos card (cream surface) accents — Phase 05
+val KudosAccentRed = Color(0xFFD4271D)   // active heart + hashtag accent (design node 6885:10175)
+val KudosCardMuted = Color(0xFF555555)   // secondary text on cream card (codes, links)
+val KudosCardFaint = Color(0xFF888888)   // tertiary text on cream card (timestamps, sub-labels)

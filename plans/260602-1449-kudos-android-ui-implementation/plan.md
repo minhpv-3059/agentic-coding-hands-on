@@ -84,7 +84,7 @@ Screens prefixed `[iOS]` are the authoritative mobile screens. Web/desktop scree
 | 02 | App Navigation Setup | ✅ done | Nav structure, bottom nav |
 | 03 | Authentication | ✅ done | Login |
 | 04 | Home | ✅ done | Home |
-| 05 | Kudos Feed | ☐ todo | Feed, All Kudos, View, Search, Filters |
+| 05 | Kudos Feed | ✅ done | Feed, All Kudos, View, Search, Filters |
 | 06 | Send Kudos Flow | ☐ todo | Send form, dropdowns, validation |
 | 07 | Profile | ☐ todo | Own profile, Others' profile |
 | 08 | Notifications | ☐ todo | Notifications list |
