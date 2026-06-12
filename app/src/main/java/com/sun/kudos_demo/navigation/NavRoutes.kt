@@ -12,6 +12,7 @@ object NavRoutes {
     const val KUDOS_ALL = "kudos/all"
     const val KUDOS_VIEW = "kudos/view/{id}"
     const val KUDOS_SEND = "kudos/send"
+    const val KUDOS_COMMUNITY_STANDARDS = "kudos/community-standards"
 
     const val PROFILE_ME = "profile/me"
     const val PROFILE_USER = "profile/{userId}"

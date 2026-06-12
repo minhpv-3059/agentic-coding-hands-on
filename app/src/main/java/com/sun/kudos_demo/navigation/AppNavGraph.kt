@@ -18,6 +18,7 @@ import androidx.navigation.navArgument
 import com.sun.kudos_demo.feature.auth.LoginScreen
 import com.sun.kudos_demo.feature.home.HomeScreen
 import com.sun.kudos_demo.feature.home.HomeViewModel
+import com.sun.kudos_demo.feature.send.CommunityStandardsScreen
 
 @Composable
 fun AppNavGraph(
@@ -73,7 +74,10 @@ fun AppNavGraph(
             val id = entry.arguments?.getString(NavRoutes.ARG_KUDO_ID).orEmpty()
             ViewKudoRoute(navController, id)
         }
-        composable(NavRoutes.KUDOS_SEND) { PlaceholderScreen("Send Kudos") }
+        composable(NavRoutes.KUDOS_SEND) { SendKudosRoute(navController) }
+        composable(NavRoutes.KUDOS_COMMUNITY_STANDARDS) {
+            CommunityStandardsScreen(onBack = { navController.popBackStack() })
+        }
 
         // Literal PROFILE_ME must be registered before PROFILE_USER so "profile/me"
         // matches the literal route and is not captured as userId = "me".

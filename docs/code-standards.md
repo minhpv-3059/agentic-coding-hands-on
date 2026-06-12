@@ -84,7 +84,12 @@ Use `KudosTypography` styles via `MaterialTheme.typography.*`. Do not create ad-
 
 - Screens without persistence → extend `ViewModel` (plain).
 - Screens that read/write `KudosPreferences` (DataStore) → extend `AndroidViewModel` — requires `Application` context.
+- Screens that read from `KudosRepository` only → extend plain `ViewModel` (repository is a process-level singleton, no `Application` context needed).
 - Never pass `Context` into a plain `ViewModel`; inject it only via `AndroidViewModel`.
+
+## Image Loading
+
+Do not add Coil or Glide during the mock/development phase. For images sourced from the Android Photo Picker (local URIs), decode to `Bitmap` via `android.graphics.BitmapFactory` inside the ViewModel's coroutine scope. When the app moves to remote image URLs, introduce Coil at that point.
 
 ## Slot Pattern (Screen-level)
 

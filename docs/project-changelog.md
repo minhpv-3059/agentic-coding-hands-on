@@ -1,5 +1,24 @@
 # Project Changelog
 
+## [Unreleased] — Phase 06: Send Kudos
+
+### Added
+- `feature/send/SendKudosScreen.kt` — Send Kudos form: recipient search dropdown, danh hiệu (title) dropdown, functional rich-text markdown toolbar (`RichTextFormatter`), multi-line message field, hashtag multi-select (max 5), real Android Photo Picker (max 5 images, decoded to bitmap thumbnails via `BitmapFactory`), anonymous toggle + nickname field, form validation
+- `feature/send/SendKudosViewModel.kt` — form state, validation logic, and `submit()` that prepends the new kudo to `KudosRepository` so it surfaces immediately at the top of the feed
+- `feature/send/CommunityStandardsScreen.kt` — 10 community-standard criteria + security section; navigates from Send Kudos form
+- `data/KudosRepository.kt` — **first cross-feature in-memory shared state store**; `object` singleton holding a `MutableStateFlow<List<Kudo>>` seeded from `KudosMockData`; exposes `kudoById(id)` helper
+
+### Changed
+- `feature/feed/KudosFeedViewModel.kt` — refactored to read from `KudosRepository` (combines 5 flows) instead of reading the static `KudosMockData` object directly; live feed now reflects submitted kudos without restart
+- `feature/feed/ViewKudoScreen.kt` — `ViewKudoRoute` now resolves kudo by ID via `KudosRepository.kudoById` instead of a static list lookup
+- `navigation/AppNavGraph.kt` — `KUDOS_COMMUNITY_STANDARDS` route added; `KUDOS_SEND` now resolves to the real `SendKudosRoute`
+- `ui/theme/Color.kt` — 1 new token: `KudosFormCream` (form surface background)
+
+### Dependencies
+- No new gradle dependencies: Photo Picker uses existing `activity-compose 1.8.0`; bitmap thumbnails decoded via built-in `android.graphics.BitmapFactory` (no Coil)
+
+---
+
 ## [Unreleased] — Phase 05: Kudos Feed
 
 ### Added
