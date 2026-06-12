@@ -4,9 +4,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowForward
@@ -25,7 +23,6 @@ import com.sun.kudos_demo.feature.feed.KudosMockData
 import com.sun.kudos_demo.feature.feed.KudoUser
 import com.sun.kudos_demo.feature.home.components.SectionHeader
 import com.sun.kudos_demo.ui.components.KudosCard
-import com.sun.kudos_demo.ui.components.KudosSecondaryButton
 import com.sun.kudos_demo.ui.theme.KudosAppTheme
 import com.sun.kudos_demo.ui.theme.KudosGold
 
@@ -61,12 +58,9 @@ fun AllKudosSection(
             title = "ALL KUDOS"
         )
 
-        StatsBlock(stats = stats)
-
-        KudosSecondaryButton(
-            text = "Mở Secret Box 🎁",
-            onClick = onOpenSecretBox,
-            modifier = Modifier.fillMaxWidth()
+        StatsBlock(
+            stats = stats,
+            onOpenSecretBox = onOpenSecretBox
         )
 
         GiftRecipientsSection(

@@ -5,40 +5,40 @@ import kotlin.math.sin
 import kotlin.math.sqrt
 
 /**
- * Mock graph for the Spotlight Board network chart. Nodes are placed on a deterministic
- * golden-angle spiral (no randomness — keeps layout stable across recompositions and the
- * build sandbox, which forbids Math.random/Date).
+ * Mock data for the Spotlight Board word cloud (design mms_B.7). The board scatters Sunner
+ * names of varying sizes — NOT a node-and-edge graph. Names are placed on a deterministic
+ * golden-angle spiral (no randomness — stable across recomposition and the build sandbox,
+ * which forbids Math.random/Date). [SpotlightData.edges] is unused for the word cloud.
  */
 object SpotlightMockData {
 
+    // The seven names that fill the board in the design.
     private val names = listOf(
-        "Nhật", "Nhân", "Hân", "Minh", "Anh", "Hà", "Đức", "Linh",
-        "Trang", "Khoa", "Vy", "Sơn", "Mai", "Phúc", "Tú", "Quân",
-        "Thảo", "Hùng", "Lan", "Bình", "Nga", "Kiên", "My", "Long"
+        "Đỗ Hoàng Hiệp", "Dương Thúy An", "Mai Phương Thúy", "Nguyễn Văn Quy",
+        "Lê Kiều Trang", "Nguyễn Bá Chức", "Nguyễn Hoàng Linh"
     )
 
-    val data: SpotlightData = buildGraph()
+    val data: SpotlightData = buildCloud()
 
-    private fun buildGraph(): SpotlightData {
-        val n = names.size
+    private fun buildCloud(): SpotlightData {
+        // Reduced from 84 → 32 nodes to eliminate overlap and spread names across full panel
+        val count = 32
         val goldenAngle = 2.399963f
-        val nodes = names.mapIndexed { i, name ->
-            val radius = sqrt((i + 0.5f) / n) * 0.46f
+        val nodes = (0 until count).map { i ->
+            // radius now spans edge-to-edge (0.95f factor) instead of cramping to centre (0.5f)
+            val radius = sqrt((i + 0.5f) / count) * 0.95f
             val angle = i * goldenAngle
+            val rawX = 0.5f + radius * cos(angle)
+            val rawY = 0.5f + radius * sin(angle)
             SpotlightNode(
-                id = "n$i",
-                name = name,
-                x = 0.5f + radius * cos(angle),
-                y = 0.5f + radius * sin(angle),
-                weight = 0.7f + (i % 5) * 0.22f
+                id = "w$i",
+                name = names[i % names.size],
+                // clamp so words don't clip the rounded panel border
+                x = rawX.coerceIn(0.06f, 0.94f),
+                y = rawY.coerceIn(0.06f, 0.94f),
+                weight = 0.5f + ((i * 37) % 100) / 100f   // 0.5..1.5 font-size factor, deterministic
             )
         }
-        val edges = buildList {
-            for (i in 0 until n) {
-                add(SpotlightEdge("n$i", "n${(i + 1) % n}"))
-                if (i % 2 == 0) add(SpotlightEdge("n$i", "n${(i * 5 + 3) % n}"))
-            }
-        }
-        return SpotlightData(totalKudos = 388, nodes = nodes, edges = edges)
+        return SpotlightData(totalKudos = 388, nodes = nodes, edges = emptyList())
     }
 }

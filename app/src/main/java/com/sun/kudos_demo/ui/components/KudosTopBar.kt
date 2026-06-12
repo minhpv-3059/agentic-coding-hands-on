@@ -75,16 +75,16 @@ fun KudosTopBar(
 
         Row(
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(4.dp)
+            horizontalArrangement = Arrangement.spacedBy(10.dp)
         ) {
             // Language selector: flag emoji + code + arrow — 90×32 in design
             Row(
                 modifier = Modifier
                     .minimumInteractiveComponentSize()
                     .clickable(onClick = onLanguageClick)
-                    .padding(horizontal = 4.dp),
+                    .padding(start = 8.dp, top = 4.dp, bottom = 4.dp),
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(4.dp)
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 // VN flag — real Figma asset (ic_vn_flag); other locales fall back to emoji
                 if (currentLanguage == "VN") {
@@ -134,7 +134,7 @@ fun KudosTopBar(
                     Icon(
                         imageVector = Icons.Default.Notifications,
                         contentDescription = "Notifications ($unreadCount unread)",
-                        tint = KudosGold,
+                        tint = KudosWhite,
                         modifier = Modifier.size(22.dp)
                     )
                 }

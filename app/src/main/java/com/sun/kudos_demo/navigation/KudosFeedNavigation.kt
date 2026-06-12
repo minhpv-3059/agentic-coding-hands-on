@@ -31,7 +31,7 @@ import com.sun.kudos_demo.feature.feed.KudosSearchScreen
 import com.sun.kudos_demo.feature.feed.KudosSearchViewModel
 import com.sun.kudos_demo.feature.feed.SpotlightMockData
 import com.sun.kudos_demo.feature.feed.ViewKudoScreen
-import com.sun.kudos_demo.feature.feed.components.SpotlightNetworkChart
+import com.sun.kudos_demo.feature.feed.components.SpotlightBoard
 import com.sun.kudos_demo.ui.components.DepartmentFilterDropdown
 import com.sun.kudos_demo.ui.components.HashtagFilterDropdown
 
@@ -75,18 +75,20 @@ fun KudosFeedRoute(navController: NavHostController, backStackEntry: NavBackStac
                     selected = state.selectedHashtag,
                     expanded = hashtagExpanded,
                     onExpandedChange = { hashtagExpanded = it },
-                    onSelect = { vm.selectHashtag(it); hashtagExpanded = false }
+                    onSelect = { vm.selectHashtag(it); hashtagExpanded = false },
+                    modifier = Modifier.weight(1f)
                 )
                 DepartmentFilterDropdown(
                     items = state.departments,
                     selected = state.selectedDepartment,
                     expanded = deptExpanded,
                     onExpandedChange = { deptExpanded = it },
-                    onSelect = { vm.selectDepartment(it); deptExpanded = false }
+                    onSelect = { vm.selectDepartment(it); deptExpanded = false },
+                    modifier = Modifier.weight(1f)
                 )
             }
         },
-        spotlight = { SpotlightNetworkChart(data = SpotlightMockData.data) },
+        spotlight = { SpotlightBoard(data = SpotlightMockData.data) },
         onSendKudos = { navController.navigateSingleTop(NavRoutes.KUDOS_SEND) },
         onSearch = { navController.navigateSingleTop(NavRoutes.SEARCH) },
         onNotifications = { navController.navigateSingleTop(NavRoutes.NOTIFICATIONS) },

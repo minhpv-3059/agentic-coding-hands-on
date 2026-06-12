@@ -3,9 +3,10 @@ package com.sun.kudos_demo.feature.feed.components
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -23,15 +24,16 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.sun.kudos_demo.ui.theme.KudosAppTheme
 import com.sun.kudos_demo.ui.theme.KudosBorder
-import com.sun.kudos_demo.ui.theme.KudosContainer
 import com.sun.kudos_demo.ui.theme.KudosGold
 import com.sun.kudos_demo.ui.theme.KudosWhite
 
-private val PromptShape = RoundedCornerShape(24.dp)
+// Design node mms_A.1_Button ghi nhận (6885:9083):
+// border-radius 4px, height 40px, padding 10px, bg gold 10%, border KudosBorder solid, label white centred.
+private val PromptShape = RoundedCornerShape(4.dp)
 
 /**
  * "Send Kudos" prompt bar — design node mms_A.1_Button ghi nhận (6885:9083).
- * Pill-shaped row with edit icon on the left + label text.
+ * Lightly-rounded rect with edit icon + label centred inside.
  */
 @Composable
 fun SendKudosPrompt(
@@ -41,12 +43,14 @@ fun SendKudosPrompt(
     Row(
         modifier = modifier
             .fillMaxWidth()
+            .height(40.dp)
             .clip(PromptShape)
-            .background(KudosContainer)
-            .border(1.dp, KudosBorder.copy(alpha = 0.4f), PromptShape)
+            .background(KudosGold.copy(alpha = 0.10f))
+            .border(1.dp, KudosBorder, PromptShape)
             .clickable(onClick = onSendKudos)
-            .padding(horizontal = 20.dp, vertical = 14.dp),
-        verticalAlignment = Alignment.CenterVertically
+            .padding(10.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.Center
     ) {
         Icon(
             imageVector = Icons.Filled.Edit,
@@ -54,11 +58,11 @@ fun SendKudosPrompt(
             tint = KudosGold,
             modifier = Modifier.size(18.dp)
         )
-        Spacer(Modifier.width(10.dp))
+        androidx.compose.foundation.layout.Spacer(Modifier.width(10.dp))
         Text(
             text = "Hôm nay, bạn muốn gửi kudos đến ai?",
             style = MaterialTheme.typography.bodyMedium,
-            color = KudosWhite.copy(alpha = 0.6f)
+            color = KudosWhite
         )
     }
 }

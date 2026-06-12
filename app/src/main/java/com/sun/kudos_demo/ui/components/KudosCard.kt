@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowForward
+import androidx.compose.material.icons.automirrored.filled.Send
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material3.HorizontalDivider
@@ -26,15 +27,17 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.sun.kudos_demo.feature.feed.Kudo
 import com.sun.kudos_demo.feature.feed.KudosMockData
 import com.sun.kudos_demo.feature.feed.KudoUser
 import com.sun.kudos_demo.feature.feed.starLevel
 import com.sun.kudos_demo.ui.theme.KudosAppTheme
 import com.sun.kudos_demo.ui.theme.KudosAccentRed
-import com.sun.kudos_demo.ui.theme.KudosBorder
 import com.sun.kudos_demo.ui.theme.KudosCardFaint
 import com.sun.kudos_demo.ui.theme.KudosCardMuted
 import com.sun.kudos_demo.ui.theme.KudosDarkText
@@ -78,7 +81,7 @@ fun KudosCard(
             .fillMaxWidth()
             .clip(CardShape)
             .background(CardBackground)
-            .border(1.dp, KudosBorder, CardShape)
+            .border(1.dp, KudosGold, CardShape)
             .padding(8.dp, 8.dp, 12.dp, 8.dp),
         verticalArrangement = Arrangement.spacedBy(6.dp)
     ) {
@@ -133,7 +136,7 @@ private fun KudosCardParticipantsRow(
         )
 
         Icon(
-            imageVector = Icons.AutoMirrored.Filled.ArrowForward,
+            imageVector = Icons.AutoMirrored.Filled.Send,
             contentDescription = null,
             tint = KudosDarkText,
             modifier = Modifier.size(16.dp)
@@ -167,7 +170,7 @@ private fun KudosParticipantSlot(
     ) {
         KudoAvatar(
             name = if (isAnonymous) null else user?.name,
-            size = 36.dp,
+            size = 24.dp,
             anonymous = isAnonymous
         )
         Column(modifier = Modifier.weight(1f)) {
@@ -247,13 +250,19 @@ private fun KudosCardContent(
         )
         Text(
             text = kudo.title,
-            style = MaterialTheme.typography.titleMedium,
-            color = KudosGold
+            style = MaterialTheme.typography.labelSmall.copy(
+                fontWeight = FontWeight.Bold,
+                letterSpacing = 0.23.sp
+            ),
+            color = KudosDarkText,
+            textAlign = TextAlign.Center,
+            modifier = Modifier.fillMaxWidth()
         )
         Text(
             text = kudo.message,
-            style = MaterialTheme.typography.bodySmall,
+            style = MaterialTheme.typography.labelSmall.copy(lineHeight = 14.sp),
             color = KudosDarkText,
+            textAlign = TextAlign.Justify,
             maxLines = if (compact) 3 else 5,
             overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis
         )
@@ -268,7 +277,7 @@ private fun KudosHashtagRow(hashtags: List<String>, onHashtagClick: (String) -> 
     val display = if (hashtags.size > 5) hashtags.take(5) else hashtags
     val showEllipsis = hashtags.size > 5
     Row(
-        horizontalArrangement = Arrangement.spacedBy(4.dp),
+        horizontalArrangement = Arrangement.spacedBy(2.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         display.forEach { tag ->

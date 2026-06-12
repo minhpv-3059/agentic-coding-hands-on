@@ -3,9 +3,11 @@ package com.sun.kudos_demo.ui.components
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
@@ -33,11 +35,10 @@ import com.sun.kudos_demo.ui.theme.KudosAppTheme
 import com.sun.kudos_demo.ui.theme.KudosBorder
 import com.sun.kudos_demo.ui.theme.KudosContainer
 import com.sun.kudos_demo.ui.theme.KudosGold
-import com.sun.kudos_demo.ui.theme.KudosGray
 import com.sun.kudos_demo.ui.theme.KudosSecondaryButtonNormal
 import com.sun.kudos_demo.ui.theme.KudosWhite
 
-private val DeptPillShape = RoundedCornerShape(50)
+private val DeptPillShape = RoundedCornerShape(4.dp)
 private val DeptMenuShape = RoundedCornerShape(8.dp)
 
 /**
@@ -61,25 +62,27 @@ fun DepartmentFilterDropdown(
     modifier: Modifier = Modifier
 ) {
     val isActive = selected != null
-    val pillBorderColor = if (isActive) KudosGold else KudosBorder.copy(alpha = 0.6f)
-    val labelColor = if (isActive) KudosGold else KudosGray
+    val pillBorderColor = if (isActive) KudosGold else KudosBorder
+    val labelColor = if (isActive) KudosGold else KudosWhite
 
     Box(modifier = modifier) {
-        // Pill button
+        // Pill button — 4dp rounded rect, height 40dp, SpaceBetween label & chevron
         Row(
             verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween,
             modifier = Modifier
+                .fillMaxWidth()
+                .height(40.dp)
                 .border(1.dp, pillBorderColor, DeptPillShape)
                 .background(KudosSecondaryButtonNormal, DeptPillShape)
                 .clickable { onExpandedChange(!expanded) }
-                .padding(horizontal = 12.dp, vertical = 6.dp)
+                .padding(horizontal = 8.dp)
         ) {
             Text(
                 text = selected ?: "Phòng ban",
                 style = MaterialTheme.typography.labelMedium,
                 color = labelColor
             )
-            Spacer(Modifier.width(4.dp))
             Icon(
                 imageVector = if (expanded) Icons.Filled.KeyboardArrowUp else Icons.Filled.KeyboardArrowDown,
                 contentDescription = null,
