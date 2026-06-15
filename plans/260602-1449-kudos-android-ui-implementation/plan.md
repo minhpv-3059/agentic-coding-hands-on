@@ -16,6 +16,16 @@ blocks: []
 Implement all iOS-mobile screens from MoMorph design into Android Jetpack Compose.
 Stack: Kotlin + Compose + Material3 | minSdk 26 | targetSdk 36
 
+## Definition of Done (AIDD — applies to every phase)
+
+AIDD demo: gen code from Figma design + MoMorph specs via Takumi. Each phase is "done" only when:
+1. **UI** pixel-exact to Figma (MoMorph authoritative; verify on emulator).
+2. **Logic** matches MoMorph screen specs.
+3. **Quality** = Unit Tests **+ E2E/instrumented tests** (TDD).
+4. **Process** = Takumi flow, then customize + note it in the report.
+
+Authoritative detail: [`.claude/rules/aidd-project-requirements.md`](../../.claude/rules/aidd-project-requirements.md). **Open gap:** E2E tests not yet added.
+
 ## ⚠️ Asset Extraction Protocol (đọc trước khi implement)
 
 **`get_media_files` KHÔNG đáng tin cho background fill images.**
@@ -91,6 +101,7 @@ Screens prefixed `[iOS]` are the authoritative mobile screens. Web/desktop scree
 | 09 | Secret Box | ☐ todo | Box states, open animation |
 | 10 | Awards | ☐ todo | 6 award types |
 | 11 | Supporting Screens | ☐ todo | Rules, Language, Error pages |
+| E2E | E2E / Instrumented Testing | ☐ todo | Dedicated pass after P0 screens — Compose UI tests for login → feed → send → kudo-appears, etc. (DoD requirement; deferred per decision 2026-06-15) |
 
 ## Key Dependencies
 
