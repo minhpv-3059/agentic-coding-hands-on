@@ -44,18 +44,31 @@ com.sun.kudos_demo/
 │   │   └── components/      — 9 composables: HomeHeroSection, CountdownRow, HeroActionButtons,
 │   │                          SectionHeader, HomeAwardsSection, AwardCard,
 │   │                          HomeKudosSection, HomeNoteSection, HomeFab
-│   └── send/
-│       ├── SendKudosScreen.kt      — Send Kudos form: recipient search, danh hiệu dropdown, rich-text toolbar, message, hashtag multi-select (max 5), Photo Picker (max 5 images), anonymous toggle + nickname, validation
-│       ├── SendKudosViewModel.kt   — form state, validation, submit() prepends to KudosRepository
-│       └── CommunityStandardsScreen.kt — 10 community criteria + security section
+│   ├── send/
+│   │   ├── SendKudosScreen.kt      — Send Kudos form: recipient search, danh hiệu dropdown, rich-text toolbar, message, hashtag multi-select (max 5), Photo Picker (max 5 images), anonymous toggle + nickname, validation
+│   │   ├── SendKudosViewModel.kt   — form state, validation, submit() prepends to KudosRepository
+│   │   └── CommunityStandardsScreen.kt — 10 community criteria + security section
+│   └── profile/
+│       ├── MyProfileScreen.kt      — own-profile: header, stats card, kudos filter (Đã nhận / Đã gửi), kudos list, icon collection, secret-box CTA
+│       ├── MyProfileViewModel.kt   — filter state, like toggle, language toggle; reads KudosRepository + KudosPreferences
+│       ├── UserProfileScreen.kt    — other-user profile: header, award badges row, received-kudos list, Send Kudos CTA
+│       ├── UserProfileViewModel.kt — resolves user from mock data; like toggle
+│       ├── ProfileModels.kt        — ProfileKudosTab enum, ProfileStats, AwardBadge (icon: Int? — null until Figma export)
+│       ├── ProfileMockData.kt      — mock dataset seeding both profile ViewModels
+│       └── components/             — 10 composables: ProfileHeader, ProfileStatsCard, ProfileKudosFilter,
+│                                      ProfileAwardBadges, ProfileIconCollection, ProfileReceivedKudosLabel,
+│                                      ProfileSectionHeader, ProfileSendKudosCta,
+│                                      UserProfileHeader, UserProfileSectionHeader
 ├── navigation/
-│   ├── NavRoutes.kt              — route constants + builder helpers (15 destinations incl. KUDOS_SEND, KUDOS_COMMUNITY_STANDARDS)
-│   ├── AppNavGraph.kt            — NavHost; LOGIN is startDestination; HOME + KUDOS_FEED + KUDOS_SEND wired to real screens
-│   └── KudosFeedNavigation.kt    — feed route composables (KudosFeedRoute, KudosAllRoute, ViewKudoRoute, KudosSearchRoute); slot injection for filters and Spotlight
+│   ├── NavRoutes.kt              — route constants + builder helpers (17 destinations); PROFILE_ME = "my-profile" (not "profile/me" — avoids PROFILE_USER wildcard capture); KUDOS_SEND_WITH_ARG for optional recipient pre-fill
+│   ├── AppNavGraph.kt            — NavHost; LOGIN is startDestination; all major features wired to real screens
+│   ├── KudosFeedNavigation.kt    — feed route composables (KudosFeedRoute, KudosAllRoute, ViewKudoRoute, KudosSearchRoute); slot injection for filters and Spotlight
+│   ├── ProfileNavigation.kt      — profile route composables (MyProfileRoute, UserProfileRoute); follows same extraction pattern as KudosFeedNavigation
+│   └── SendKudosNavigation.kt    — send-kudos route composable
 └── ui/
     ├── KudosApp.kt          — root composable: Scaffold (contentWindowInsets=0) + KudosBottomNav + AppNavGraph
     ├── theme/
-    │   ├── Color.kt         — brand color tokens (24 constants; 3 added Phase 05: KudosAccentRed, KudosCardMuted, KudosCardFaint; 4 added Phase 06: KudosFormCream, KudosContainer2, KudosDropdownHighlight, KudosLinkRed)
+    │   ├── Color.kt         — brand color tokens (20 constants; 3 added Phase 05: KudosAccentRed, KudosCardMuted, KudosCardFaint; 3 added Phase 06: KudosFormCream, KudosDropdownHighlight, KudosLinkRed; KudosContainer2 is a base token not a phase addition)
     │   ├── Type.kt          — KudosTypography (11 Material3 text styles)
     │   └── Theme.kt         — KudosAppTheme composable (dark-only, no dynamic color)
     └── components/
@@ -77,9 +90,11 @@ The app uses `navigation-compose 2.8.0` with a single `NavHost` defined in `AppN
 - `KudosApp.kt` owns the `NavController` and passes it to both `KudosBottomNav` and `AppNavGraph`.
 - `startDestination` is `NavRoutes.LOGIN`; after successful login the stack is popped and `HOME` becomes the root.
 - `KudosBottomNav` is hidden on the login screen — only shown when the current route matches a `BottomNavTab` destination.
-- Feed-specific route composables live in `KudosFeedNavigation.kt` (not `AppNavGraph.kt`) to keep both files under 200 lines — follow this pattern for future feature modules.
+- Profile screens (`PROFILE_ME`, `PROFILE_USER`) suppress the global bottom bar — each screen renders its own bottom nav per design. The guard lives in `KudosApp.kt` (`isProfileScreen` flag).
+- `PROFILE_ME` uses the distinct path `"my-profile"` (not `"profile/me"`) to prevent the `PROFILE_USER = "profile/{userId}"` wildcard from capturing it as `userId="me"`.
+- Feature-specific route composables are extracted to dedicated navigation files (`KudosFeedNavigation.kt`, `ProfileNavigation.kt`, `SendKudosNavigation.kt`) to keep `AppNavGraph.kt` under 200 lines — follow this pattern for future feature modules.
 - Hashtag cross-screen navigation: secondary screens (View / AllKudos) stash the tag on the Feed's `SavedStateHandle` and pop back, so the Feed ViewModel picks it up without re-composing.
-- Real screens: LOGIN, HOME, KUDOS_FEED, KUDOS_ALL, KUDOS_VIEW, KUDOS_SEARCH, KUDOS_SEND, KUDOS_COMMUNITY_STANDARDS. Remaining routes still use placeholder composables.
+- Real screens: LOGIN, HOME, KUDOS_FEED, KUDOS_ALL, KUDOS_VIEW, KUDOS_SEARCH, KUDOS_SEND, KUDOS_COMMUNITY_STANDARDS, PROFILE_ME, PROFILE_USER. Remaining routes still use placeholder composables.
 
 ## Theme System
 

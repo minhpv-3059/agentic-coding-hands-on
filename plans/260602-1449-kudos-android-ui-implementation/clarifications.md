@@ -76,3 +76,13 @@ SVG→vector drawable: dùng lại script Python đã convert nav icons (trích 
 - Q: Entry tới Send Kudos? → A: Thay PlaceholderScreen route KUDOS_SEND bằng SendKudosScreen; FAB feed + Home onSendKudos đã wire tới KUDOS_SEND từ phase 04/05.
 - Q: Nút Huỷ? → A: Navigate back, không lưu. Nút Gửi đi success → toast "Đã gửi Kudos!" + prepend + pop back to feed.
 - Q: Track A/B split? → A: Track A = 2 background implementer agents (Agent 1: SendKudosScreen + sub-components UI presentational; Agent 2: CommunityStandardsScreen). Track B = SendKudosViewModel + KudosRepository + feed refactor + nav routes + integrate (rich-text, photo picker, validation, submit).
+
+## Session 2026-06-15 (Phase 07 — Profile)
+
+- Q: 6 huy hiệu award màu trên Profile người khác (REVIVAL, TOUCH OF LIGHT, STAY GOLD, FLOW TO HORIZON, BEYOND THE BOUNDARY, ROOT FUTHER) xử lý ảnh thế nào? → A: User export ảnh thật từ Figma. Build với AwardBadgePlaceholder swappable (layout pixel-chuẩn) trong khi chờ; swap sang drawable thật khi user cung cấp.
+- Q: Nút CTA "Gửi lời cảm ơn và ghi nhận tới {tên}" trên Profile người khác điều hướng đâu? → A: Mở Send Kudos + điền sẵn người nhận. Thêm optional arg recipient vào route KUDOS_SEND (kudos/send?recipient={userId}); SendKudosViewModel pre-select người nhận từ id.
+- Q: Bộ lọc KUDOS dropdown Đã nhận (5) / Đã gửi (5) trên Profile của tôi hoạt động ra sao? → A: Lọc thật trên mock — Đã nhận = kudos recipient là tôi, Đã gửi = kudos sender là tôi. Reuse pattern dropdown overlay neo dưới nút (như feed/send).
+- Q: Phạm vi wiring điều hướng? → A: Wire cả hai — thay placeholder PROFILE_ME → MyProfileScreen, PROFILE_USER → UserProfileScreen(userId); tra user theo id từ mock, id lạ → fallback an toàn. Tap user ở Feed/Search mở UserProfileScreen.
+- Q: Avatar hero + icon collection 6 vòng tròn tối (màn của tôi)? → A: Avatar = KudoAvatar placeholder màu theo tên (ảnh thật không đáng tin — tiền lệ). Icon collection của tôi = 6 vòng tròn tối rỗng đúng design (không nhãn, không ảnh).
+- Q: Giá trị stats (màn của tôi)? → A: Lấy đúng design: Kudos nhận 5, Kudos gửi 25, Tim nhận 25, Secret Box đã mở 25, Secret Box chưa mở 25.
+- Q: Hero background key-visual? → A: Reuse drawable/bg_home_keyvisual.png (cùng key-visual xoáy màu như Home).

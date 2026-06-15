@@ -63,6 +63,19 @@ Implemented the full Kudos Feed feature (8 MoMorph screens) with UI, persistence
 - `ui/theme/Color.kt` — 3 new tokens: `KudosAccentRed`, `KudosCardMuted`, `KudosCardFaint`
 - `androidx.datastore:datastore-preferences:1.1.1` dependency added
 
+## Phase 07 — Profile [Complete]
+
+Implemented two profile screens (own profile + other-user profile) from MoMorph design; introduced `feature/profile/` package and `ProfileNavigation.kt`; fixed a nav route wildcard-capture bug; added 119 unit tests (suite now 305 passing).
+
+**Delivered:**
+- `feature/profile/` — `ProfileModels.kt`, `ProfileMockData.kt`, `MyProfileViewModel.kt`, `UserProfileViewModel.kt`, `MyProfileScreen.kt`, `UserProfileScreen.kt`, 10 components
+- `navigation/ProfileNavigation.kt` — `MyProfileRoute` + `UserProfileRoute` extracted (same pattern as `KudosFeedNavigation.kt`)
+- `PROFILE_ME` route fixed to `"my-profile"` (was `"profile/me"` — captured by `PROFILE_USER` wildcard); `PROFILE_USER` wired to `UserProfileScreen`
+- `KUDOS_SEND` gains optional `recipient` query-param for pre-fill from other-user profile CTA (`KUDOS_SEND_WITH_ARG`)
+- `KudosApp` suppresses global bottom bar on profile routes (each profile screen embeds its own)
+
+**Deferred:** 6 award-badge images pending Figma export — placeholder `AwardBadge(icon=null)` layout in place
+
 ## Phase 06 — Send Kudos [Complete]
 
 Implemented the Send Kudos flow end-to-end, introduced the first cross-feature shared state store, and wired the live feed to reflect newly submitted kudos.

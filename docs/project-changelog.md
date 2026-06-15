@@ -1,5 +1,28 @@
 # Project Changelog
 
+## [Unreleased] — Phase 07: Profile
+
+### Added
+- `feature/profile/ProfileModels.kt` — `ProfileKudosTab` enum, `ProfileStats`, `AwardBadge` (`icon: Int?` — null until Figma export lands; layout renders a styled placeholder)
+- `feature/profile/ProfileMockData.kt` — mock dataset for both profile screens
+- `feature/profile/MyProfileScreen.kt` + `MyProfileViewModel.kt` — own-profile screen: header, stats card, kudos filter (Đã nhận / Đã gửi), scrollable kudos list, icon collection, secret box CTA
+- `feature/profile/UserProfileScreen.kt` + `UserProfileViewModel.kt` — other-user profile screen: header, award badges row, received-kudos list, "Send Kudos" CTA
+- `feature/profile/components/` — 10 composables: `ProfileHeader`, `ProfileStatsCard`, `ProfileKudosFilter`, `ProfileAwardBadges`, `ProfileIconCollection`, `ProfileReceivedKudosLabel`, `ProfileSectionHeader`, `ProfileSendKudosCta`, `UserProfileHeader`, `UserProfileSectionHeader`
+- `navigation/ProfileNavigation.kt` — `MyProfileRoute`, `UserProfileRoute` (same extraction pattern as `KudosFeedNavigation.kt`)
+
+### Changed
+- `navigation/NavRoutes.kt` — `PROFILE_ME` changed from `"profile/me"` to `"my-profile"` (fixes wildcard-capture bug: old path matched `PROFILE_USER = "profile/{userId}"` with `userId="me"`); `KUDOS_SEND_WITH_ARG` constant added (`kudos/send?recipient={recipient}`); `kudosSend(recipientId)` builder added
+- `navigation/AppNavGraph.kt` — `PROFILE_ME` + `PROFILE_USER` wired to real `MyProfileRoute` / `UserProfileRoute`; `KUDOS_SEND` updated to `KUDOS_SEND_WITH_ARG` pattern (optional `recipient` arg for pre-fill from other-user profile CTA)
+- `ui/KudosApp.kt` — `isProfileScreen` guard added: global bottom bar suppressed when route is `PROFILE_ME` or `PROFILE_USER` (each profile screen renders its own bottom nav per design)
+
+### Tests
+- 119 new unit tests covering `MyProfileViewModel`, `UserProfileViewModel`, profile filter logic; total suite: 305 passing
+
+### Deferred
+- 6 award-badge drawables pending Figma export — `AwardBadge(icon=null)` placeholder in place until export lands
+
+---
+
 ## [Unreleased] — Phase 06: Send Kudos (fidelity fix round 2, 2026-06-15)
 
 ### Changed

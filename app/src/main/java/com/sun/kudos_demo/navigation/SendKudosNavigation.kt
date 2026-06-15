@@ -5,11 +5,13 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import com.sun.kudos_demo.feature.profile.ProfileMockData
 import com.sun.kudos_demo.feature.send.SendKudosMockData
 import com.sun.kudos_demo.feature.send.SendKudosScreen
 import com.sun.kudos_demo.feature.send.SendKudosViewModel
@@ -20,10 +22,15 @@ import com.sun.kudos_demo.feature.send.SendKudosViewModel
  * already prepended via KudosRepository).
  */
 @Composable
-fun SendKudosRoute(navController: NavHostController) {
+fun SendKudosRoute(navController: NavHostController, recipientId: String = "") {
     val context = LocalContext.current
     val vm: SendKudosViewModel = viewModel()
     val state by vm.uiState.collectAsState()
+
+    // Pre-select the recipient when arriving from another user's profile "Gửi lời cảm ơn" CTA.
+    LaunchedEffect(recipientId) {
+        if (recipientId.isNotBlank()) vm.onRecipientSelect(ProfileMockData.userById(recipientId))
+    }
 
     val pickImages = rememberLauncherForActivityResult(
         ActivityResultContracts.PickMultipleVisualMedia(SendKudosMockData.MAX_IMAGES)

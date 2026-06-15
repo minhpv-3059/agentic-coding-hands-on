@@ -26,8 +26,14 @@ fun KudosApp(navController: NavHostController = rememberNavController()) {
     // Secondary Kudos screens (All Kudos / View / Search) keep the bottom nav with the
     // Kudos tab active, matching the design.
     val kudosFamily = currentRoute in setOf(NavRoutes.KUDOS_ALL, NavRoutes.KUDOS_VIEW, NavRoutes.SEARCH)
-    val effectiveTab = BottomNavTab.entries.firstOrNull { it.route == currentRoute }
-        ?: if (kudosFamily) BottomNavTab.Kudos else null
+    // Profile screens (own + other) render their own bottom bar per design, so suppress the
+    // global one here to avoid a duplicate bar.
+    val isProfileScreen = currentRoute == NavRoutes.PROFILE_ME || currentRoute == NavRoutes.PROFILE_USER
+    val effectiveTab = when {
+        isProfileScreen -> null
+        else -> BottomNavTab.entries.firstOrNull { it.route == currentRoute }
+            ?: if (kudosFamily) BottomNavTab.Kudos else null
+    }
     val showBottomBar = effectiveTab != null
 
     Scaffold(
