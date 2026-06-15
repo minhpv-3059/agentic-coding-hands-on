@@ -19,6 +19,7 @@ object NavRoutes {
     const val SECRET_BOX = "secret-box"
     const val AWARDS = "awards"
     const val RULES = "rules"
+    const val SEARCH = "search"
 
     const val ERROR_403 = "error/403"
     const val ERROR_404 = "error/404"

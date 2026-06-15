@@ -5,14 +5,19 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.sun.kudos_demo.feature.auth.LoginScreen
+import com.sun.kudos_demo.feature.home.HomeScreen
+import com.sun.kudos_demo.feature.home.HomeViewModel
 
 @Composable
 fun AppNavGraph(
@@ -34,7 +39,30 @@ fun AppNavGraph(
                 }
             )
         }
-        composable(NavRoutes.HOME) { PlaceholderScreen("Home") }
+        composable(NavRoutes.HOME) {
+            val homeViewModel: HomeViewModel = viewModel()
+            val homeState by homeViewModel.uiState.collectAsState()
+            // launchSingleTop prevents duplicate destinations on rapid taps (test FUN_013).
+            val navigateOnce: (String) -> Unit = { route ->
+                navController.navigate(route) { launchSingleTop = true }
+            }
+            HomeScreen(
+                onAboutAward = { navigateOnce(NavRoutes.AWARDS) },
+                onAboutKudos = { navigateOnce(NavRoutes.KUDOS_FEED) },
+                onAwardDetail = { navigateOnce(NavRoutes.AWARDS) }, // Award detail = Phase 10
+                onKudosDetail = { navigateOnce(NavRoutes.KUDOS_FEED) },
+                onSendKudos = { navigateOnce(NavRoutes.KUDOS_SEND) },
+                onOpenKudosFeed = { navigateOnce(NavRoutes.KUDOS_FEED) },
+                onSearch = { navigateOnce(NavRoutes.SEARCH) },
+                onNotifications = { navigateOnce(NavRoutes.NOTIFICATIONS) },
+                onLanguageClick = homeViewModel::toggleLanguage,
+                days = homeState.countdown.days,
+                hours = homeState.countdown.hours,
+                minutes = homeState.countdown.minutes,
+                currentLanguage = homeState.language.code,
+                unreadCount = homeState.unreadNotifications
+            )
+        }
 
         composable(NavRoutes.KUDOS_FEED) { PlaceholderScreen("Kudos Feed") }
         composable(
@@ -58,6 +86,7 @@ fun AppNavGraph(
         }
 
         composable(NavRoutes.NOTIFICATIONS) { PlaceholderScreen("Notifications") }
+        composable(NavRoutes.SEARCH) { PlaceholderScreen("Search") }
         composable(NavRoutes.SECRET_BOX) { PlaceholderScreen("Secret Box") }
         composable(NavRoutes.AWARDS) { PlaceholderScreen("Awards") }
         composable(NavRoutes.RULES) { PlaceholderScreen("Rules") }

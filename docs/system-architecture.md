@@ -19,12 +19,18 @@ Single-module Android app (`app/`).
 com.sun.kudos_demo/
 ├── MainActivity.kt          — entry point, hosts KudosApp inside KudosAppTheme
 ├── feature/
-│   └── auth/
-│       ├── LoginScreen.kt   — login UI (email/password fields, Google SSO button, key-visual)
-│       └── LoginViewModel.kt — login state holder (ViewModel)
+│   ├── auth/
+│   │   ├── LoginScreen.kt   — login UI (key-visual, ROOT FURTHER logo, Google SSO button, language overlay)
+│   │   └── LoginViewModel.kt — AppLanguage enum, loading StateFlow, 1s mock auth
+│   └── home/
+│       ├── HomeScreen.kt    — scrollable Home: hero, countdown, awards, kudos, note sections, FAB
+│       ├── HomeViewModel.kt — HomeUiState + CountdownState StateFlow; live 1s countdown; mock badge count
+│       └── components/      — 9 composables: HomeHeroSection, CountdownRow, HeroActionButtons,
+│                              SectionHeader, HomeAwardsSection, AwardCard,
+│                              HomeKudosSection, HomeNoteSection, HomeFab
 ├── navigation/
 │   ├── NavRoutes.kt         — route constants + builder helpers (13 destinations)
-│   └── AppNavGraph.kt       — NavHost; LOGIN is startDestination, wires real LoginScreen
+│   └── AppNavGraph.kt       — NavHost; LOGIN is startDestination; HOME wired to real HomeScreen
 └── ui/
     ├── KudosApp.kt          — root composable: Scaffold (contentWindowInsets=0) + KudosBottomNav + AppNavGraph
     ├── theme/
@@ -33,8 +39,8 @@ com.sun.kudos_demo/
     │   └── Theme.kt         — KudosAppTheme composable (dark-only, no dynamic color)
     └── components/
         ├── KudosButton.kt   — KudosPrimaryButton, KudosSecondaryButton, KudosTextButton
-        ├── KudosTopBar.kt   — KudosTopBar (logo, language selector, search, notifications)
-        └── KudosBottomNav.kt — KudosBottomNav + BottomNavTab enum (4 tabs); navigationBarsPadding() applied
+        ├── KudosTopBar.kt   — real ic_logo_saa drawable (48×44 dp), ic_vn_flag asset, BadgedBox bell, statusBarsPadding() + vertical gradient overlay
+        └── KudosBottomNav.kt — BottomNavTab enum uses @DrawableRes ic_nav_* Figma vector drawables; navigationBarsPadding() applied
 ```
 
 ## Navigation
@@ -45,7 +51,7 @@ The app uses `navigation-compose 2.8.0` with a single `NavHost` defined in `AppN
 - `KudosApp.kt` owns the `NavController` and passes it to both `KudosBottomNav` and `AppNavGraph`.
 - `startDestination` is `NavRoutes.LOGIN`; after successful login the stack is popped and `HOME` becomes the root.
 - `KudosBottomNav` is hidden on the login screen — only shown when the current route matches a `BottomNavTab` destination.
-- Placeholder composables fill every route except LOGIN; real screens replace them in later phases.
+- Real screens: LOGIN and HOME. Remaining routes still use placeholder composables.
 
 ## Theme System
 
@@ -70,3 +76,4 @@ Background: `KudosBackground` (`#00101A`) — dark navy.
 | `navigation-compose` | 2.8.0 | In-app navigation |
 | `lifecycle-viewmodel-compose` | 2.6.1 | ViewModel integration in Compose |
 | `lifecycle-runtime-ktx` | (catalog) | Lifecycle-aware coroutines |
+| DSEG7 Classic font (TTF) | — | Seven-segment countdown digits; bundled in `res/font/`; SIL OFL license in `assets/` |
