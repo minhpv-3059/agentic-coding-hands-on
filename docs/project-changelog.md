@@ -1,5 +1,18 @@
 # Project Changelog
 
+## [Unreleased] — Phase 06: Send Kudos (post-delivery fix, 2026-06-15)
+
+### Added
+- `ui/components/MarkdownText.kt` — shared inline-markdown renderer: `parseKudoMarkdown(raw, linkColor): AnnotatedString` handles **bold**, *italic*, ~~strikethrough~~, `[label](url)`; `MarkdownText` composable wraps it. Used by `KudosCard` and `KudoDetailCard` so kudos sent with the rich-text toolbar render formatted instead of showing raw markers; also powers the Send Kudos preview dialog.
+- `feature/send/components/KudoPreviewDialog.kt` — "Xem trước Kudo" preview dialog; reuses `KudosCard` to show the full composed kudo card before submission.
+
+### Changed
+- `ui/theme/Color.kt` — 2 new tokens: `KudosContainer2` (`#00070C`, dark dropdown overlay background), `KudosDropdownHighlight` (`rgba(255,234,158,0.20)`, selected dropdown row highlight). Recipient, danh hiệu, and hashtag dropdowns corrected to dark backgrounds per design.
+- `ui/components/KudosCard.kt`, `feature/feed/components/KudoDetailCard.kt` — kudo message rendering switched from raw `Text` to `MarkdownText`.
+- Send Kudos action buttons shaped as 4 dp rounded-rect (local to the send screen); shared pill buttons (`KudosButton.kt`) unchanged.
+
+---
+
 ## [Unreleased] — Phase 06: Send Kudos
 
 ### Added

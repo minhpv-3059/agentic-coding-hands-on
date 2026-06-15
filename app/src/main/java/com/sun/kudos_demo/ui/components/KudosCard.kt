@@ -258,7 +258,7 @@ private fun KudosCardContent(
             textAlign = TextAlign.Center,
             modifier = Modifier.fillMaxWidth()
         )
-        Text(
+        MarkdownText(
             text = kudo.message,
             style = MaterialTheme.typography.labelSmall.copy(lineHeight = 14.sp),
             color = KudosDarkText,

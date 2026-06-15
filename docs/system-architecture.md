@@ -55,7 +55,7 @@ com.sun.kudos_demo/
 └── ui/
     ├── KudosApp.kt          — root composable: Scaffold (contentWindowInsets=0) + KudosBottomNav + AppNavGraph
     ├── theme/
-    │   ├── Color.kt         — brand color tokens (20 constants; 3 added Phase 05: KudosAccentRed, KudosCardMuted, KudosCardFaint; 1 added Phase 06: KudosFormCream)
+    │   ├── Color.kt         — brand color tokens (23 constants; 3 added Phase 05: KudosAccentRed, KudosCardMuted, KudosCardFaint; 3 added Phase 06: KudosFormCream, KudosContainer2, KudosDropdownHighlight)
     │   ├── Type.kt          — KudosTypography (11 Material3 text styles)
     │   └── Theme.kt         — KudosAppTheme composable (dark-only, no dynamic color)
     └── components/
@@ -63,7 +63,8 @@ com.sun.kudos_demo/
         ├── KudosTopBar.kt           — real ic_logo_saa drawable (48×44 dp), ic_vn_flag asset, BadgedBox bell, statusBarsPadding() + vertical gradient overlay
         ├── KudosBottomNav.kt        — BottomNavTab enum uses @DrawableRes ic_nav_* Figma vector drawables; navigationBarsPadding() applied
         ├── KudoAvatar.kt            — circular avatar composable
-        ├── KudosCard.kt             — shared card surface composable
+        ├── KudosCard.kt             — shared card surface; renders kudo message via MarkdownText
+        ├── MarkdownText.kt          — shared inline-markdown renderer: parseKudoMarkdown() → AnnotatedString (**bold**, *italic*, ~~strike~~, [label](url)); MarkdownText composable. Used by KudosCard, KudoDetailCard, and KudoPreviewDialog.
         ├── HashtagFilterDropdown.kt — overlay hashtag filter (AND logic with department)
         └── DepartmentFilterDropdown.kt — overlay department filter
 ```
@@ -101,8 +102,10 @@ Tokens added in Phase 05 (kudos card cream surface):
 - `KudosCardMuted` (`#555555`) — secondary text on cream card (codes, links)
 - `KudosCardFaint` (`#888888`) — tertiary text on cream card (timestamps, sub-labels)
 
-Token added in Phase 06:
-- `KudosFormCream` — Send Kudos form surface background
+Tokens added in Phase 06:
+- `KudosFormCream` (`#FFF8E1`) — Send Kudos form surface background
+- `KudosContainer2` (`#00070C`) — dark dropdown overlay background (recipient, danh hiệu, hashtag dropdowns)
+- `KudosDropdownHighlight` (`rgba(255,234,158,0.20)` ≈ `#33FFEA9E`) — selected row highlight inside dark dropdowns
 
 ## Key Dependencies
 

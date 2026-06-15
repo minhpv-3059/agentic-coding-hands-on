@@ -124,6 +124,14 @@ class SendKudosViewModel : ViewModel() {
         return true
     }
 
+    /** Build a transient kudo from the current form state for the preview dialog (no validation/commit). */
+    fun previewKudo(): Kudo {
+        val state = _uiState.value
+        val recipient = selectedRecipient
+            ?: KudoUser(id = "preview", name = state.selectedRecipientName ?: "Người nhận", code = "")
+        return buildKudo(state, recipient)
+    }
+
     private fun buildKudo(state: SendKudosUiState, recipient: KudoUser): Kudo {
         val nickname = state.anonymousNickname.ifBlank { SendKudosMockData.DEFAULT_ANONYMOUS_NICKNAME }
         return Kudo(

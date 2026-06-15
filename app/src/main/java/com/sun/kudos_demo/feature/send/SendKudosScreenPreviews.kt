@@ -30,7 +30,8 @@ private fun SendKudosFilledPreview() {
             onMessageChange = {}, onToggleFormat = {}, onHashtagDropdownToggle = {},
             onHashtagToggle = {}, onHashtagRemove = {}, onAddImageClick = {},
             onRemoveImage = {}, onAnonymousToggle = {}, onNicknameChange = {},
-            onCommunityStandardsClick = {}, onCancel = {}, onSubmit = {}
+            onCommunityStandardsClick = {}, onCancel = {}, onSubmit = {},
+            onPreviewKudo = { KudosMockData.kudos.first() }
         )
     }
 }
@@ -50,7 +51,8 @@ private fun SendKudosDefaultPreview() {
             onMessageChange = {}, onToggleFormat = {}, onHashtagDropdownToggle = {},
             onHashtagToggle = {}, onHashtagRemove = {}, onAddImageClick = {},
             onRemoveImage = {}, onAnonymousToggle = {}, onNicknameChange = {},
-            onCommunityStandardsClick = {}, onCancel = {}, onSubmit = {}
+            onCommunityStandardsClick = {}, onCancel = {}, onSubmit = {},
+            onPreviewKudo = { KudosMockData.kudos.first() }
         )
     }
 }
@@ -66,7 +68,8 @@ private fun SendKudosErrorPreview() {
             onMessageChange = {}, onToggleFormat = {}, onHashtagDropdownToggle = {},
             onHashtagToggle = {}, onHashtagRemove = {}, onAddImageClick = {},
             onRemoveImage = {}, onAnonymousToggle = {}, onNicknameChange = {},
-            onCommunityStandardsClick = {}, onCancel = {}, onSubmit = {}
+            onCommunityStandardsClick = {}, onCancel = {}, onSubmit = {},
+            onPreviewKudo = { KudosMockData.kudos.first() }
         )
     }
 }
@@ -87,7 +90,8 @@ private fun SendKudosRecipientDropdownPreview() {
             onMessageChange = {}, onToggleFormat = {}, onHashtagDropdownToggle = {},
             onHashtagToggle = {}, onHashtagRemove = {}, onAddImageClick = {},
             onRemoveImage = {}, onAnonymousToggle = {}, onNicknameChange = {},
-            onCommunityStandardsClick = {}, onCancel = {}, onSubmit = {}
+            onCommunityStandardsClick = {}, onCancel = {}, onSubmit = {},
+            onPreviewKudo = { KudosMockData.kudos.first() }
         )
     }
 }

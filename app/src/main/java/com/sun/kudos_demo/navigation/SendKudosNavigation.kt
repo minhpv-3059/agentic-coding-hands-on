@@ -59,6 +59,7 @@ fun SendKudosRoute(navController: NavHostController) {
                 Toast.makeText(context, "Đã gửi Kudos!", Toast.LENGTH_SHORT).show()
                 navController.popBackStack()
             }
-        }
+        },
+        onPreviewKudo = vm::previewKudo
     )
 }

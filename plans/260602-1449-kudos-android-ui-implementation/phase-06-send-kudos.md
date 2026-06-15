@@ -46,3 +46,15 @@ blockedBy: []
 - Code review: 20 findings (2 medium, 18 low), all fixed and verified
 - Test coverage: 152 unit tests pass
 - Design compliance: validated against MoMorph specs (clarifications.md Session 2026-06-12)
+
+## Post-delivery Fixes (2026-06-15)
+
+**Emulator Testing & Fidelity Alignment (emulator-5554, 186 unit tests PASS):**
+- Dropdown styling: recipient/danh hiệu/hashtag fields now show dark background (#00070C / KudosContainer2) with white items and gold checkmarks (matched MoMorph design).
+- Recipient search field: switched to BasicTextField to prevent text clipping at 40dp field height.
+- Action buttons: "Huỷ" and "Gửi đi" now use 4dp rounded-rectangle corners (design spec) instead of full pills; other pill buttons unchanged.
+- Screen background: key-visual artwork now displays; "New Kudo" title centered and white.
+
+**Enhancements:**
+- **Markdown rendering** (`ui/components/MarkdownText.kt`): new parseKudoMarkdown utility renders **bold**, *italic*, ~~strikethrough~~, and [links]. Integrated into KudosCard and KudoDetailCard in feed so sent kudos display formatted instead of raw markers.
+- **Preview feature**: "Xem trước Kudo" button opens dialog showing full kudo card (recipient, title, markdown-rendered message, hashtags, images) using reused KudosCard component.

@@ -106,6 +106,22 @@ fun KudosFeedScreen(
 
 The route composable (in `*Navigation.kt`) injects the real content; the screen composable stays testable and stateless. Use this pattern when a composable otherwise needs a ViewModel or context it shouldn't own directly.
 
+### Kudo Message Rendering
+
+Always render kudo message text via `MarkdownText` (in `ui/components/MarkdownText.kt`), never raw `Text`. This applies to feed cards (`KudosCard`, `KudoDetailCard`) and any preview surface (`KudoPreviewDialog`). Raw `Text` will display markdown markers literally instead of formatted output.
+
+```kotlin
+// Correct
+MarkdownText(text = kudo.message, style = MaterialTheme.typography.bodyMedium)
+
+// Wrong — shows raw markers (**bold** instead of bold)
+Text(text = kudo.message)
+```
+
+### Action Button Shapes (Screen-local vs Shared)
+
+Shared pill buttons (`KudosPrimaryButton`, `KudosSecondaryButton`) keep their 50% radius shape globally. Screen-local action buttons (e.g., the send-screen toolbar actions) may use a different shape (e.g., 4 dp rounded-rect) defined locally in that screen's component file — do not modify `KudosButton.kt` for screen-specific variants.
+
 ## Pure Logic Files
 
 Isolate non-UI, non-Android logic into dedicated `*Logic.kt` files (e.g., `KudosFeedLogic.kt`). These files:

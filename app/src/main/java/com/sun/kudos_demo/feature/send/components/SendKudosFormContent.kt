@@ -1,6 +1,8 @@
 package com.sun.kudos_demo.feature.send.components
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -8,7 +10,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -16,17 +21,27 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.sun.kudos_demo.feature.feed.KudoUser
 import com.sun.kudos_demo.feature.send.SendKudosUiState
-import com.sun.kudos_demo.ui.components.KudosPrimaryButton
-import com.sun.kudos_demo.ui.components.KudosSecondaryButton
+import com.sun.kudos_demo.ui.theme.KudosBorder
+import com.sun.kudos_demo.ui.theme.KudosDarkText
 import com.sun.kudos_demo.ui.theme.KudosFormCream
 import com.sun.kudos_demo.ui.theme.KudosGold
+import com.sun.kudos_demo.ui.theme.KudosSecondaryButtonNormal
 
+// Design node 6885:9903: cream card border-radius = 10.72dp ≈ 11dp
 private val FormShape = RoundedCornerShape(11.dp)
+
+// Design nodes 6885:10003 / 6885:10004: corner radius = 4dp (NOT pill)
+private val ActionButtonShape = RoundedCornerShape(4.dp)
 
 /**
  * Scrollable form body for the Send Kudos screen.
  * Extracted to keep SendKudosScreen.kt under 200 lines.
- * Accepts the full ui-state + callbacks from the parent screen.
+ *
+ * Action buttons fix: "Huỷ" and "Gửi đi" use 4dp rounded-rect (design node radius=4dp),
+ * height 40dp, rendered as LOCAL composables — the shared KudosPrimaryButton / KudosSecondaryButton
+ * remain pill-shaped (used elsewhere). Only this screen uses 4dp rect.
+ *
+ * Preview: "Xem trước" eye-icon button added in the action row (Part B).
  */
 @Composable
 fun SendKudosFormContent(
@@ -48,6 +63,7 @@ fun SendKudosFormContent(
     onCommunityStandardsClick: () -> Unit,
     onCancel: () -> Unit,
     onSubmit: () -> Unit,
+    onPreview: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(modifier = modifier.fillMaxWidth()) {
@@ -62,7 +78,7 @@ fun SendKudosFormContent(
 
         Spacer(Modifier.height(12.dp))
 
-        // Cream form card
+        // Cream form card — design node 6885:9903: rgba(255,248,225,1), radius 11dp
         Column(
             modifier = Modifier
                 .fillMaxWidth()
@@ -127,21 +143,65 @@ fun SendKudosFormContent(
             Spacer(Modifier.height(8.dp))
         }
 
+        // Preview affordance (Part B) — own row so the action row stays faithful to the
+        // 2-button design. Opens a dialog showing the full kudo as it appears in the feed.
+        Row(
+            horizontalArrangement = Arrangement.End,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            OutlinedButton(
+                onClick = onPreview,
+                shape = ActionButtonShape,
+                border = BorderStroke(1.dp, KudosBorder),
+                colors = ButtonDefaults.outlinedButtonColors(
+                    containerColor = KudosSecondaryButtonNormal,
+                    contentColor = KudosGold
+                ),
+                modifier = Modifier.height(36.dp)
+            ) {
+                Text(text = "Xem trước Kudo", style = MaterialTheme.typography.labelMedium)
+            }
+        }
+
+        Spacer(Modifier.height(8.dp))
+
+        // Action row — design nodes 6885:10003 / 6885:10004: Huỷ + Gửi đi, 4dp rounded-rect, height 40dp
         Row(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.fillMaxWidth()
         ) {
-            KudosSecondaryButton(
-                text = "Huỷ  ✕",
+            // "Huỷ" — outlined, rgba(255,234,158,0.10) bg, #998C5F border
+            OutlinedButton(
                 onClick = onCancel,
-                modifier = Modifier.weight(1f)
-            )
-            Spacer(Modifier.padding(horizontal = 8.dp))
-            KudosPrimaryButton(
-                text = "Gửi đi  ▷",
+                shape = ActionButtonShape,
+                border = BorderStroke(1.dp, KudosBorder),
+                colors = ButtonDefaults.outlinedButtonColors(
+                    containerColor = KudosSecondaryButtonNormal,
+                    contentColor = KudosGold
+                ),
+                modifier = Modifier
+                    .weight(1f)
+                    .height(40.dp)
+            ) {
+                Text(text = "Huỷ", style = MaterialTheme.typography.labelMedium)
+            }
+            Spacer(Modifier.padding(horizontal = 6.dp))
+            // "Gửi đi" — solid gold rgba(255,234,158,1), dark text
+            Button(
                 onClick = onSubmit,
-                modifier = Modifier.weight(1f)
-            )
+                shape = ActionButtonShape,
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = KudosGold,
+                    contentColor = KudosDarkText,
+                    disabledContainerColor = KudosGold.copy(alpha = 0.38f),
+                    disabledContentColor = KudosDarkText.copy(alpha = 0.38f)
+                ),
+                modifier = Modifier
+                    .weight(1f)
+                    .height(40.dp)
+            ) {
+                Text(text = "Gửi đi", style = MaterialTheme.typography.labelMedium)
+            }
         }
 
         Spacer(Modifier.height(24.dp))

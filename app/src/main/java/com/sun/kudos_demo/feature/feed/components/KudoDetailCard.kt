@@ -34,6 +34,7 @@ import com.sun.kudos_demo.feature.feed.Kudo
 import com.sun.kudos_demo.feature.feed.KudoUser
 import com.sun.kudos_demo.feature.feed.starLevel
 import com.sun.kudos_demo.ui.components.KudoAvatar
+import com.sun.kudos_demo.ui.components.MarkdownText
 import com.sun.kudos_demo.ui.theme.KudosAccentRed
 import com.sun.kudos_demo.ui.theme.KudosBorder
 import com.sun.kudos_demo.ui.theme.KudosDarkText
@@ -105,8 +106,8 @@ fun KudoDetailCard(
             modifier = Modifier.fillMaxWidth()
         )
 
-        // Full message body
-        Text(
+        // Full message body — rendered with inline markdown (bold/italic/strike/link)
+        MarkdownText(
             text = kudo.message,
             style = MaterialTheme.typography.bodySmall,
             color = KudosDarkText,

@@ -35,7 +35,9 @@ import androidx.compose.ui.unit.dp
 import com.sun.kudos_demo.feature.send.SendKudosMockData
 import com.sun.kudos_demo.ui.theme.KudosAppTheme
 import com.sun.kudos_demo.ui.theme.KudosBorder
+import com.sun.kudos_demo.ui.theme.KudosContainer2
 import com.sun.kudos_demo.ui.theme.KudosDarkText
+import com.sun.kudos_demo.ui.theme.KudosDropdownHighlight
 import com.sun.kudos_demo.ui.theme.KudosError
 import com.sun.kudos_demo.ui.theme.KudosGold
 import com.sun.kudos_demo.ui.theme.KudosGray
@@ -54,7 +56,8 @@ private val MenuShape = RoundedCornerShape(8.dp)
  * B3: Placeholder copy = "Dành tặng một danh hiệu cho..." (design node 6885:9914).
  * B4: Helper copy = "...hiển thị làm tiêu đề Kudos..." (design node 6885:9915).
  * A7: Selected trailing icon uses Icons.Filled.Check (distinct from unselected chevron).
- * B8: Dropdown background uses KudosWhite instead of Color.White.
+ * DARK dropdown: background #00070C (KudosContainer2) + border #998C5F per design node 6891:17450.
+ *   Selected item highlight = rgba(255,234,158,0.20) = KudosDropdownHighlight.
  */
 @Composable
 fun DanhHieuField(
@@ -116,14 +119,15 @@ fun DanhHieuField(
                 )
             }
 
-            // B8: KudosWhite instead of Color.White
+            // DARK dropdown per design node 6891:17450: background=#00070C, border=#998C5F
             DropdownMenu(
                 expanded = expanded,
                 onDismissRequest = { onToggle(false) },
                 modifier = Modifier
                     .fillMaxWidth()
                     .widthIn(min = 200.dp)
-                    .background(KudosWhite, MenuShape)
+                    .background(KudosContainer2, MenuShape)
+                    .border(1.dp, KudosBorder, MenuShape)
             ) {
                 options.forEach { option ->
                     val isSelected = option == selectedDanhHieu
@@ -132,20 +136,25 @@ fun DanhHieuField(
                             Text(
                                 text = option,
                                 style = MaterialTheme.typography.bodySmall,
-                                color = KudosDarkText
+                                // White text on dark dropdown background
+                                color = KudosWhite
                             )
                         },
-                        // A7: selected item shows Check icon (distinct from the unselected chevron)
+                        // A7: selected item shows Check icon with gold tint
                         trailingIcon = if (isSelected) {
                             {
                                 Icon(
                                     imageVector = Icons.Filled.Check,
                                     contentDescription = null,
-                                    tint = KudosDarkText,
+                                    tint = KudosGold,
                                     modifier = Modifier.size(16.dp)
                                 )
                             }
                         } else null,
+                        // Selected item gets rgba(255,234,158,0.20) highlight
+                        modifier = Modifier.background(
+                            if (isSelected) KudosDropdownHighlight else KudosContainer2
+                        ),
                         onClick = {
                             onSelect(option)
                             onToggle(false)

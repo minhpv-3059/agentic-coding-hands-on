@@ -33,8 +33,11 @@ import androidx.compose.ui.unit.dp
 import com.sun.kudos_demo.feature.send.SendKudosMockData
 import com.sun.kudos_demo.ui.theme.KudosAppTheme
 import com.sun.kudos_demo.ui.theme.KudosBorder
+import com.sun.kudos_demo.ui.theme.KudosContainer2
 import com.sun.kudos_demo.ui.theme.KudosDarkText
+import com.sun.kudos_demo.ui.theme.KudosDropdownHighlight
 import com.sun.kudos_demo.ui.theme.KudosError
+import com.sun.kudos_demo.ui.theme.KudosGold
 import com.sun.kudos_demo.ui.theme.KudosGray
 import com.sun.kudos_demo.ui.theme.KudosWhite
 
@@ -137,13 +140,15 @@ fun HashtagSection(
                         )
                     }
 
-                    // Dropdown overlay — B8: KudosWhite instead of Color.White
+                    // DARK dropdown per design node 6891:17706: background=#00070C, border=#998C5F
+                    // Selected item: rgba(255,234,158,0.20) highlight (design node 6891:17707)
                     DropdownMenu(
                         expanded = expanded,
                         onDismissRequest = { onToggle(false) },
                         modifier = Modifier
                             .widthIn(min = 220.dp)
-                            .background(KudosWhite, MenuShape)
+                            .background(KudosContainer2, MenuShape)
+                            .border(1.dp, KudosBorder, MenuShape)
                     ) {
                         options.forEach { tag ->
                             val isSelected = tag in selectedHashtags
@@ -152,7 +157,7 @@ fun HashtagSection(
                                     Text(
                                         text = "#$tag",
                                         style = MaterialTheme.typography.bodySmall,
-                                        color = KudosDarkText
+                                        color = KudosWhite
                                     )
                                 },
                                 trailingIcon = if (isSelected) {
@@ -160,11 +165,15 @@ fun HashtagSection(
                                         Icon(
                                             imageVector = Icons.Filled.Check,
                                             contentDescription = null,
-                                            tint = KudosDarkText,
+                                            // Gold checkmark for selected state (design node 6891:17714)
+                                            tint = KudosGold,
                                             modifier = Modifier.size(16.dp)
                                         )
                                     }
                                 } else null,
+                                modifier = Modifier.background(
+                                    if (isSelected) KudosDropdownHighlight else KudosContainer2
+                                ),
                                 onClick = { onHashtagToggle(tag) }
                             )
                         }
