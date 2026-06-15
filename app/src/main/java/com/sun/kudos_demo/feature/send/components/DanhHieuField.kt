@@ -26,10 +26,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.SpanStyle
-import androidx.compose.ui.text.buildAnnotatedString
-import androidx.compose.ui.text.style.TextDecoration
-import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.sun.kudos_demo.feature.send.SendKudosMockData
@@ -50,11 +46,12 @@ private val MenuShape = RoundedCornerShape(8.dp)
 
 /**
  * "Danh hiệu" field — label with red asterisk (design node 6885:9913), dropdown selector,
- * helper text with a "Tiêu chuẩn cộng đồng" inline link.
+ * helper text (only "Ví dụ: …" copy — no link; link moved to toolbar row per design node 6885:9931).
  *
  * B5: Red asterisk IS present in design (node 6885:9913, rgba(207,19,34,1)).
  * B3: Placeholder copy = "Dành tặng một danh hiệu cho..." (design node 6885:9914).
- * B4: Helper copy = "...hiển thị làm tiêu đề Kudos..." (design node 6885:9915).
+ * B4: Helper copy = "Ví dụ: … Danh hiệu sẽ hiển thị làm tiêu đề Kudos của bạn." (node 6885:9915).
+ *     "Tiêu chuẩn cộng đồng" link is now on the toolbar row (node 6885:9931), not here.
  * A7: Selected trailing icon uses Icons.Filled.Check (distinct from unselected chevron).
  * DARK dropdown: background #00070C (KudosContainer2) + border #998C5F per design node 6891:17450.
  *   Selected item highlight = rgba(255,234,158,0.20) = KudosDropdownHighlight.
@@ -66,7 +63,6 @@ fun DanhHieuField(
     expanded: Boolean,
     onToggle: (Boolean) -> Unit,
     onSelect: (String) -> Unit,
-    onCommunityStandardsClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(modifier = modifier.fillMaxWidth()) {
@@ -167,26 +163,13 @@ fun DanhHieuField(
 
         Spacer(Modifier.height(4.dp))
 
-        // B4: Helper text verbatim from design node 6885:9915
-        val helperText = buildAnnotatedString {
-            withStyle(SpanStyle(color = KudosGray, fontSize = MaterialTheme.typography.labelSmall.fontSize)) {
-                append("Ví dụ: Người truyền động lực cho tôi. Danh hiệu sẽ hiển thị làm tiêu đề Kudos của bạn. ")
-            }
-            withStyle(
-                SpanStyle(
-                    color = KudosGold,
-                    fontSize = MaterialTheme.typography.labelSmall.fontSize,
-                    textDecoration = TextDecoration.Underline
-                )
-            ) {
-                append("Tiêu chuẩn cộng đồng")
-            }
-        }
+        // B4: Helper text — node 6885:9915: only "Ví dụ: …" copy, no link here.
+        // "Tiêu chuẩn cộng đồng" link moved to toolbar row (node 6885:9931).
         Text(
-            text = helperText,
-            modifier = Modifier
-                .fillMaxWidth()
-                .clickable { onCommunityStandardsClick() }
+            text = "Ví dụ: Người truyền động lực cho tôi.\nDanh hiệu sẽ hiển thị làm tiêu đề Kudos của bạn.",
+            style = MaterialTheme.typography.labelSmall,
+            color = KudosGray,
+            modifier = Modifier.fillMaxWidth()
         )
     }
 }
@@ -201,7 +184,6 @@ private fun DanhHieuFieldPreview() {
             expanded = false,
             onToggle = {},
             onSelect = {},
-            onCommunityStandardsClick = {},
             modifier = Modifier.padding(16.dp)
         )
     }

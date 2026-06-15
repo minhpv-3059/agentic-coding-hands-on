@@ -32,3 +32,6 @@ val KudosFormCream = Color(0xFFFFF8E1)   // cream form card background (design n
 // Dropdown overlay — DARK per design node 6891:17450 (KudosContainer2 already defined above)
 // Selected item highlight in dark dropdown: rgba(255,234,158,0.20) (design node 6891:17451/17707)
 val KudosDropdownHighlight = Color(0x33FFEA9E)   // rgba(255,234,158,0.20) ≈ 0x33
+
+// Community Standards link color — design node 6885:9933: rgba(228,96,96,1)
+val KudosLinkRed = Color(0xFFE46060)

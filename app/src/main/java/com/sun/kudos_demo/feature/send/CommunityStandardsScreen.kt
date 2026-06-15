@@ -1,7 +1,6 @@
 package com.sun.kudos_demo.feature.send
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -13,7 +12,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.HorizontalDivider
@@ -24,6 +22,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -32,9 +31,7 @@ import com.sun.kudos_demo.R
 import com.sun.kudos_demo.feature.send.components.CommunityStandardsSection
 import com.sun.kudos_demo.feature.send.components.SecurityStandardsSection
 import com.sun.kudos_demo.ui.theme.KudosAppTheme
-import com.sun.kudos_demo.ui.theme.KudosBackground
 import com.sun.kudos_demo.ui.theme.KudosBorder
-import com.sun.kudos_demo.ui.theme.KudosContainer
 import com.sun.kudos_demo.ui.theme.KudosDivider
 import com.sun.kudos_demo.ui.theme.KudosWhite
 
@@ -42,42 +39,55 @@ import com.sun.kudos_demo.ui.theme.KudosWhite
  * Community Standards screen — stateless / presentational.
  * Design: [iOS] Sun*Kudos_Tiêu chuẩn cộng đồng (screen xms7csmDhD).
  *
+ * Issue 4 fix: keyvisual BG (node 6885:10808 = mm_media_MM_MEDIA_Keyvisual BG) fills the
+ * full screen — same drawable as other screens (bg_home_keyvisual). Previously was a plain
+ * KudosBackground color fill. Content is overlaid via Box/LazyColumn.
+ *
  * Layout (scrollable):
- *   - Top bar: back arrow + "Tiêu chuẩn cộng đồng" title
- *   - Logo Banner: ROOT FURTHER branding block (spec A, node 6885:10829)
+ *   - Keyvisual BG full-bleed (node 6885:10808)
+ *   - Top bar: back arrow + "Tiêu chuẩn cộng đồng" title (transparent over BG)
+ *   - Logo Banner: ROOT FURTHER branding block (spec A, node 6885:10829) — placeholder
  *   - Section B: Community Standards + 10 violation criteria (node 6885:10848)
- *   - Divider (node 6885:10853)
+ *   - Divider (node 6885:10853: rgba(46,57,64,1) = KudosDivider, 1dp)
  *   - Section C: Security Standards (node 6885:10854)
+ *
+ * Content container (node 6885:10832): padding 20dp horizontal, 16dp bottom; gap 12dp.
  */
 @Composable
 fun CommunityStandardsScreen(
     onBack: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    Column(
-        modifier = modifier
-            .fillMaxSize()
-            .background(KudosBackground)
-    ) {
-        CommunityStandardsTopBar(onBack = onBack)
-        HorizontalDivider(color = KudosDivider, thickness = 1.dp)
+    Box(modifier = modifier.fillMaxSize()) {
+        // Issue 4: keyvisual background — node 6885:10808 (mm_media_MM_MEDIA_Keyvisual BG).
+        // Same asset used on SendKudosScreen and HomeScreen.
+        Image(
+            painter = painterResource(R.drawable.bg_home_keyvisual),
+            contentDescription = null,
+            contentScale = ContentScale.Crop,
+            modifier = Modifier.matchParentSize()
+        )
 
-        LazyColumn {
-            item { RootFurtherBanner() }
-            item {
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 20.dp)
-                ) {
-                    Spacer(Modifier.height(16.dp))
-                    CommunityStandardsSection()
-                    Spacer(Modifier.height(16.dp))
-                    HorizontalDivider(color = KudosBorder, thickness = 1.dp)
-                    Spacer(Modifier.height(16.dp))
-                    SecurityStandardsSection()
-                    Spacer(Modifier.height(24.dp))
-                }
+        Column(modifier = Modifier.fillMaxSize()) {
+            CommunityStandardsTopBar(onBack = onBack)
+            HorizontalDivider(color = KudosDivider, thickness = 1.dp)
+
+            // Content container — node 6885:10832: padding 0/20/16/20, gap 12dp
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 20.dp)
+            ) {
+                item { Spacer(Modifier.height(8.dp)) }
+                item { RootFurtherBanner() }
+                item { Spacer(Modifier.height(12.dp)) }
+                item { CommunityStandardsSection() }
+                item { Spacer(Modifier.height(12.dp)) }
+                // Divider — node 6885:10853: rgba(46,57,64,1) = KudosDivider, 1dp
+                item { HorizontalDivider(color = KudosDivider, thickness = 1.dp) }
+                item { Spacer(Modifier.height(12.dp)) }
+                item { SecurityStandardsSection() }
+                item { Spacer(Modifier.height(24.dp)) }
             }
         }
     }
@@ -90,7 +100,6 @@ private fun CommunityStandardsTopBar(onBack: () -> Unit) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .background(KudosBackground)
             .statusBarsPadding()
             .height(56.dp)
             .padding(horizontal = 4.dp),
@@ -120,27 +129,23 @@ private fun CommunityStandardsTopBar(onBack: () -> Unit) {
 
 @Composable
 private fun RootFurtherBanner() {
-    // TODO(asset): export ROOT FURTHER banner (node 6885:10830) from Figma.
-    // Raw S3 asset has CSS background-position offset (-26px -24.511px / 132.371%)
-    // which misaligns the crop — using img_root_further.png wordmark on a dark
-    // branded container instead, matching the overall banner appearance.
+    // NOTE(asset): ROOT FURTHER banner (node 6885:10830) uses CSS background-position
+    // offset (-26px -24.511px / 132.371%) — the cropped asset is img_root_further.png.
+    // Rendered on a transparent overlay matching the KV area (no separate dark container
+    // since the keyvisual BG is already visible behind it).
     Box(
+        contentAlignment = Alignment.CenterStart,
         modifier = Modifier
             .fillMaxWidth()
-            .height(120.dp)
-            .background(
-                color = KudosContainer,
-                shape = RoundedCornerShape(bottomStart = 16.dp, bottomEnd = 16.dp)
-            ),
-        contentAlignment = Alignment.Center
+            .height(64.dp)
     ) {
         Image(
             painter = painterResource(R.drawable.img_root_further),
             contentDescription = "ROOT FURTHER — SAA 2025",
             contentScale = ContentScale.Fit,
             modifier = Modifier
-                .fillMaxWidth(0.6f)
-                .height(80.dp)
+                .height(64.dp)
+                .fillMaxWidth(0.5f)
         )
     }
 }

@@ -1,5 +1,14 @@
 # Project Changelog
 
+## [Unreleased] — Phase 06: Send Kudos (fidelity fix round 2, 2026-06-15)
+
+### Changed
+- `feature/send/SendKudosScreen.kt` — nickname field switched to `BasicTextField` (no text clipping), matching the recipient field pattern; "Tiêu chuẩn cộng đồng" link relocated from form body to the markdown toolbar row and recolored `KudosLinkRed`; vertical dividers added between markdown toolbar buttons.
+- `feature/send/CommunityStandardsScreen.kt` — key-visual artwork background applied; typography and spacing corrected per design.
+- `ui/theme/Color.kt` — 1 new token: `KudosLinkRed` (`#E46060`) — inline link color on the Send Kudos form toolbar.
+
+---
+
 ## [Unreleased] — Phase 06: Send Kudos (post-delivery fix, 2026-06-15)
 
 ### Added

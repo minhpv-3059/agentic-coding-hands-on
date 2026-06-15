@@ -42,6 +42,9 @@ private val TextFieldBottomShape = RoundedCornerShape(bottomStart = 4.dp, bottom
  * (or caret) via [RichTextFormatter] — the field owns a [TextFieldValue] so the selection
  * range is known. The resulting plain text is propagated up through [onMessageChange].
  *
+ * Issue 2: [onCommunityStandardsClick] is threaded down to [RichTextToolbar] so the
+ * "Tiêu chuẩn cộng đồng" link renders on the toolbar row (design node 6885:9931).
+ *
  * A10: activeFormats removed — toolbar buttons are stateless (no highlight state).
  */
 @Composable
@@ -50,6 +53,7 @@ fun MessageField(
     hasError: Boolean,
     onMessageChange: (String) -> Unit,
     onToggleFormat: (String) -> Unit,
+    onCommunityStandardsClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val borderColor = if (hasError) KudosError else KudosBorder
@@ -69,7 +73,8 @@ fun MessageField(
                 val updated = RichTextFormatter.apply(fieldValue, format)
                 fieldValue = updated
                 onMessageChange(updated.text)
-            }
+            },
+            onCommunityStandardsClick = onCommunityStandardsClick
         )
 
         TextField(
@@ -124,6 +129,7 @@ private fun MessageFieldEmptyPreview() {
             hasError = false,
             onMessageChange = {},
             onToggleFormat = {},
+            onCommunityStandardsClick = {},
             modifier = Modifier.padding(16.dp)
         )
     }
@@ -138,6 +144,7 @@ private fun MessageFieldFilledPreview() {
             hasError = false,
             onMessageChange = {},
             onToggleFormat = {},
+            onCommunityStandardsClick = {},
             modifier = Modifier.padding(16.dp)
         )
     }
@@ -152,6 +159,7 @@ private fun MessageFieldErrorPreview() {
             hasError = true,
             onMessageChange = {},
             onToggleFormat = {},
+            onCommunityStandardsClick = {},
             modifier = Modifier.padding(16.dp)
         )
     }

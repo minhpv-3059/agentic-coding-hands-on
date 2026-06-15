@@ -58,3 +58,9 @@ blockedBy: []
 **Enhancements:**
 - **Markdown rendering** (`ui/components/MarkdownText.kt`): new parseKudoMarkdown utility renders **bold**, *italic*, ~~strikethrough~~, and [links]. Integrated into KudosCard and KudoDetailCard in feed so sent kudos display formatted instead of raw markers.
 - **Preview feature**: "Xem trước Kudo" button opens dialog showing full kudo card (recipient, title, markdown-rendered message, hashtags, images) using reused KudosCard component.
+
+**Round 2 (2026-06-15, 186 unit tests PASS):**
+- Nickname (ẩn danh) field: switched to BasicTextField to prevent text clipping — matches recipient field fix.
+- "Tiêu chuẩn cộng đồng" link: moved from Danh hiệu helper to markdown toolbar row (right side), recolored RED (#E46060, KudosLinkRed token), verified vs design node 6885:9933.
+- Markdown toolbar: added vertical dividers between format buttons (design nodes 6885:9919).
+- Community Standards screen: added bg_home_keyvisual background artwork, corrected typography/spacing (gold titles, white body, list/section gaps).

@@ -101,15 +101,16 @@ fun SendKudosFormContent(
                 options = uiState.danhHieuOptions,
                 expanded = uiState.danhHieuDropdownOpen,
                 onToggle = onDanhHieuDropdownToggle,
-                onSelect = onDanhHieuSelect,
-                onCommunityStandardsClick = onCommunityStandardsClick
+                onSelect = onDanhHieuSelect
             )
             Spacer(Modifier.height(16.dp))
+            // Issue 2: community standards link is on the toolbar row (design node 6885:9931)
             MessageField(
                 message = uiState.message,
                 hasError = uiState.showError && uiState.message.isBlank(),
                 onMessageChange = onMessageChange,
-                onToggleFormat = onToggleFormat
+                onToggleFormat = onToggleFormat,
+                onCommunityStandardsClick = onCommunityStandardsClick
             )
             Spacer(Modifier.height(16.dp))
             HashtagSection(

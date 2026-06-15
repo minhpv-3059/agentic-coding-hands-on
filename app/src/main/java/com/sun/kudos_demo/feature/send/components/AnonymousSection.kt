@@ -3,6 +3,7 @@ package com.sun.kudos_demo.feature.send.components
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -11,16 +12,14 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CheckboxDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.sun.kudos_demo.ui.theme.KudosAppTheme
@@ -89,33 +88,36 @@ fun AnonymousSection(
                 )
             }
             Spacer(Modifier.height(4.dp))
-            TextField(
-                value = anonymousNickname,
-                onValueChange = onNicknameChange,
-                placeholder = {
-                    Text(
-                        text = "Nhập nickname...",
-                        style = MaterialTheme.typography.bodySmall,
-                        color = KudosGray
-                    )
-                },
-                singleLine = true,
-                colors = TextFieldDefaults.colors(
-                    focusedContainerColor = KudosWhite,
-                    unfocusedContainerColor = KudosWhite,
-                    focusedTextColor = KudosDarkText,
-                    unfocusedTextColor = KudosDarkText,
-                    cursorColor = KudosDarkText,
-                    focusedIndicatorColor = Color.Transparent,
-                    unfocusedIndicatorColor = Color.Transparent
-                ),
-                textStyle = MaterialTheme.typography.bodySmall,
+            // Fix: BasicTextField inside a fixed-height Box avoids Material3 TextField
+            // min-height (56dp) clipping text at the design's 40dp field height.
+            // Pattern matches RecipientField.kt. Node 6885:9914: h=40dp, radius≈4dp.
+            Box(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(40.dp)
                     .border(1.dp, KudosBorder, NicknameFieldShape)
                     .background(KudosWhite, NicknameFieldShape)
-            )
+                    .padding(horizontal = 11.dp),
+                contentAlignment = Alignment.CenterStart
+            ) {
+                BasicTextField(
+                    value = anonymousNickname,
+                    onValueChange = onNicknameChange,
+                    textStyle = MaterialTheme.typography.bodySmall.copy(color = KudosDarkText),
+                    singleLine = true,
+                    decorationBox = { innerTextField ->
+                        if (anonymousNickname.isEmpty()) {
+                            Text(
+                                text = "Nhập nickname...",
+                                style = MaterialTheme.typography.bodySmall,
+                                color = KudosGray
+                            )
+                        }
+                        innerTextField()
+                    },
+                    modifier = Modifier.fillMaxWidth()
+                )
+            }
         }
     }
 }

@@ -55,7 +55,7 @@ com.sun.kudos_demo/
 └── ui/
     ├── KudosApp.kt          — root composable: Scaffold (contentWindowInsets=0) + KudosBottomNav + AppNavGraph
     ├── theme/
-    │   ├── Color.kt         — brand color tokens (23 constants; 3 added Phase 05: KudosAccentRed, KudosCardMuted, KudosCardFaint; 3 added Phase 06: KudosFormCream, KudosContainer2, KudosDropdownHighlight)
+    │   ├── Color.kt         — brand color tokens (24 constants; 3 added Phase 05: KudosAccentRed, KudosCardMuted, KudosCardFaint; 4 added Phase 06: KudosFormCream, KudosContainer2, KudosDropdownHighlight, KudosLinkRed)
     │   ├── Type.kt          — KudosTypography (11 Material3 text styles)
     │   └── Theme.kt         — KudosAppTheme composable (dark-only, no dynamic color)
     └── components/
@@ -106,6 +106,7 @@ Tokens added in Phase 06:
 - `KudosFormCream` (`#FFF8E1`) — Send Kudos form surface background
 - `KudosContainer2` (`#00070C`) — dark dropdown overlay background (recipient, danh hiệu, hashtag dropdowns)
 - `KudosDropdownHighlight` (`rgba(255,234,158,0.20)` ≈ `#33FFEA9E`) — selected row highlight inside dark dropdowns
+- `KudosLinkRed` (`#E46060`) — inline link color on the Send Kudos form toolbar ("Tiêu chuẩn cộng đồng")
 
 ## Key Dependencies
 
