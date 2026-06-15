@@ -232,23 +232,23 @@ class SendKudosViewModelTest {
     }
 
     @Test
-    fun submit_SetsCorrectTitle_WhenDanhHieuSelected() {
-        val danhHieu = "Mentor tuyệt vời"
+    fun submit_SetsCorrectTitle_WhenTitleSelected() {
+        val title = "Mentor tuyệt vời"
         viewModel.onRecipientSelect(SendKudosMockData.recipients[0])
         viewModel.onMessageChange("Great mentorship!")
-        viewModel.onDanhHieuSelect(danhHieu)
+        viewModel.onTitleSelect(title)
         viewModel.onHashtagToggle("BE OPTIMISTIC")
         viewModel.submit()
 
         val newKudo = KudosRepository.kudos.value[0]
-        assertEquals(danhHieu.uppercase(), newKudo.title)
+        assertEquals(title.uppercase(), newKudo.title)
     }
 
     @Test
-    fun submit_SetsDefaultTitle_WhenDanhHieuNotSelected() {
+    fun submit_SetsDefaultTitle_WhenTitleNotSelected() {
         viewModel.onRecipientSelect(SendKudosMockData.recipients[0])
         viewModel.onMessageChange("Great work!")
-        // Don't select danhHieu
+        // Don't select title
         viewModel.onHashtagToggle("BE OPTIMISTIC")
         viewModel.submit()
 
@@ -394,11 +394,11 @@ class SendKudosViewModelTest {
     // ===================== Danh Hiệu (Title) =====================
 
     @Test
-    fun onDanhHieuSelect_UpdatesSelectedDanhHieu() {
-        val danhHieu = "Chiến binh thầm lặng"
-        viewModel.onDanhHieuSelect(danhHieu)
-        assertEquals(danhHieu, viewModel.uiState.value.selectedDanhHieu)
-        assertFalse(viewModel.uiState.value.danhHieuDropdownOpen)
+    fun onTitleSelect_UpdatesSelectedTitle() {
+        val title = "Chiến binh thầm lặng"
+        viewModel.onTitleSelect(title)
+        assertEquals(title, viewModel.uiState.value.selectedTitle)
+        assertFalse(viewModel.uiState.value.titleDropdownOpen)
     }
 
     // ===================== Dropdown Toggles =====================
@@ -422,12 +422,12 @@ class SendKudosViewModelTest {
     }
 
     @Test
-    fun onDanhHieuDropdownToggle_TogglesOpen() {
-        assertFalse(viewModel.uiState.value.danhHieuDropdownOpen)
-        viewModel.onDanhHieuDropdownToggle(true)
-        assertTrue(viewModel.uiState.value.danhHieuDropdownOpen)
-        viewModel.onDanhHieuDropdownToggle(false)
-        assertFalse(viewModel.uiState.value.danhHieuDropdownOpen)
+    fun onTitleDropdownToggle_TogglesOpen() {
+        assertFalse(viewModel.uiState.value.titleDropdownOpen)
+        viewModel.onTitleDropdownToggle(true)
+        assertTrue(viewModel.uiState.value.titleDropdownOpen)
+        viewModel.onTitleDropdownToggle(false)
+        assertFalse(viewModel.uiState.value.titleDropdownOpen)
     }
 
     // ===================== Query Changes =====================

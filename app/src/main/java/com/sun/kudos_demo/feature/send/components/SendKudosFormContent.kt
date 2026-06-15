@@ -49,8 +49,8 @@ fun SendKudosFormContent(
     onRecipientQueryChange: (String) -> Unit,
     onRecipientDropdownToggle: (Boolean) -> Unit,
     onRecipientSelect: (KudoUser) -> Unit,
-    onDanhHieuDropdownToggle: (Boolean) -> Unit,
-    onDanhHieuSelect: (String) -> Unit,
+    onTitleDropdownToggle: (Boolean) -> Unit,
+    onTitleSelect: (String) -> Unit,
     onMessageChange: (String) -> Unit,
     onToggleFormat: (String) -> Unit,
     onHashtagDropdownToggle: (Boolean) -> Unit,
@@ -96,12 +96,12 @@ fun SendKudosFormContent(
                 onSelect = onRecipientSelect
             )
             Spacer(Modifier.height(16.dp))
-            DanhHieuField(
-                selectedDanhHieu = uiState.selectedDanhHieu,
-                options = uiState.danhHieuOptions,
-                expanded = uiState.danhHieuDropdownOpen,
-                onToggle = onDanhHieuDropdownToggle,
-                onSelect = onDanhHieuSelect
+            TitleField(
+                selectedTitle = uiState.selectedTitle,
+                options = uiState.titleOptions,
+                expanded = uiState.titleDropdownOpen,
+                onToggle = onTitleDropdownToggle,
+                onSelect = onTitleSelect
             )
             Spacer(Modifier.height(16.dp))
             // Issue 2: community standards link is on the toolbar row (design node 6885:9931)

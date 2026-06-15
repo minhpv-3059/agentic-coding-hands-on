@@ -27,7 +27,7 @@ class SendKudosViewModel : ViewModel() {
     private val _uiState = MutableStateFlow(
         SendKudosUiState(
             recipientOptions = SendKudosMockData.recipients,
-            danhHieuOptions = SendKudosMockData.danhHieuOptions,
+            titleOptions = SendKudosMockData.titleOptions,
             hashtagOptions = SendKudosMockData.hashtagOptions,
             anonymousNickname = SendKudosMockData.DEFAULT_ANONYMOUS_NICKNAME
         )
@@ -60,11 +60,11 @@ class SendKudosViewModel : ViewModel() {
     }
 
     // --- Danh hiệu ---
-    fun onDanhHieuDropdownToggle(open: Boolean) =
-        _uiState.update { it.copy(danhHieuDropdownOpen = open) }
+    fun onTitleDropdownToggle(open: Boolean) =
+        _uiState.update { it.copy(titleDropdownOpen = open) }
 
-    fun onDanhHieuSelect(danhHieu: String) =
-        _uiState.update { it.copy(selectedDanhHieu = danhHieu, danhHieuDropdownOpen = false) }
+    fun onTitleSelect(title: String) =
+        _uiState.update { it.copy(selectedTitle = title, titleDropdownOpen = false) }
 
     // --- Message + formatting ---
     fun onMessageChange(message: String) =
@@ -140,7 +140,7 @@ class SendKudosViewModel : ViewModel() {
             recipient = recipient,
             department = recipient.code,
             timeRange = currentTimeRange(),
-            title = state.selectedDanhHieu?.uppercase(Locale.getDefault()) ?: "LỜI CẢM ƠN",
+            title = state.selectedTitle?.uppercase(Locale.getDefault()) ?: "LỜI CẢM ƠN",
             message = state.message.trim(),
             hashtags = state.selectedHashtags.toList(),
             heartCount = 0,

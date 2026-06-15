@@ -20,7 +20,7 @@ object SendKudosMockData {
      * Preset "Danh hiệu" options (single-select dropdown). Phrased per the field helper
      * ("Ví dụ: Người truyền động lực cho tôi") and the kudo titles used across the feed.
      */
-    val danhHieuOptions: List<String> = listOf(
+    val titleOptions: List<String> = listOf(
         "Người truyền động lực cho tôi",
         "Người truyền lửa",
         "Đồng đội tin cậy",

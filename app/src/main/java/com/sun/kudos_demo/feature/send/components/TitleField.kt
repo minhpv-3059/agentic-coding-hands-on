@@ -42,7 +42,7 @@ import com.sun.kudos_demo.ui.theme.KudosWhite
 private val FieldShape = RoundedCornerShape(4.dp)
 private val MenuShape = RoundedCornerShape(8.dp)
 
-// A8: mockDanhHieuOptions re-export val removed — callers use SendKudosMockData.danhHieuOptions directly.
+// A8: mockTitleOptions re-export val removed — callers use SendKudosMockData.titleOptions directly.
 
 /**
  * "Danh hiệu" field — label with red asterisk (design node 6885:9913), dropdown selector,
@@ -57,8 +57,8 @@ private val MenuShape = RoundedCornerShape(8.dp)
  *   Selected item highlight = rgba(255,234,158,0.20) = KudosDropdownHighlight.
  */
 @Composable
-fun DanhHieuField(
-    selectedDanhHieu: String?,
+fun TitleField(
+    selectedTitle: String?,
     options: List<String>,
     expanded: Boolean,
     onToggle: (Boolean) -> Unit,
@@ -102,9 +102,9 @@ fun DanhHieuField(
             ) {
                 // B3: placeholder = "Dành tặng một danh hiệu cho..." (verbatim from design node)
                 Text(
-                    text = selectedDanhHieu ?: "Dành tặng một danh hiệu cho...",
+                    text = selectedTitle ?: "Dành tặng một danh hiệu cho...",
                     style = MaterialTheme.typography.bodySmall,
-                    color = if (selectedDanhHieu != null) KudosDarkText else KudosGray,
+                    color = if (selectedTitle != null) KudosDarkText else KudosGray,
                     maxLines = 1
                 )
                 Icon(
@@ -126,7 +126,7 @@ fun DanhHieuField(
                     .border(1.dp, KudosBorder, MenuShape)
             ) {
                 options.forEach { option ->
-                    val isSelected = option == selectedDanhHieu
+                    val isSelected = option == selectedTitle
                     DropdownMenuItem(
                         text = {
                             Text(
@@ -176,11 +176,11 @@ fun DanhHieuField(
 
 @Preview(showBackground = true, backgroundColor = 0xFFFFF8E1)
 @Composable
-private fun DanhHieuFieldPreview() {
+private fun TitleFieldPreview() {
     KudosAppTheme {
-        DanhHieuField(
-            selectedDanhHieu = null,
-            options = SendKudosMockData.danhHieuOptions,
+        TitleField(
+            selectedTitle = null,
+            options = SendKudosMockData.titleOptions,
             expanded = false,
             onToggle = {},
             onSelect = {},

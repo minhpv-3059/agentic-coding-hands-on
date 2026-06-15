@@ -11,7 +11,7 @@ private val mockUsers = KudosMockData.searchableUsers
 internal val previewFilledState = SendKudosUiState(
     selectedRecipientName = "Dương Huỳnh Xuân Nhật",
     recipientOptions = mockUsers,
-    danhHieuOptions = SendKudosMockData.danhHieuOptions,
+    titleOptions = SendKudosMockData.titleOptions,
     message = "Tôi rất chị là quý bạn",
     selectedHashtags = listOf("BE OPTIMISTIC", "WASSHOI", "BE A TEAM"),
     hashtagOptions = SendKudosMockData.hashtagOptions,
@@ -26,7 +26,7 @@ private fun SendKudosFilledPreview() {
         SendKudosScreen(
             uiState = previewFilledState,
             onBack = {}, onRecipientQueryChange = {}, onRecipientDropdownToggle = {},
-            onRecipientSelect = {}, onDanhHieuDropdownToggle = {}, onDanhHieuSelect = {},
+            onRecipientSelect = {}, onTitleDropdownToggle = {}, onTitleSelect = {},
             onMessageChange = {}, onToggleFormat = {}, onHashtagDropdownToggle = {},
             onHashtagToggle = {}, onHashtagRemove = {}, onAddImageClick = {},
             onRemoveImage = {}, onAnonymousToggle = {}, onNicknameChange = {},
@@ -43,11 +43,11 @@ private fun SendKudosDefaultPreview() {
         SendKudosScreen(
             uiState = SendKudosUiState(
                 recipientOptions = mockUsers,
-                danhHieuOptions = SendKudosMockData.danhHieuOptions,
+                titleOptions = SendKudosMockData.titleOptions,
                 hashtagOptions = SendKudosMockData.hashtagOptions
             ),
             onBack = {}, onRecipientQueryChange = {}, onRecipientDropdownToggle = {},
-            onRecipientSelect = {}, onDanhHieuDropdownToggle = {}, onDanhHieuSelect = {},
+            onRecipientSelect = {}, onTitleDropdownToggle = {}, onTitleSelect = {},
             onMessageChange = {}, onToggleFormat = {}, onHashtagDropdownToggle = {},
             onHashtagToggle = {}, onHashtagRemove = {}, onAddImageClick = {},
             onRemoveImage = {}, onAnonymousToggle = {}, onNicknameChange = {},
@@ -64,7 +64,7 @@ private fun SendKudosErrorPreview() {
         SendKudosScreen(
             uiState = previewFilledState.copy(message = "", selectedHashtags = emptyList(), showError = true),
             onBack = {}, onRecipientQueryChange = {}, onRecipientDropdownToggle = {},
-            onRecipientSelect = {}, onDanhHieuDropdownToggle = {}, onDanhHieuSelect = {},
+            onRecipientSelect = {}, onTitleDropdownToggle = {}, onTitleSelect = {},
             onMessageChange = {}, onToggleFormat = {}, onHashtagDropdownToggle = {},
             onHashtagToggle = {}, onHashtagRemove = {}, onAddImageClick = {},
             onRemoveImage = {}, onAnonymousToggle = {}, onNicknameChange = {},
@@ -82,11 +82,11 @@ private fun SendKudosRecipientDropdownPreview() {
             uiState = SendKudosUiState(
                 recipientOptions = mockUsers,
                 recipientDropdownOpen = true,
-                danhHieuOptions = SendKudosMockData.danhHieuOptions,
+                titleOptions = SendKudosMockData.titleOptions,
                 hashtagOptions = SendKudosMockData.hashtagOptions
             ),
             onBack = {}, onRecipientQueryChange = {}, onRecipientDropdownToggle = {},
-            onRecipientSelect = {}, onDanhHieuDropdownToggle = {}, onDanhHieuSelect = {},
+            onRecipientSelect = {}, onTitleDropdownToggle = {}, onTitleSelect = {},
             onMessageChange = {}, onToggleFormat = {}, onHashtagDropdownToggle = {},
             onHashtagToggle = {}, onHashtagRemove = {}, onAddImageClick = {},
             onRemoveImage = {}, onAnonymousToggle = {}, onNicknameChange = {},
