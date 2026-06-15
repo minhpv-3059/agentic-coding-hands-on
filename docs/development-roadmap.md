@@ -22,9 +22,16 @@ Wired the full navigation skeleton: route constants, `NavHost`, and root composa
 - `ui/KudosApp.kt` — root composable (`Scaffold` + bottom-nav shell)
 - `BottomNavTab.route` field added; `MainActivity` now hosts `KudosApp()`
 
-## Phase 03 — Screens [Pending]
+## Phase 03 — Authentication Login [Complete]
 
-Real screen composables replacing the placeholder destinations (phases 03–11 per plan).
+Implemented Login screen pixel-perfect from MoMorph design with bilingual support (VN/EN).
+
+**Delivered:**
+- `feature/auth/LoginScreen.kt` — background keyvisual, ROOT FURTHER logo, description text, login button, language dropdown overlay
+- `feature/auth/LoginViewModel.kt` — `AppLanguage` enum, loading state, language selection, 1s mock auth
+- Assets: `bg_login_keyvisual.png`, `ic_logo_saa.png`, `ic_google.xml`
+- Nav: LOGIN is startDestination; login success → HOME navigation
+- Edge-to-edge support with safe area handling (navigationBarsPadding)
 
 ## Phase 04 — Logo Asset [Pending]
 

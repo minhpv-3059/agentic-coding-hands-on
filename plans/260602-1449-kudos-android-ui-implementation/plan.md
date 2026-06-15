@@ -16,6 +16,15 @@ blocks: []
 Implement all iOS-mobile screens from MoMorph design into Android Jetpack Compose.
 Stack: Kotlin + Compose + Material3 | minSdk 26 | targetSdk 36
 
+## ⚠️ Asset Extraction Protocol (đọc trước khi implement)
+
+**`get_media_files` KHÔNG đáng tin cho background fill images.**
+Khi Figma node có CSS `background-position` offset hoặc `background-size` > 100%, raw S3 file ≠ rendered visual.
+
+Cách detect: `get_node` → xem `styles.background`. Nếu có offset số âm hoặc scale >100% → **yêu cầu user export từ Figma trực tiếp**.
+
+Xem chi tiết: [`clarifications.md`](./clarifications.md)
+
 ## Screen Inventory (iOS screens — 38 screens total)
 
 Screens prefixed `[iOS]` are the authoritative mobile screens. Web/desktop screens excluded.
@@ -73,7 +82,7 @@ Screens prefixed `[iOS]` are the authoritative mobile screens. Web/desktop scree
 |-------|-------|--------|---------|
 | 01 | Design System & Theme | ✅ done | Color, Typography, Button, Icons, Nav |
 | 02 | App Navigation Setup | ✅ done | Nav structure, bottom nav |
-| 03 | Authentication | ☐ todo | Login |
+| 03 | Authentication | ✅ done | Login |
 | 04 | Home | ☐ todo | Home |
 | 05 | Kudos Feed | ☐ todo | Feed, All Kudos, View, Search, Filters |
 | 06 | Send Kudos Flow | ☐ todo | Send form, dropdowns, validation |

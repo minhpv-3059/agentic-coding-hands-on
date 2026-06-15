@@ -12,24 +12,28 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import com.sun.kudos_demo.feature.auth.LoginScreen
 
-/**
- * App navigation graph. Phase 02 wires every route to a placeholder;
- * real screen content arrives in later phases (03–11).
- */
 @Composable
 fun AppNavGraph(
     navController: NavHostController,
     modifier: Modifier = Modifier,
-    // TODO Phase 03: replace with auth-aware start destination (login vs home).
-    startDestination: String = NavRoutes.HOME
+    startDestination: String = NavRoutes.LOGIN
 ) {
     NavHost(
         navController = navController,
         startDestination = startDestination,
         modifier = modifier
     ) {
-        composable(NavRoutes.LOGIN) { PlaceholderScreen("Login") }
+        composable(NavRoutes.LOGIN) {
+            LoginScreen(
+                onLoginSuccess = {
+                    navController.navigate(NavRoutes.HOME) {
+                        popUpTo(NavRoutes.LOGIN) { inclusive = true }
+                    }
+                }
+            )
+        }
         composable(NavRoutes.HOME) { PlaceholderScreen("Home") }
 
         composable(NavRoutes.KUDOS_FEED) { PlaceholderScreen("Kudos Feed") }
