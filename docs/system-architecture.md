@@ -19,7 +19,8 @@ Single-module Android app (`app/`).
 com.sun.kudos_demo/
 ├── MainActivity.kt          — entry point, hosts KudosApp inside KudosAppTheme
 ├── data/
-│   └── KudosPreferences.kt  — DataStore Preferences persistence: liked kudo IDs + recent search terms (Flow<Set<String>>)
+│   ├── KudosPreferences.kt  — DataStore Preferences persistence: liked kudo IDs + recent search terms (Flow<Set<String>>)
+│   └── KudosRepository.kt   — in-memory singleton; MutableStateFlow<List<Kudo>> seeded from KudosMockData; shared source of truth for feed + send feature modules
 ├── feature/
 │   ├── auth/
 │   │   ├── LoginScreen.kt   — login UI (key-visual, ROOT FURTHER logo, Google SSO button, language overlay)
@@ -37,20 +38,24 @@ com.sun.kudos_demo/
 │   │   └── components/         — 9 composables: FeedHeroBanner, HighlightCarousel, AllKudosSection,
 │   │                              KudoDetailCard, KudoImageGallery, SpotlightNetworkChart (Canvas pan/zoom),
 │   │                              StatsBlock, GiftRecipientsSection, SendKudosPrompt, UserResultRow
-│   └── home/
-│       ├── HomeScreen.kt    — scrollable Home: hero, countdown, awards, kudos, note sections, FAB
-│       ├── HomeViewModel.kt — HomeUiState + CountdownState StateFlow; live 1s countdown; mock badge count
-│       └── components/      — 9 composables: HomeHeroSection, CountdownRow, HeroActionButtons,
-│                              SectionHeader, HomeAwardsSection, AwardCard,
-│                              HomeKudosSection, HomeNoteSection, HomeFab
+│   ├── home/
+│   │   ├── HomeScreen.kt    — scrollable Home: hero, countdown, awards, kudos, note sections, FAB
+│   │   ├── HomeViewModel.kt — HomeUiState + CountdownState StateFlow; live 1s countdown; mock badge count
+│   │   └── components/      — 9 composables: HomeHeroSection, CountdownRow, HeroActionButtons,
+│   │                          SectionHeader, HomeAwardsSection, AwardCard,
+│   │                          HomeKudosSection, HomeNoteSection, HomeFab
+│   └── send/
+│       ├── SendKudosScreen.kt      — Send Kudos form: recipient search, danh hiệu dropdown, rich-text toolbar, message, hashtag multi-select (max 5), Photo Picker (max 5 images), anonymous toggle + nickname, validation
+│       ├── SendKudosViewModel.kt   — form state, validation, submit() prepends to KudosRepository
+│       └── CommunityStandardsScreen.kt — 10 community criteria + security section
 ├── navigation/
-│   ├── NavRoutes.kt              — route constants + builder helpers (13 destinations)
-│   ├── AppNavGraph.kt            — NavHost; LOGIN is startDestination; HOME + KUDOS_FEED wired to real screens
+│   ├── NavRoutes.kt              — route constants + builder helpers (15 destinations incl. KUDOS_SEND, KUDOS_COMMUNITY_STANDARDS)
+│   ├── AppNavGraph.kt            — NavHost; LOGIN is startDestination; HOME + KUDOS_FEED + KUDOS_SEND wired to real screens
 │   └── KudosFeedNavigation.kt    — feed route composables (KudosFeedRoute, KudosAllRoute, ViewKudoRoute, KudosSearchRoute); slot injection for filters and Spotlight
 └── ui/
     ├── KudosApp.kt          — root composable: Scaffold (contentWindowInsets=0) + KudosBottomNav + AppNavGraph
     ├── theme/
-    │   ├── Color.kt         — brand color tokens (19 constants; 3 added in Phase 05: KudosAccentRed, KudosCardMuted, KudosCardFaint)
+    │   ├── Color.kt         — brand color tokens (24 constants; 3 added Phase 05: KudosAccentRed, KudosCardMuted, KudosCardFaint; 4 added Phase 06: KudosFormCream, KudosContainer2, KudosDropdownHighlight, KudosLinkRed)
     │   ├── Type.kt          — KudosTypography (11 Material3 text styles)
     │   └── Theme.kt         — KudosAppTheme composable (dark-only, no dynamic color)
     └── components/
@@ -58,7 +63,8 @@ com.sun.kudos_demo/
         ├── KudosTopBar.kt           — real ic_logo_saa drawable (48×44 dp), ic_vn_flag asset, BadgedBox bell, statusBarsPadding() + vertical gradient overlay
         ├── KudosBottomNav.kt        — BottomNavTab enum uses @DrawableRes ic_nav_* Figma vector drawables; navigationBarsPadding() applied
         ├── KudoAvatar.kt            — circular avatar composable
-        ├── KudosCard.kt             — shared card surface composable
+        ├── KudosCard.kt             — shared card surface; renders kudo message via MarkdownText
+        ├── MarkdownText.kt          — shared inline-markdown renderer: parseKudoMarkdown() → AnnotatedString (**bold**, *italic*, ~~strike~~, [label](url)); MarkdownText composable. Used by KudosCard, KudoDetailCard, and KudoPreviewDialog.
         ├── HashtagFilterDropdown.kt — overlay hashtag filter (AND logic with department)
         └── DepartmentFilterDropdown.kt — overlay department filter
 ```
@@ -73,7 +79,7 @@ The app uses `navigation-compose 2.8.0` with a single `NavHost` defined in `AppN
 - `KudosBottomNav` is hidden on the login screen — only shown when the current route matches a `BottomNavTab` destination.
 - Feed-specific route composables live in `KudosFeedNavigation.kt` (not `AppNavGraph.kt`) to keep both files under 200 lines — follow this pattern for future feature modules.
 - Hashtag cross-screen navigation: secondary screens (View / AllKudos) stash the tag on the Feed's `SavedStateHandle` and pop back, so the Feed ViewModel picks it up without re-composing.
-- Real screens: LOGIN, HOME, KUDOS_FEED, KUDOS_ALL, KUDOS_VIEW, KUDOS_SEARCH. Remaining routes still use placeholder composables.
+- Real screens: LOGIN, HOME, KUDOS_FEED, KUDOS_ALL, KUDOS_VIEW, KUDOS_SEARCH, KUDOS_SEND, KUDOS_COMMUNITY_STANDARDS. Remaining routes still use placeholder composables.
 
 ## Theme System
 
@@ -96,6 +102,12 @@ Tokens added in Phase 05 (kudos card cream surface):
 - `KudosCardMuted` (`#555555`) — secondary text on cream card (codes, links)
 - `KudosCardFaint` (`#888888`) — tertiary text on cream card (timestamps, sub-labels)
 
+Tokens added in Phase 06:
+- `KudosFormCream` (`#FFF8E1`) — Send Kudos form surface background
+- `KudosContainer2` (`#00070C`) — dark dropdown overlay background (recipient, danh hiệu, hashtag dropdowns)
+- `KudosDropdownHighlight` (`rgba(255,234,158,0.20)` ≈ `#33FFEA9E`) — selected row highlight inside dark dropdowns
+- `KudosLinkRed` (`#E46060`) — inline link color on the Send Kudos form toolbar ("Tiêu chuẩn cộng đồng")
+
 ## Key Dependencies
 
 | Library | Version | Purpose |
@@ -108,8 +120,20 @@ Tokens added in Phase 05 (kudos card cream surface):
 
 ## Persistence Layer
 
-`data/KudosPreferences.kt` is the project's first persistence layer (introduced in Phase 05).
+`data/KudosPreferences.kt` is the project's DataStore persistence layer (introduced in Phase 05).
 
 - **Storage**: `DataStore Preferences` (key-value, async, Flow-based) — do not use `SharedPreferences`.
 - **Pattern**: expose `Flow<Set<String>>` for read; suspend functions for write. ViewModels combine these Flows into UI state via `combine`.
 - **Scope**: `AndroidViewModel` required (needs `Application` context for DataStore) — feature ViewModels that touch persistence must extend `AndroidViewModel`, not plain `ViewModel`.
+
+## Shared In-Memory State
+
+`data/KudosRepository.kt` is the app-process in-memory shared state store (introduced in Phase 06).
+
+- **Pattern**: Kotlin `object` singleton; holds a `MutableStateFlow<List<Kudo>>` seeded from `KudosMockData` at init time. Exposes an immutable `StateFlow` + a `kudoById(id)` helper.
+- **Cross-feature use**: `KudosFeedViewModel` combines `KudosRepository.kudos` with `KudosPreferences` flows; `SendKudosViewModel.submit()` calls `KudosRepository.prepend(kudo)` so the submitted kudo appears at the top of the feed immediately. `ViewKudoRoute` resolves the displayed kudo via `KudosRepository.kudoById`.
+- **Scope**: process-lifetime only (no disk persistence). The store resets on process death — this is intentional for the current mock phase. Migrate to a Room-backed repository when real API integration begins.
+
+## Image Handling
+
+The app intentionally avoids image-loading libraries (no Coil, no Glide) for bitmap thumbnails in the Send Kudos photo picker. Selected images from the Android Photo Picker are decoded synchronously via `android.graphics.BitmapFactory` in the ViewModel's coroutine scope. This keeps the dependency surface minimal during the mock phase. Add Coil when the feature moves to remote URLs.

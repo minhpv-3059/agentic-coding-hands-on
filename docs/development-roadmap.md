@@ -63,4 +63,15 @@ Implemented the full Kudos Feed feature (8 MoMorph screens) with UI, persistence
 - `ui/theme/Color.kt` — 3 new tokens: `KudosAccentRed`, `KudosCardMuted`, `KudosCardFaint`
 - `androidx.datastore:datastore-preferences:1.1.1` dependency added
 
-## Phase 06 — Integration & Polish [Pending]
+## Phase 06 — Send Kudos [Complete]
+
+Implemented the Send Kudos flow end-to-end, introduced the first cross-feature shared state store, and wired the live feed to reflect newly submitted kudos.
+
+**Delivered:**
+- `feature/send/SendKudosScreen.kt` + `SendKudosViewModel.kt` — full Send Kudos form: recipient search, danh hiệu dropdown, rich-text markdown toolbar (`RichTextFormatter`), multi-line message, hashtag multi-select (max 5), Photo Picker (max 5 images, bitmap thumbnails via `BitmapFactory`), anonymous toggle + nickname, form validation
+- `feature/send/CommunityStandardsScreen.kt` — 10 community-standard criteria + security section
+- `data/KudosRepository.kt` — in-memory singleton (`MutableStateFlow<List<Kudo>>`), seeded from `KudosMockData`, shared across `send` and `feed` feature modules; `submit()` prepends new kudos to the live feed
+- `KudosFeedViewModel` refactored to read from `KudosRepository` (combine of 5 flows); `ViewKudoRoute` uses `kudosRepository.kudoById`
+- `KUDOS_COMMUNITY_STANDARDS` route added; `KUDOS_SEND` wired to real `SendKudosRoute`
+- `KudosFormCream` color token added
+- No new gradle dependencies (Photo Picker via existing `activity-compose 1.8.0`; thumbnails via built-in `BitmapFactory`)

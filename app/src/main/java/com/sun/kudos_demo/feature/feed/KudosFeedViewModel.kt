@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.sun.kudos_demo.data.KudosPreferences
+import com.sun.kudos_demo.data.KudosRepository
 import com.sun.kudos_demo.feature.auth.AppLanguage
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -47,17 +48,20 @@ class KudosFeedViewModel(app: Application) : AndroidViewModel(app) {
     private val language = MutableStateFlow(AppLanguage.VN)
 
     val uiState: StateFlow<FeedUiState> =
-        combine(selectedHashtag, selectedDepartment, prefs.likedKudoIds, language) { tag, dept, liked, lang ->
-            buildState(tag, dept, liked, lang)
+        combine(
+            KudosRepository.kudos, selectedHashtag, selectedDepartment, prefs.likedKudoIds, language
+        ) { kudos, tag, dept, liked, lang ->
+            buildState(kudos, tag, dept, liked, lang)
         }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), FeedUiState())
 
     private fun buildState(
+        kudos: List<Kudo>,
         tag: String?,
         dept: String?,
         liked: Set<String>,
         lang: AppLanguage
     ): FeedUiState {
-        val filtered = filterKudos(KudosMockData.kudos, tag, dept)
+        val filtered = filterKudos(kudos, tag, dept)
         val highlight = highlightKudos(filtered)
         return FeedUiState(
             highlightKudos = applyLikes(highlight, liked),
@@ -71,7 +75,7 @@ class KudosFeedViewModel(app: Application) : AndroidViewModel(app) {
 
     /** Heart toggle — persisted. Guarded so a sender can't like their own kudo. */
     fun toggleLike(kudoId: String) {
-        val kudo = KudosMockData.kudoById(kudoId) ?: return
+        val kudo = KudosRepository.kudoById(kudoId) ?: return
         if (kudo.sender?.id == CURRENT_USER_ID) return
         viewModelScope.launch { prefs.toggleLike(kudoId) }
     }

@@ -26,7 +26,7 @@ import androidx.navigation.NavHostController
 import com.sun.kudos_demo.feature.feed.AllKudosScreen
 import com.sun.kudos_demo.feature.feed.KudosFeedScreen
 import com.sun.kudos_demo.feature.feed.KudosFeedViewModel
-import com.sun.kudos_demo.feature.feed.KudosMockData
+import com.sun.kudos_demo.data.KudosRepository
 import com.sun.kudos_demo.feature.feed.KudosSearchScreen
 import com.sun.kudos_demo.feature.feed.KudosSearchViewModel
 import com.sun.kudos_demo.feature.feed.SpotlightMockData
@@ -127,7 +127,7 @@ fun KudosAllRoute(navController: NavHostController) {
 
 @Composable
 fun ViewKudoRoute(navController: NavHostController, kudoId: String) {
-    val kudo = KudosMockData.kudoById(kudoId)
+    val kudo = KudosRepository.kudoById(kudoId)
     if (kudo == null) {
         Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
             Text("Không tìm thấy Kudo #$kudoId", style = MaterialTheme.typography.titleLarge)

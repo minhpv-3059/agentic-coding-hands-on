@@ -1,5 +1,46 @@
 # Project Changelog
 
+## [Unreleased] — Phase 06: Send Kudos (fidelity fix round 2, 2026-06-15)
+
+### Changed
+- `feature/send/SendKudosScreen.kt` — nickname field switched to `BasicTextField` (no text clipping), matching the recipient field pattern; "Tiêu chuẩn cộng đồng" link relocated from form body to the markdown toolbar row and recolored `KudosLinkRed`; vertical dividers added between markdown toolbar buttons.
+- `feature/send/CommunityStandardsScreen.kt` — key-visual artwork background applied; typography and spacing corrected per design.
+- `ui/theme/Color.kt` — 1 new token: `KudosLinkRed` (`#E46060`) — inline link color on the Send Kudos form toolbar.
+
+---
+
+## [Unreleased] — Phase 06: Send Kudos (post-delivery fix, 2026-06-15)
+
+### Added
+- `ui/components/MarkdownText.kt` — shared inline-markdown renderer: `parseKudoMarkdown(raw, linkColor): AnnotatedString` handles **bold**, *italic*, ~~strikethrough~~, `[label](url)`; `MarkdownText` composable wraps it. Used by `KudosCard` and `KudoDetailCard` so kudos sent with the rich-text toolbar render formatted instead of showing raw markers; also powers the Send Kudos preview dialog.
+- `feature/send/components/KudoPreviewDialog.kt` — "Xem trước Kudo" preview dialog; reuses `KudosCard` to show the full composed kudo card before submission.
+
+### Changed
+- `ui/theme/Color.kt` — 2 new tokens: `KudosContainer2` (`#00070C`, dark dropdown overlay background), `KudosDropdownHighlight` (`rgba(255,234,158,0.20)`, selected dropdown row highlight). Recipient, danh hiệu, and hashtag dropdowns corrected to dark backgrounds per design.
+- `ui/components/KudosCard.kt`, `feature/feed/components/KudoDetailCard.kt` — kudo message rendering switched from raw `Text` to `MarkdownText`.
+- Send Kudos action buttons shaped as 4 dp rounded-rect (local to the send screen); shared pill buttons (`KudosButton.kt`) unchanged.
+
+---
+
+## [Unreleased] — Phase 06: Send Kudos
+
+### Added
+- `feature/send/SendKudosScreen.kt` — Send Kudos form: recipient search dropdown, danh hiệu (title) dropdown, functional rich-text markdown toolbar (`RichTextFormatter`), multi-line message field, hashtag multi-select (max 5), real Android Photo Picker (max 5 images, decoded to bitmap thumbnails via `BitmapFactory`), anonymous toggle + nickname field, form validation
+- `feature/send/SendKudosViewModel.kt` — form state, validation logic, and `submit()` that prepends the new kudo to `KudosRepository` so it surfaces immediately at the top of the feed
+- `feature/send/CommunityStandardsScreen.kt` — 10 community-standard criteria + security section; navigates from Send Kudos form
+- `data/KudosRepository.kt` — **first cross-feature in-memory shared state store**; `object` singleton holding a `MutableStateFlow<List<Kudo>>` seeded from `KudosMockData`; exposes `kudoById(id)` helper
+
+### Changed
+- `feature/feed/KudosFeedViewModel.kt` — refactored to read from `KudosRepository` (combines 5 flows) instead of reading the static `KudosMockData` object directly; live feed now reflects submitted kudos without restart
+- `feature/feed/ViewKudoScreen.kt` — `ViewKudoRoute` now resolves kudo by ID via `KudosRepository.kudoById` instead of a static list lookup
+- `navigation/AppNavGraph.kt` — `KUDOS_COMMUNITY_STANDARDS` route added; `KUDOS_SEND` now resolves to the real `SendKudosRoute`
+- `ui/theme/Color.kt` — 1 new token: `KudosFormCream` (form surface background)
+
+### Dependencies
+- No new gradle dependencies: Photo Picker uses existing `activity-compose 1.8.0`; bitmap thumbnails decoded via built-in `android.graphics.BitmapFactory` (no Coil)
+
+---
+
 ## [Unreleased] — Phase 05: Kudos Feed
 
 ### Added

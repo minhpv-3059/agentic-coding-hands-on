@@ -37,12 +37,15 @@ class NavRoutesTest {
             NavRoutes.LOGIN,
             NavRoutes.HOME,
             NavRoutes.KUDOS_FEED,
+            NavRoutes.KUDOS_ALL,
             NavRoutes.KUDOS_SEND,
+            NavRoutes.KUDOS_COMMUNITY_STANDARDS,
             NavRoutes.PROFILE_ME,
             NavRoutes.NOTIFICATIONS,
             NavRoutes.SECRET_BOX,
             NavRoutes.AWARDS,
             NavRoutes.RULES,
+            NavRoutes.SEARCH,
             NavRoutes.ERROR_403,
             NavRoutes.ERROR_404
         )
