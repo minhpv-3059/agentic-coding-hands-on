@@ -80,6 +80,34 @@ Use `KudosTypography` styles via `MaterialTheme.typography.*`. Do not create ad-
 | `labelMedium` | 12 sp | Medium | Inactive nav labels |
 | `labelSmall` | 10 sp | Medium | Small labels |
 
+## ViewModel Conventions
+
+- Screens without persistence → extend `ViewModel` (plain).
+- Screens that read/write `KudosPreferences` (DataStore) → extend `AndroidViewModel` — requires `Application` context.
+- Never pass `Context` into a plain `ViewModel`; inject it only via `AndroidViewModel`.
+
+## Slot Pattern (Screen-level)
+
+When a screen host needs to inject feature-specific UI (e.g., filter dropdowns, charts) without coupling the stateless composable to its dependencies, use named slot lambdas:
+
+```kotlin
+@Composable
+fun KudosFeedScreen(
+    filterRow: @Composable () -> Unit,  // slot: hashtag + dept dropdowns
+    spotlight: @Composable () -> Unit,  // slot: SpotlightNetworkChart
+    ...
+)
+```
+
+The route composable (in `*Navigation.kt`) injects the real content; the screen composable stays testable and stateless. Use this pattern when a composable otherwise needs a ViewModel or context it shouldn't own directly.
+
+## Pure Logic Files
+
+Isolate non-UI, non-Android logic into dedicated `*Logic.kt` files (e.g., `KudosFeedLogic.kt`). These files:
+- Contain only `fun` with value-type parameters — no Compose, no Android imports
+- Can be unit-tested without instrumentation
+- Are the first target for unit tests in each feature module
+
 ## Previews
 
 Every component file must include at least one `@Preview` using `KudosAppTheme` with `backgroundColor = 0xFF00101A` (or the relevant surface color) so previews render on the correct dark background.

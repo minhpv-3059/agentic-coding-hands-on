@@ -10,6 +10,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.sun.kudos_demo.navigation.AppNavGraph
+import com.sun.kudos_demo.navigation.NavRoutes
 import com.sun.kudos_demo.ui.components.BottomNavTab
 import com.sun.kudos_demo.ui.components.KudosBottomNav
 
@@ -22,8 +23,12 @@ fun KudosApp(navController: NavHostController = rememberNavController()) {
     val backStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = backStackEntry?.destination?.route
 
-    val selectedTab = BottomNavTab.entries.firstOrNull { it.route == currentRoute }
-    val showBottomBar = selectedTab != null
+    // Secondary Kudos screens (All Kudos / View / Search) keep the bottom nav with the
+    // Kudos tab active, matching the design.
+    val kudosFamily = currentRoute in setOf(NavRoutes.KUDOS_ALL, NavRoutes.KUDOS_VIEW, NavRoutes.SEARCH)
+    val effectiveTab = BottomNavTab.entries.firstOrNull { it.route == currentRoute }
+        ?: if (kudosFamily) BottomNavTab.Kudos else null
+    val showBottomBar = effectiveTab != null
 
     Scaffold(
         contentWindowInsets = WindowInsets(0),
@@ -31,7 +36,7 @@ fun KudosApp(navController: NavHostController = rememberNavController()) {
             // Bottom nav hidden on LOGIN screen
             if (showBottomBar) {
                 KudosBottomNav(
-                    selectedTab = selectedTab,
+                    selectedTab = effectiveTab,
                     onTabSelected = { tab -> navController.navigateToTab(tab.route) }
                 )
             }

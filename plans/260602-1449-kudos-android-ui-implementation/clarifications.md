@@ -51,3 +51,13 @@ Còn 4 nhóm asset màn Home dùng **placeholder** (Figma render API 500 → exp
 
 Thứ tự resume: export → swap code các file trên → `./gradlew assembleDebug` → Temper (tester) → Inspect (reviewer) → Deliver (PM + docs + commit + journal).
 SVG→vector drawable: dùng lại script Python đã convert nav icons (trích path `d` + viewBox → `<vector><path android:fillColor android:pathData/>`).
+
+## Session 2026-06-08 (Phase 05 — Kudos Feed)
+
+- Q: Mức độ tương tác (thả tim, lọc Hashtag/Phòng ban, carousel, tap hashtag) với ràng buộc mock data? → A: Đầy đủ + lưu trạng thái — tương tác cục bộ trên mock state, persist liked-kudos + recent-search qua DataStore; bỏ behavior cần backend (ngày x2, admin config, đồng bộ DB realtime).
+- Q: Filter Hashtag/Phòng ban dùng bottom sheet (specs) hay dropdown (design)? → A: Dropdown overlay neo dưới nút theo design (Critical Rule #1 — design authoritative, có 2 frame dropdown riêng).
+- Q: Spotlight Board làm tới đâu? → A: Network chart tương tác đầy đủ — nodes/edges + pan/zoom + live search highlight node, trên mock graph data.
+- Q: Màn Search wire từ đâu và scope? → A: Icon search top bar → KudosSearchScreen; recent list (nút X xóa) + filter kết quả khi gõ chạy mock state + persist recent; tap kết quả → profile placeholder.
+- Q: Màn All Kudos (j_a2GQWKDJ) routing? → A: Thêm route kudos/all + AllKudosScreen.kt riêng (app bar back + title), reuse KudosCard; link "View all Kudos" điều hướng tới đó.
+- Q: Điều hướng tới màn chưa build (Send/Profile/Secret Box)? → A: Theo precedent Phase 04 — wire tới placeholder route: Send→KUDOS_SEND, sender/recipient/Sunner→PROFILE_USER, Secret Box→SECRET_BOX.
+- Q: Behavior đã chốt từ specs/test cases (không cần hỏi)? → A: Carousel = top 5 theo heart desc, reset card 1 khi đổi filter; filter Hashtag AND Phòng ban, lọc cả carousel + feed; tap hashtag set filter; empty text "Hiện tại chưa có Kudos nào." / "Chưa có dữ liệu"; star badge 1@10/2@20/3@50 kudos; like 1/user, sender không like bài mình; Copy Link toast "Link copied — ready to share!".

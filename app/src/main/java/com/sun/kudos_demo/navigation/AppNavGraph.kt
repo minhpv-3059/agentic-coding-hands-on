@@ -64,13 +64,14 @@ fun AppNavGraph(
             )
         }
 
-        composable(NavRoutes.KUDOS_FEED) { PlaceholderScreen("Kudos Feed") }
+        composable(NavRoutes.KUDOS_FEED) { entry -> KudosFeedRoute(navController, entry) }
+        composable(NavRoutes.KUDOS_ALL) { KudosAllRoute(navController) }
         composable(
             route = NavRoutes.KUDOS_VIEW,
             arguments = listOf(navArgument(NavRoutes.ARG_KUDO_ID) { type = NavType.StringType })
         ) { entry ->
             val id = entry.arguments?.getString(NavRoutes.ARG_KUDO_ID).orEmpty()
-            PlaceholderScreen("View Kudo #$id")
+            ViewKudoRoute(navController, id)
         }
         composable(NavRoutes.KUDOS_SEND) { PlaceholderScreen("Send Kudos") }
 
@@ -86,7 +87,7 @@ fun AppNavGraph(
         }
 
         composable(NavRoutes.NOTIFICATIONS) { PlaceholderScreen("Notifications") }
-        composable(NavRoutes.SEARCH) { PlaceholderScreen("Search") }
+        composable(NavRoutes.SEARCH) { KudosSearchRoute(navController) }
         composable(NavRoutes.SECRET_BOX) { PlaceholderScreen("Secret Box") }
         composable(NavRoutes.AWARDS) { PlaceholderScreen("Awards") }
         composable(NavRoutes.RULES) { PlaceholderScreen("Rules") }

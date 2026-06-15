@@ -1,5 +1,32 @@
 # Project Changelog
 
+## [Unreleased] — Phase 05: Kudos Feed
+
+### Added
+- `feature/feed/KudosFeedScreen.kt` — main Feed screen: hero banner, highlight carousel (top-5 by likes), all-kudos list, stats block, gift-recipients section, send-kudos prompt, Spotlight network chart; slot pattern for `filterRow` and `spotlight`
+- `feature/feed/AllKudosScreen.kt` — full list with like, copy-link, hashtag-tap filter
+- `feature/feed/ViewKudoScreen.kt` — kudo detail with anonymous mode (hides sender identity when `isAnonymous=true`)
+- `feature/feed/KudosSearchScreen.kt` — live search Sunner + recent searches list
+- `feature/feed/KudosFeedViewModel.kt` — `AndroidViewModel`; combines `KudosPreferences` Flow into `KudosFeedUiState`; `toggleLike`, `selectHashtag`, `selectDepartment`, `applyHashtag`, `toggleLanguage`
+- `feature/feed/KudosSearchViewModel.kt` — `AndroidViewModel`; live query filter + persisted recent searches via `KudosPreferences`
+- `feature/feed/KudosFeedLogic.kt` — pure, testable functions: `filterKudos`, `buildHighlights`, `applyLikes`, `searchUsers` (37 unit tests, all passing)
+- `feature/feed/KudoModels.kt` — `Kudo`, `KudoUser`, `KudoStats`, `GiftRecipient`, `SpotlightNode` data models
+- `feature/feed/KudosMockData.kt`, `feature/feed/SpotlightMockData.kt` — mock datasets
+- `feature/feed/components/` — 9 composables: `FeedHeroBanner`, `HighlightCarousel`, `AllKudosSection`, `KudoDetailCard`, `KudoImageGallery`, `SpotlightNetworkChart` (pan/zoom + search highlight, Canvas-based), `StatsBlock`, `GiftRecipientsSection`, `SendKudosPrompt`, `UserResultRow`
+- `data/KudosPreferences.kt` — **first persistence layer** in project; `DataStore Preferences` for liked kudo IDs + recent search terms; exposes `Flow<Set<String>>`
+- `navigation/KudosFeedNavigation.kt` — route composables (`KudosFeedRoute`, `KudosAllRoute`, `ViewKudoRoute`, `KudosSearchRoute`) extracted from `AppNavGraph` to keep file size manageable; slot injection for filter dropdowns and Spotlight
+- `ui/components/HashtagFilterDropdown.kt`, `ui/components/DepartmentFilterDropdown.kt` — overlay dropdown filters (AND logic: hashtag + department applied simultaneously)
+- `ui/components/KudoAvatar.kt`, `ui/components/KudosCard.kt` — shared card/avatar components
+
+### Changed
+- `navigation/AppNavGraph.kt` — `kudos/feed`, `kudos/all`, `kudos/view/{id}`, `kudos/search` routes wired to real screens via `KudosFeedNavigation.kt`
+- `ui/theme/Color.kt` — 3 new design tokens: `KudosAccentRed` (`#D4271D`, active heart + hashtag), `KudosCardMuted` (`#555555`, secondary text on cream card), `KudosCardFaint` (`#888888`, tertiary text/timestamps)
+
+### Dependencies
+- `androidx.datastore:datastore-preferences:1.1.1` added to `app/build.gradle.kts`
+
+---
+
 ## [Unreleased] — Phase 04: Home Screen
 
 ### Added

@@ -47,6 +47,20 @@ Implemented the Home screen from MoMorph design with live countdown and upgraded
 
 **Deferred to Phase 10:** award trophy images (Top Project, Top Project Leader) — still placeholders
 
-## Phase 05 — Data Layer [Pending]
+## Phase 05 — Kudos Feed [Complete]
+
+Implemented the full Kudos Feed feature (8 MoMorph screens) with UI, persistence, and pure logic layer.
+
+**Delivered:**
+- `feature/feed/KudosFeedScreen.kt` + `AllKudosScreen.kt` + `ViewKudoScreen.kt` + `KudosSearchScreen.kt` — 4 screens; stateless Compose UI with slot pattern (`filterRow`, `spotlight`)
+- `feature/feed/KudosFeedViewModel.kt` + `KudosSearchViewModel.kt` — `AndroidViewModel`; combine Flow from `KudosPreferences`; like toggle, hashtag/department filter, language toggle, live search
+- `feature/feed/KudosFeedLogic.kt` — pure testable logic: `filterKudos`, `buildHighlights`, `applyLikes`, `searchUsers` (37 unit tests passing)
+- `feature/feed/components/` — 9 composables including `SpotlightNetworkChart` (Canvas-based, pan/zoom + search highlight) and `HighlightCarousel` (top-5 by likes)
+- `data/KudosPreferences.kt` — first persistence layer; DataStore Preferences for liked kudo IDs + recent searches
+- `navigation/KudosFeedNavigation.kt` — feed route composables extracted to dedicated file; slot injection pattern
+- `ui/components/HashtagFilterDropdown.kt` + `DepartmentFilterDropdown.kt` — AND-logic overlay filters
+- `ui/components/KudoAvatar.kt` + `KudosCard.kt` — shared card/avatar components
+- `ui/theme/Color.kt` — 3 new tokens: `KudosAccentRed`, `KudosCardMuted`, `KudosCardFaint`
+- `androidx.datastore:datastore-preferences:1.1.1` dependency added
 
 ## Phase 06 — Integration & Polish [Pending]

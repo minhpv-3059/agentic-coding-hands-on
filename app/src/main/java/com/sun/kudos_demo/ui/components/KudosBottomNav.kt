@@ -15,8 +15,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.sun.kudos_demo.R
 import com.sun.kudos_demo.navigation.NavRoutes
 import com.sun.kudos_demo.ui.theme.KudosAppTheme
+import androidx.compose.ui.graphics.Color
 import com.sun.kudos_demo.ui.theme.KudosContainer
-import com.sun.kudos_demo.ui.theme.KudosDivider
 import com.sun.kudos_demo.ui.theme.KudosGold
 import com.sun.kudos_demo.ui.theme.KudosGray
 
@@ -59,7 +59,7 @@ fun KudosBottomNav(
                     selectedTextColor = KudosGold,
                     unselectedIconColor = KudosGray,
                     unselectedTextColor = KudosGray,
-                    indicatorColor = KudosDivider
+                    indicatorColor = Color.Transparent
                 )
             )
         }
