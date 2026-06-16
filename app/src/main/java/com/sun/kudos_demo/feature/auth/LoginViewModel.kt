@@ -1,7 +1,10 @@
 package com.sun.kudos_demo.feature.auth
 
-import androidx.lifecycle.ViewModel
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
+import com.sun.kudos_demo.data.CurrentUser
+import com.sun.kudos_demo.data.KudosPreferences
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -19,7 +22,9 @@ data class LoginUiState(
     val showLanguageDropdown: Boolean = false
 )
 
-class LoginViewModel : ViewModel() {
+class LoginViewModel(app: Application) : AndroidViewModel(app) {
+
+    private val prefs = KudosPreferences(app)
 
     private val _uiState = MutableStateFlow(LoginUiState())
     val uiState: StateFlow<LoginUiState> = _uiState.asStateFlow()
@@ -41,6 +46,7 @@ class LoginViewModel : ViewModel() {
         _uiState.update { it.copy(isLoading = true) }
         viewModelScope.launch {
             delay(1_000L) // mock auth
+            prefs.setCurrentUser(CurrentUser.ID) // create + persist the local session at login
             _uiState.update { it.copy(isLoading = false) }
             onSuccess()
         }

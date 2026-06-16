@@ -1,5 +1,7 @@
 package com.sun.kudos_demo.feature.profile
 
+import com.sun.kudos_demo.R
+import com.sun.kudos_demo.data.CurrentUser
 import com.sun.kudos_demo.feature.feed.Kudo
 import com.sun.kudos_demo.feature.feed.KudoUser
 import com.sun.kudos_demo.feature.feed.KudosMockData
@@ -13,16 +15,11 @@ import com.sun.kudos_demo.feature.feed.KudosMockData
  */
 object ProfileMockData {
 
-    /** Signed-in Sunner's id — matches the feed's current user so received/sent align. */
-    const val CURRENT_USER_ID = "u1"
+    /** Signed-in Sunner's id — single source of truth in [CurrentUser]; feed/send align on it. */
+    const val CURRENT_USER_ID = CurrentUser.ID
 
-    /** "Profile của tôi" identity — exact design values (CEVC3 · Legend Hero). */
-    val currentUser = KudoUser(
-        id = CURRENT_USER_ID,
-        name = "Huỳnh Dương Xuân Nhật",
-        code = "CEVC3",
-        badge = "Legend Hero"
-    )
+    /** "Profile của tôi" identity — the logged-in user established at login ([CurrentUser]). */
+    val currentUser: KudoUser = CurrentUser.profile
 
     /** Statistics card values (design section D.1: received 5, the rest 25). */
     val currentUserStats = ProfileStats(
@@ -34,16 +31,16 @@ object ProfileMockData {
     )
 
     /**
-     * Earned award badges shown on the other-user profile (design nodes 6885:10412–10417).
-     * [AwardBadge.icon] stays null → placeholder badge until the real Figma exports are wired.
+     * Earned award badges shown on the other-user profile (design nodes 6885:10412–10417),
+     * wired to the real Figma exports in res/drawable-nodpi/img_badge_*.png.
      */
     val awardBadges: List<AwardBadge> = listOf(
-        AwardBadge("revival", "REVIVAL"),
-        AwardBadge("touch_of_light", "TOUCH OF LIGHT"),
-        AwardBadge("stay_gold", "STAY GOLD"),
-        AwardBadge("flow_to_horizon", "FLOW TO HORIZON"),
-        AwardBadge("beyond_the_boundary", "BEYOND THE BOUNDARY"),
-        AwardBadge("root_futher", "ROOT FUTHER")
+        AwardBadge("revival", "REVIVAL", R.drawable.img_badge_revival),
+        AwardBadge("touch_of_light", "TOUCH OF LIGHT", R.drawable.img_badge_touch_of_light),
+        AwardBadge("stay_gold", "STAY GOLD", R.drawable.img_badge_stay_gold),
+        AwardBadge("flow_to_horizon", "FLOW TO HORIZON", R.drawable.img_badge_flow_to_horizon),
+        AwardBadge("beyond_the_boundary", "BEYOND THE BOUNDARY", R.drawable.img_badge_beyond_boundary),
+        AwardBadge("root_futher", "ROOT FUTHER", R.drawable.img_badge_root_futher)
     )
 
     private val others: List<KudoUser> = KudosMockData.searchableUsers
@@ -60,6 +57,10 @@ object ProfileMockData {
     /** Resolve the Sunner behind a profile route arg; never null so the screen always renders. */
     fun userById(id: String): KudoUser =
         if (id == CURRENT_USER_ID) currentUser else userIndex[id] ?: fallbackUser(id)
+
+    /** Resolve the signed-in Sunner from a persisted login session id (null → canonical current user). */
+    fun resolveCurrentUser(persistedId: String?): KudoUser =
+        persistedId?.let { userById(it) } ?: currentUser
 
     /** 5 kudos received by [user] (design: profile shows 5 cards). Deterministic ids per user. */
     fun receivedKudosFor(user: KudoUser, idPrefix: String = user.id): List<Kudo> =

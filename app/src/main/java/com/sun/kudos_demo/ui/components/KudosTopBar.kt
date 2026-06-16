@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.Search
@@ -45,6 +46,8 @@ fun KudosTopBar(
     modifier: Modifier = Modifier,
     currentLanguage: String = "VN",
     unreadCount: Int = 0,
+    showScrim: Boolean = true,
+    onBack: (() -> Unit)? = null,
     onSearchClick: () -> Unit = {},
     onNotificationClick: () -> Unit = {},
     onLanguageClick: () -> Unit = {}
@@ -59,19 +62,33 @@ fun KudosTopBar(
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .background(gradient)      // gradient covers the status-bar area for icon legibility
+            // Scrim aids status-bar icon legibility; profile screens disable it so the
+            // full-bleed key-visual shows through behind the header.
+            .then(if (showScrim) Modifier.background(gradient) else Modifier)
             .statusBarsPadding()       // push header content below the status bar (edge-to-edge)
             .height(56.dp)
             .padding(horizontal = 16.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        // SAA Logo — 48×44 dp per design (ic_logo_saa.png)
-        Image(
-            painter = painterResource(R.drawable.ic_logo_saa),
-            contentDescription = "SAA 2025",
-            modifier = Modifier.size(width = 48.dp, height = 44.dp)
-        )
+        // Leading: back arrow on detail screens (e.g. other-user profile), else the SAA logo
+        if (onBack != null) {
+            IconButton(onClick = onBack, modifier = Modifier.size(40.dp)) {
+                Icon(
+                    imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                    contentDescription = "Back",
+                    tint = KudosWhite,
+                    modifier = Modifier.size(24.dp)
+                )
+            }
+        } else {
+            // SAA Logo — 48×44 dp per design (ic_logo_saa.png)
+            Image(
+                painter = painterResource(R.drawable.ic_logo_saa),
+                contentDescription = "SAA 2025",
+                modifier = Modifier.size(width = 48.dp, height = 44.dp)
+            )
+        }
 
         Row(
             verticalAlignment = Alignment.CenterVertically,

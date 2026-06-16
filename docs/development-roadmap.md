@@ -65,16 +65,22 @@ Implemented the full Kudos Feed feature (8 MoMorph screens) with UI, persistence
 
 ## Phase 07 — Profile [Complete]
 
-Implemented two profile screens (own profile + other-user profile) from MoMorph design; introduced `feature/profile/` package and `ProfileNavigation.kt`; fixed a nav route wildcard-capture bug; added 119 unit tests (suite now 305 passing).
+Implemented two profile screens (own profile + other-user profile) from MoMorph design; introduced `feature/profile/` package and `ProfileNavigation.kt`; fixed a nav route wildcard-capture bug. Refinement round wired real assets, established signed-in user identity, and polished profile chrome.
 
-**Delivered:**
+**Delivered (initial):**
 - `feature/profile/` — `ProfileModels.kt`, `ProfileMockData.kt`, `MyProfileViewModel.kt`, `UserProfileViewModel.kt`, `MyProfileScreen.kt`, `UserProfileScreen.kt`, 10 components
 - `navigation/ProfileNavigation.kt` — `MyProfileRoute` + `UserProfileRoute` extracted (same pattern as `KudosFeedNavigation.kt`)
 - `PROFILE_ME` route fixed to `"my-profile"` (was `"profile/me"` — captured by `PROFILE_USER` wildcard); `PROFILE_USER` wired to `UserProfileScreen`
 - `KUDOS_SEND` gains optional `recipient` query-param for pre-fill from other-user profile CTA (`KUDOS_SEND_WITH_ARG`)
-- `KudosApp` suppresses global bottom bar on profile routes (each profile screen embeds its own)
+- `KudosApp` suppresses global bottom bar on profile routes; 119 new unit tests (suite: 305 passing)
 
-**Deferred:** 6 award-badge images pending Figma export — placeholder `AwardBadge(icon=null)` layout in place
+**Delivered (refinement):**
+- 6 award-badge + 2 rank-pill drawables from Figma export wired (resolves prior placeholder)
+- `RankBadge` shared composable (maps badge label → `img_rank_*` pill image); used in both profile headers
+- `data/CurrentUser.kt` — signed-in user singleton; `KudosPreferences.setCurrentUser` persists id at login; `LoginViewModel` promoted to `AndroidViewModel`
+- `KudosTopBar` gained `showScrim` + `onBack` optional params (backwards compatible)
+- `UserProfileScreen` is a detail screen (back arrow, no bottom nav, full-bleed key-visual); `MyProfileScreen` retains bottom nav
+- ~315 unit tests passing
 
 ## Phase 06 — Send Kudos [Complete]
 

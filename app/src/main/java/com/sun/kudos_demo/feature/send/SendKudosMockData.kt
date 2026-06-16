@@ -1,5 +1,6 @@
 package com.sun.kudos_demo.feature.send
 
+import com.sun.kudos_demo.data.CurrentUser
 import com.sun.kudos_demo.feature.feed.KudoUser
 import com.sun.kudos_demo.feature.feed.KudosMockData
 
@@ -13,8 +14,8 @@ object SendKudosMockData {
     /** Recipient pool for the "Người nhận" dropdown — reuses the feed's searchable Sunners. */
     val recipients: List<KudoUser> = KudosMockData.searchableUsers
 
-    /** The signed-in Sunner — sender on non-anonymous kudos (id matches feed CURRENT_USER_ID "u1"). */
-    val currentUser: KudoUser = KudoUser(id = "u1", name = "Phạm Văn Minh", code = "CEVC1", badge = null)
+    /** The signed-in Sunner — sender on non-anonymous kudos (single source of truth: [CurrentUser]). */
+    val currentUser: KudoUser = CurrentUser.profile
 
     /**
      * Preset "Danh hiệu" options (single-select dropdown). Phrased per the field helper

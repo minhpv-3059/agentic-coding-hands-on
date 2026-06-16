@@ -27,7 +27,9 @@ object KudosMockData {
     private fun user(id: String, name: String, code: String, badge: String?) =
         KudoUser(id = id, name = name, code = code, badge = badge)
 
-    private val nhat = user("u1", "Huỳnh Dương Xuân Nhật", "CECV10", "Rising Hero")
+    // id u1 is reserved for the signed-in user (data/CurrentUser = Phan Văn Minh); this feed
+    // character is a distinct Sunner so tapping it opens HIS profile, not the current user's.
+    private val nhat = user("u6", "Huỳnh Dương Xuân Nhật", "CECV10", "Rising Hero")
     private val nhan = user("u2", "Dương Xuân Huỳnh Nhân", "CECV10", "Legend Hero")
     private val han = user("u3", "Dương Huỳnh Xuân Hân", "CECV1", "Rising Hero")
     private val anh = user("u4", "Nguyễn Hoàng Anh", "OPD1", "Legend Hero")

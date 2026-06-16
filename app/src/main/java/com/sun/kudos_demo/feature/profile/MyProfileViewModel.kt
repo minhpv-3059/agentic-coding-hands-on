@@ -44,8 +44,13 @@ class MyProfileViewModel(app: Application) : AndroidViewModel(app) {
     private val language = MutableStateFlow(AppLanguage.VN)
 
     val uiState: StateFlow<MyProfileUiState> =
-        combine(filter, prefs.likedKudoIds, language) { f, liked, lang ->
-            MyProfileUiState(filter = f, likedIds = liked, language = lang)
+        combine(filter, prefs.likedKudoIds, language, prefs.currentUserId) { f, liked, lang, uid ->
+            // Resolve the signed-in Sunner from the persisted login session (falls back to the
+            // canonical CurrentUser identity before the first login completes).
+            MyProfileUiState(
+                user = ProfileMockData.resolveCurrentUser(uid),
+                filter = f, likedIds = liked, language = lang
+            )
         }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), MyProfileUiState())
 
     fun setFilter(tab: ProfileKudosTab) { filter.value = tab }

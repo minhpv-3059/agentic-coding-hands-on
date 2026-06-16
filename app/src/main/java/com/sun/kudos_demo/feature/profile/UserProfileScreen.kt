@@ -1,8 +1,9 @@
 package com.sun.kudos_demo.feature.profile
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -11,7 +12,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -32,8 +32,6 @@ import com.sun.kudos_demo.feature.profile.components.ProfileReceivedKudosLabel
 import com.sun.kudos_demo.feature.profile.components.ProfileSendKudosCta
 import com.sun.kudos_demo.feature.profile.components.UserProfileHeader
 import com.sun.kudos_demo.feature.profile.components.UserProfileSectionHeader
-import com.sun.kudos_demo.ui.components.BottomNavTab
-import com.sun.kudos_demo.ui.components.KudosBottomNav
 import com.sun.kudos_demo.ui.components.KudosCard
 import com.sun.kudos_demo.ui.components.KudosTopBar
 import com.sun.kudos_demo.ui.theme.KudosAppTheme
@@ -41,9 +39,12 @@ import com.sun.kudos_demo.ui.theme.KudosBackground
 import com.sun.kudos_demo.ui.theme.KudosWhite
 
 /**
- * Presentational screen: other user's profile ("Profile người khác").
- * Design frame 6885:10395 — 375×2275dp, background #00101A.
- * NO ViewModel, NO navigation calls — orchestrator wires lambdas at integration.
+ * Presentational screen: another Sunner's profile ("Profile người khác").
+ * Design frame 6885:10395, background #00101A.
+ *
+ * Unlike the own-profile screen, this is a detail view reached from search/feed: it shows a
+ * **back arrow** in the header and **no bottom navigation** (per UX flow). The key-visual is
+ * full-bleed behind the whole screen. NO ViewModel / navigation calls — lambdas wired by the route.
  */
 @Composable
 fun UserProfileScreen(
@@ -57,12 +58,11 @@ fun UserProfileScreen(
     likedIds: Set<String>,
     currentLanguage: String,
     unreadCount: Int,
-    selectedTab: BottomNavTab,
+    onBack: () -> Unit,
     onSendKudos: () -> Unit,
     onSearch: () -> Unit,
     onNotifications: () -> Unit,
     onLanguage: () -> Unit,
-    onTabSelected: (BottomNavTab) -> Unit,
     onKudoDetail: (Kudo) -> Unit,
     onLike: (Kudo) -> Unit,
     onCopyLink: (Kudo) -> Unit,
@@ -70,35 +70,43 @@ fun UserProfileScreen(
     onHashtagClick: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    Scaffold(
-        modifier = modifier.fillMaxSize(),
-        containerColor = KudosBackground,
-        topBar = {
-            KudosTopBar(
-                currentLanguage = currentLanguage,
-                unreadCount = unreadCount,
-                onSearchClick = onSearch,
-                onNotificationClick = onNotifications,
-                onLanguageClick = onLanguage
-            )
-        },
-        bottomBar = {
-            KudosBottomNav(selectedTab = selectedTab, onTabSelected = onTabSelected)
-        }
-    ) { innerPadding ->
+    Box(
+        modifier = modifier
+            .fillMaxSize()
+            .background(KudosBackground)
+    ) {
+        // Full-bleed key-visual (shows behind header, fades to dark navy for lower content)
+        Image(
+            painter = painterResource(R.drawable.bg_home_keyvisual),
+            contentDescription = null,
+            contentScale = ContentScale.Crop,
+            modifier = Modifier.fillMaxSize()
+        )
+
         UserProfileContent(
             name = name, teamCode = teamCode, badge = badge,
             recipientName = recipientName, badges = badges,
             receivedCount = receivedCount, kudos = kudos, likedIds = likedIds,
             onSendKudos = onSendKudos,
             onKudoDetail = onKudoDetail, onLike = onLike, onCopyLink = onCopyLink,
-            onUserClick = onUserClick, onHashtagClick = onHashtagClick,
-            modifier = Modifier.padding(innerPadding)
+            onUserClick = onUserClick, onHashtagClick = onHashtagClick
+        )
+
+        // Detail-screen header: back arrow + no scrim so the key-visual shows behind it
+        KudosTopBar(
+            currentLanguage = currentLanguage,
+            unreadCount = unreadCount,
+            showScrim = false,
+            onBack = onBack,
+            onSearchClick = onSearch,
+            onNotificationClick = onNotifications,
+            onLanguageClick = onLanguage,
+            modifier = Modifier.align(Alignment.TopCenter)
         )
     }
 }
 
-/** Scrollable body extracted to keep UserProfileScreen under 200 lines. */
+/** Scrollable body extracted to keep [UserProfileScreen] readable. */
 @Composable
 private fun UserProfileContent(
     name: String,
@@ -119,20 +127,14 @@ private fun UserProfileContent(
 ) {
     LazyColumn(
         modifier = modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.spacedBy(0.dp)
+        contentPadding = PaddingValues(bottom = 24.dp)
     ) {
-        // Hero — keyvisual BG (375×288dp) + centered member block (node 6885:10401)
+        // Spacer clears the overlaid top bar (status bar + 56dp app bar)
+        item { Spacer(Modifier.height(100.dp)) }
+
+        // Hero member block (node 6885:10401), centered over the key-visual
         item {
-            Box(
-                modifier = Modifier.fillMaxWidth().height(288.dp),
-                contentAlignment = Alignment.Center
-            ) {
-                Image(
-                    painter = painterResource(R.drawable.bg_home_keyvisual),
-                    contentDescription = null,
-                    modifier = Modifier.fillMaxSize(),
-                    contentScale = ContentScale.Crop
-                )
+            Box(Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
                 UserProfileHeader(name = name, teamCode = teamCode, badge = badge)
             }
         }
@@ -174,7 +176,7 @@ private fun UserProfileContent(
             Spacer(Modifier.height(16.dp))
         }
 
-        // Received kudos label (node 6885:10419) — left-aligned pill
+        // Received-kudos label (node 6885:10419) — left-aligned pill
         item {
             ProfileReceivedKudosLabel(
                 receivedCount = receivedCount,
@@ -198,8 +200,6 @@ private fun UserProfileContent(
             )
             Spacer(Modifier.height(12.dp))
         }
-
-        item { Spacer(Modifier.height(8.dp)) }
     }
 }
 
@@ -210,22 +210,13 @@ private fun UserProfileScreenPreview() {
         UserProfileScreen(
             name = "Huỳnh Dương Xuân Nhật", teamCode = "CEVC3", badge = "Rising Hero",
             recipientName = "Huỳnh Dương Xuân Nhật",
-            badges = listOf(
-                AwardBadge("revival", "REVIVAL"),
-                AwardBadge("touch_of_light", "TOUCH OF LIGHT"),
-                AwardBadge("stay_gold", "STAY GOLD"),
-                AwardBadge("flow_to_horizon", "FLOW TO HORIZON"),
-                AwardBadge("beyond_boundary", "BEYOND THE BOUNDARY"),
-                AwardBadge("root_futher", "ROOT FUTHER"),
-            ),
+            badges = ProfileMockData.awardBadges,
             receivedCount = 5,
             kudos = KudosMockData.kudos.take(5),
             likedIds = setOf("k1", "k3"),
             currentLanguage = "VN", unreadCount = 2,
-            selectedTab = BottomNavTab.Profile,
-            onSendKudos = {}, onSearch = {}, onNotifications = {}, onLanguage = {},
-            onTabSelected = {}, onKudoDetail = {}, onLike = {},
-            onCopyLink = {}, onUserClick = {}, onHashtagClick = {}
+            onBack = {}, onSendKudos = {}, onSearch = {}, onNotifications = {}, onLanguage = {},
+            onKudoDetail = {}, onLike = {}, onCopyLink = {}, onUserClick = {}, onHashtagClick = {}
         )
     }
 }

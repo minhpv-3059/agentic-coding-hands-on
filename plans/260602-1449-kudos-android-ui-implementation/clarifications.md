@@ -86,3 +86,11 @@ SVG→vector drawable: dùng lại script Python đã convert nav icons (trích 
 - Q: Avatar hero + icon collection 6 vòng tròn tối (màn của tôi)? → A: Avatar = KudoAvatar placeholder màu theo tên (ảnh thật không đáng tin — tiền lệ). Icon collection của tôi = 6 vòng tròn tối rỗng đúng design (không nhãn, không ảnh).
 - Q: Giá trị stats (màn của tôi)? → A: Lấy đúng design: Kudos nhận 5, Kudos gửi 25, Tim nhận 25, Secret Box đã mở 25, Secret Box chưa mở 25.
 - Q: Hero background key-visual? → A: Reuse drawable/bg_home_keyvisual.png (cùng key-visual xoáy màu như Home).
+
+## Session 2026-06-16 (Phase 07 — Profile refinements)
+
+- Q: Ảnh 6 huy hiệu award + 2 rank pill (rising/legend hero) đã export? → A: User đã export vào ~/Downloads (ic_badge_*.png 64×64, rising_hero/legend_hero.png 122×26). Copy vào res/drawable-nodpi: img_badge_*.png (6) + img_rank_{legend,rising}_hero.png (2). Wire: AwardBadge.icon = R.drawable.img_badge_*; rank pill = component RankBadge (map "Legend Hero"/"Rising Hero" → img_rank_*).
+- Q: Rank pill ảnh dùng ở đâu? → A: 2 chỗ — pill cạnh unit_name (thay Box+border+Text cũ) VÀ overlay ở đáy avatar. Áp dụng cả ProfileHeader (own) + UserProfileHeader (other).
+- Q: Identity user đăng nhập? → A: Tạo data/CurrentUser.kt (Phan Văn Minh, id u1, CEVC1, Legend Hero) làm single source of truth. Login (LoginViewModel→AndroidViewModel) persist KudosPreferences.setCurrentUser(u1); MyProfileViewModel đọc currentUserId resolve user. ProfileMockData/SendKudosMockData/feed CURRENT_USER_ID đều trỏ về CurrentUser (fix lệch identity 3 nơi). Feed character "Huỳnh Dương Xuân Nhật" đổi id u1→u6 để u1 chỉ thuộc current user.
+- Q: Flow own vs other profile khác nhau? → A: OVERRIDE design (design chrome 2 màn giống nhau). Other profile = nút back ở header (KudosTopBar onBack) + ẩn bottom nav (detail flow, back về màn trước vd search). Own profile = giữ bottom nav, không back. UserProfileScreen bỏ selectedTab/onTabSelected, thêm onBack.
+- Q: Background bị nền đen che (header + vùng badge)? → A: Vẽ bg_home_keyvisual full-bleed (fillMaxSize) thay vì dải 288dp; KudosTopBar thêm showScrim (profile=false) để key-visual hiện sau header. Swirl xuyên suốt header→hero→badge, fade tối cho content dưới.

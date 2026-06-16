@@ -1,5 +1,24 @@
 # Project Changelog
 
+## [Unreleased] — Phase 07: Profile (refinement, 2026-06-16)
+
+### Added
+- 6 award-badge drawables (`img_badge_beyond_boundary`, `img_badge_flow_to_horizon`, `img_badge_revival`, `img_badge_root_futher`, `img_badge_stay_gold`, `img_badge_touch_of_light`) and 2 rank-pill drawables (`img_rank_legend_hero`, `img_rank_rising_hero`) — real Figma exports in `res/drawable-nodpi/`; resolves the deferred placeholder
+- `feature/profile/components/RankBadge.kt` — shared composable mapping a badge label string to the appropriate `img_rank_*` pill image; used in both `ProfileHeader` and `UserProfileHeader` (name-line + avatar overlay)
+- `data/CurrentUser.kt` — `object` singleton: single source of truth for the signed-in Sunner (`ID = "u1"`, `profile = KudoUser("Phan Văn Minh", "CEVC1", "Legend Hero")`); referenced by `ProfileMockData`, `SendKudosMockData`, and feed mock data
+
+### Changed
+- `data/KudosPreferences.kt` — `setCurrentUser(id: String)` + `currentUserId: Flow<String?>` added; persists the current user id at login
+- `feature/auth/LoginViewModel.kt` — promoted to `AndroidViewModel` (needs `Application` for `KudosPreferences`); calls `prefs.setCurrentUser(CurrentUser.ID)` on successful login
+- `ui/components/KudosTopBar.kt` — two new optional params: `showScrim: Boolean = true` (suppresses gradient when `false`) and `onBack: (() -> Unit)? = null` (renders back-arrow when non-null); both default to prior behavior — fully backwards compatible
+- `feature/profile/UserProfileScreen.kt` — other-user profile is now a detail screen: passes `onBack` to `KudosTopBar` (back arrow rendered), no bottom navigation; full-bleed key-visual background applied; own profile (`MyProfileScreen`) retains bottom nav
+- Feed mock data: Huỳnh character re-identified from `u1` → `u6` so `CurrentUser.ID = "u1"` unambiguously maps to the signed-in Sunner
+
+### Tests
+- ~315 unit tests passing (up from 305 after first Phase 07 delivery)
+
+---
+
 ## [Unreleased] — Phase 07: Profile
 
 ### Added
@@ -17,9 +36,6 @@
 
 ### Tests
 - 119 new unit tests covering `MyProfileViewModel`, `UserProfileViewModel`, profile filter logic; total suite: 305 passing
-
-### Deferred
-- 6 award-badge drawables pending Figma export — `AwardBadge(icon=null)` placeholder in place until export lands
 
 ---
 

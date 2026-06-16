@@ -17,10 +17,11 @@ class ProfileMockDataTest {
 
     @Test
     fun currentUser_HasCorrectIdentity() {
+        // Logged-in identity established at login (single source of truth: CurrentUser)
         val user = ProfileMockData.currentUser
         assertEquals("u1", user.id)
-        assertEquals("Huỳnh Dương Xuân Nhật", user.name)
-        assertEquals("CEVC3", user.code)
+        assertEquals("Phan Văn Minh", user.name)
+        assertEquals("CEVC1", user.code)
         assertEquals("Legend Hero", user.badge)
     }
 
@@ -65,9 +66,9 @@ class ProfileMockDataTest {
     }
 
     @Test
-    fun awardBadges_AllIconsAreNull() {
-        // Icons remain null until real Figma exports are wired
-        assertTrue(ProfileMockData.awardBadges.all { it.icon == null })
+    fun awardBadges_AllIconsWired() {
+        // Real Figma exports (img_badge_*) are wired — every badge has a drawable
+        assertTrue(ProfileMockData.awardBadges.all { it.icon != null })
     }
 
     @Test
@@ -119,8 +120,28 @@ class ProfileMockDataTest {
         val user = ProfileMockData.userById("u1")
         assertEquals(ProfileMockData.currentUser, user)
         assertEquals("u1", user.id)
-        assertEquals("Huỳnh Dương Xuân Nhật", user.name)
+        assertEquals("Phan Văn Minh", user.name)
         assertEquals("Legend Hero", user.badge)
+    }
+
+    @Test
+    fun resolveCurrentUser_NullSession_ReturnsCanonicalCurrentUser() {
+        assertEquals(ProfileMockData.currentUser, ProfileMockData.resolveCurrentUser(null))
+    }
+
+    @Test
+    fun resolveCurrentUser_PersistedCurrentUserId_ReturnsCurrentUser() {
+        val user = ProfileMockData.resolveCurrentUser("u1")
+        assertEquals("Phan Văn Minh", user.name)
+        assertEquals("Legend Hero", user.badge)
+    }
+
+    @Test
+    fun resolveCurrentUser_OtherPersistedId_ResolvesThatUser() {
+        // A different persisted id resolves to that Sunner, not the current user
+        val user = ProfileMockData.resolveCurrentUser("u6")
+        assertEquals("u6", user.id)
+        assertEquals("Huỳnh Dương Xuân Nhật", user.name)
     }
 
     @Test

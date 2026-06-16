@@ -19,12 +19,13 @@ Single-module Android app (`app/`).
 com.sun.kudos_demo/
 ├── MainActivity.kt          — entry point, hosts KudosApp inside KudosAppTheme
 ├── data/
-│   ├── KudosPreferences.kt  — DataStore Preferences persistence: liked kudo IDs + recent search terms (Flow<Set<String>>)
+│   ├── CurrentUser.kt       — object singleton: single source of truth for the signed-in Sunner (ID = "u1", KudoUser "Phan Văn Minh"); referenced by ProfileMockData, SendKudosMockData, and feed mock data
+│   ├── KudosPreferences.kt  — DataStore Preferences persistence: liked kudo IDs + recent search terms (Flow<Set<String>>); also persists current user id via setCurrentUser() / currentUserId: Flow<String?>
 │   └── KudosRepository.kt   — in-memory singleton; MutableStateFlow<List<Kudo>> seeded from KudosMockData; shared source of truth for feed + send feature modules
 ├── feature/
 │   ├── auth/
 │   │   ├── LoginScreen.kt   — login UI (key-visual, ROOT FURTHER logo, Google SSO button, language overlay)
-│   │   └── LoginViewModel.kt — AppLanguage enum, loading StateFlow, 1s mock auth
+│   │   └── LoginViewModel.kt — AndroidViewModel; AppLanguage enum, loading StateFlow, 1s mock auth; persists current user via KudosPreferences.setCurrentUser on login
 │   ├── feed/
 │   │   ├── KudosFeedScreen.kt  — main Feed: hero banner, highlight carousel, kudos list, stats, gift-recipients, Spotlight; slot pattern (filterRow, spotlight)
 │   │   ├── AllKudosScreen.kt   — full kudos list with like, copy-link, hashtag-tap
@@ -53,12 +54,13 @@ com.sun.kudos_demo/
 │       ├── MyProfileViewModel.kt   — filter state, like toggle, language toggle; reads KudosRepository + KudosPreferences
 │       ├── UserProfileScreen.kt    — other-user profile: header, award badges row, received-kudos list, Send Kudos CTA
 │       ├── UserProfileViewModel.kt — resolves user from mock data; like toggle
-│       ├── ProfileModels.kt        — ProfileKudosTab enum, ProfileStats, AwardBadge (icon: Int? — null until Figma export)
-│       ├── ProfileMockData.kt      — mock dataset seeding both profile ViewModels
-│       └── components/             — 10 composables: ProfileHeader, ProfileStatsCard, ProfileKudosFilter,
+│       ├── ProfileModels.kt        — ProfileKudosTab enum, ProfileStats, AwardBadge (icon: Int? — wired to real drawables via RankBadge)
+│       ├── ProfileMockData.kt      — mock dataset seeding both profile ViewModels; references CurrentUser for signed-in identity
+│       └── components/             — 11 composables: ProfileHeader, ProfileStatsCard, ProfileKudosFilter,
 │                                      ProfileAwardBadges, ProfileIconCollection, ProfileReceivedKudosLabel,
 │                                      ProfileSectionHeader, ProfileSendKudosCta,
-│                                      UserProfileHeader, UserProfileSectionHeader
+│                                      UserProfileHeader, UserProfileSectionHeader,
+│                                      RankBadge (maps badge label → img_rank_* pill image; shared by both profile headers)
 ├── navigation/
 │   ├── NavRoutes.kt              — route constants + builder helpers (17 destinations); PROFILE_ME = "my-profile" (not "profile/me" — avoids PROFILE_USER wildcard capture); KUDOS_SEND_WITH_ARG for optional recipient pre-fill
 │   ├── AppNavGraph.kt            — NavHost; LOGIN is startDestination; all major features wired to real screens
@@ -73,7 +75,7 @@ com.sun.kudos_demo/
     │   └── Theme.kt         — KudosAppTheme composable (dark-only, no dynamic color)
     └── components/
         ├── KudosButton.kt           — KudosPrimaryButton, KudosSecondaryButton, KudosTextButton
-        ├── KudosTopBar.kt           — real ic_logo_saa drawable (48×44 dp), ic_vn_flag asset, BadgedBox bell, statusBarsPadding() + vertical gradient overlay
+        ├── KudosTopBar.kt           — real ic_logo_saa drawable (48×44 dp), ic_vn_flag asset, BadgedBox bell, statusBarsPadding() + vertical gradient overlay; optional params: showScrim (default true — suppress gradient for full-bleed screens) and onBack (default null — renders back arrow when non-null)
         ├── KudosBottomNav.kt        — BottomNavTab enum uses @DrawableRes ic_nav_* Figma vector drawables; navigationBarsPadding() applied
         ├── KudoAvatar.kt            — circular avatar composable
         ├── KudosCard.kt             — shared card surface; renders kudo message via MarkdownText
@@ -90,7 +92,7 @@ The app uses `navigation-compose 2.8.0` with a single `NavHost` defined in `AppN
 - `KudosApp.kt` owns the `NavController` and passes it to both `KudosBottomNav` and `AppNavGraph`.
 - `startDestination` is `NavRoutes.LOGIN`; after successful login the stack is popped and `HOME` becomes the root.
 - `KudosBottomNav` is hidden on the login screen — only shown when the current route matches a `BottomNavTab` destination.
-- Profile screens (`PROFILE_ME`, `PROFILE_USER`) suppress the global bottom bar — each screen renders its own bottom nav per design. The guard lives in `KudosApp.kt` (`isProfileScreen` flag).
+- Profile screens (`PROFILE_ME`, `PROFILE_USER`) suppress the global bottom bar — the guard lives in `KudosApp.kt` (`isProfileScreen` flag). `MyProfileScreen` renders its own bottom nav; `UserProfileScreen` is a detail screen with a back arrow (via `KudosTopBar(onBack=…, showScrim=false)`) and no bottom nav. Both screens use a full-bleed key-visual background.
 - `PROFILE_ME` uses the distinct path `"my-profile"` (not `"profile/me"`) to prevent the `PROFILE_USER = "profile/{userId}"` wildcard from capturing it as `userId="me"`.
 - Feature-specific route composables are extracted to dedicated navigation files (`KudosFeedNavigation.kt`, `ProfileNavigation.kt`, `SendKudosNavigation.kt`) to keep `AppNavGraph.kt` under 200 lines — follow this pattern for future feature modules.
 - Hashtag cross-screen navigation: secondary screens (View / AllKudos) stash the tag on the Feed's `SavedStateHandle` and pop back, so the Feed ViewModel picks it up without re-composing.
@@ -139,7 +141,7 @@ Tokens added in Phase 06:
 
 - **Storage**: `DataStore Preferences` (key-value, async, Flow-based) — do not use `SharedPreferences`.
 - **Pattern**: expose `Flow<Set<String>>` for read; suspend functions for write. ViewModels combine these Flows into UI state via `combine`.
-- **Scope**: `AndroidViewModel` required (needs `Application` context for DataStore) — feature ViewModels that touch persistence must extend `AndroidViewModel`, not plain `ViewModel`.
+- **Scope**: `AndroidViewModel` required (needs `Application` context for DataStore) — feature ViewModels that touch persistence must extend `AndroidViewModel`, not plain `ViewModel`. `LoginViewModel` was promoted to `AndroidViewModel` in the Phase 07 refinement to support `setCurrentUser` at login.
 
 ## Shared In-Memory State
 
@@ -148,6 +150,14 @@ Tokens added in Phase 06:
 - **Pattern**: Kotlin `object` singleton; holds a `MutableStateFlow<List<Kudo>>` seeded from `KudosMockData` at init time. Exposes an immutable `StateFlow` + a `kudoById(id)` helper.
 - **Cross-feature use**: `KudosFeedViewModel` combines `KudosRepository.kudos` with `KudosPreferences` flows; `SendKudosViewModel.submit()` calls `KudosRepository.prepend(kudo)` so the submitted kudo appears at the top of the feed immediately. `ViewKudoRoute` resolves the displayed kudo via `KudosRepository.kudoById`.
 - **Scope**: process-lifetime only (no disk persistence). The store resets on process death — this is intentional for the current mock phase. Migrate to a Room-backed repository when real API integration begins.
+
+## Signed-in User Identity
+
+`data/CurrentUser.kt` is the single source of truth for the mock signed-in Sunner.
+
+- **Pattern**: Kotlin `object` singleton with a `const val ID` and a pre-built `KudoUser profile`. No async reads needed — consumed directly at call sites.
+- **Session persistence**: `KudosPreferences.setCurrentUser(id)` writes the id to DataStore at login; `currentUserId: Flow<String?>` exposes it for future profile hydration.
+- **Cross-feature references**: `ProfileMockData.CURRENT_USER_ID`, `SendKudosMockData.currentUser`, and feed mock data all reference `CurrentUser` — ensuring the same name, code, and badge display consistently across profile, send, and feed.
 
 ## Image Handling
 

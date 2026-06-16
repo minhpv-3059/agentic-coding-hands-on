@@ -86,16 +86,13 @@ fun MyProfileScreen(
             .fillMaxSize()
             .background(KudosBackground)
     ) {
-        // Key-visual background (same drawable as Home — reuse per clarifications.md)
-        // Positioned behind scrollable content, fixed to top ~288dp
+        // Key-visual background (same drawable as Home) — full-bleed behind the whole screen so
+        // it shows from the header down and fades to dark navy for the lower content (design).
         Image(
             painter = painterResource(R.drawable.bg_home_keyvisual),
             contentDescription = null,
             contentScale = ContentScale.Crop,
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(288.dp)
-                .align(Alignment.TopCenter)
+            modifier = Modifier.fillMaxSize()
         )
 
         // Scrollable main content
@@ -190,6 +187,7 @@ fun MyProfileScreen(
         KudosTopBar(
             currentLanguage = currentLanguage,
             unreadCount = unreadCount,
+            showScrim = false, // full-bleed key-visual shows behind the header
             onSearchClick = onSearch,
             onNotificationClick = onNotifications,
             onLanguageClick = onLanguage,

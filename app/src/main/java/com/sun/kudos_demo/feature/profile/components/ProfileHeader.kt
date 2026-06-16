@@ -8,11 +8,11 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -51,18 +51,26 @@ fun ProfileHeader(
         modifier = modifier.fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        // Avatar: border applied BEFORE clip so it renders inside the circle bounds
-        Box(
-            contentAlignment = Alignment.Center,
-            modifier = Modifier
-                .size(75.dp)
-                .border(1.5.dp, KudosWhite, CircleShape)
-                .padding(1.5.dp)
-                .clip(CircleShape)
-        ) {
-            KudoAvatar(
-                name = name,
-                size = 72.dp
+        // Avatar with the rank pill overlaid on the bottom edge (design: rank label on avatar)
+        Box(contentAlignment = Alignment.BottomCenter) {
+            // border applied BEFORE clip so it renders inside the circle bounds
+            Box(
+                contentAlignment = Alignment.Center,
+                modifier = Modifier
+                    .size(75.dp)
+                    .border(1.5.dp, KudosWhite, CircleShape)
+                    .padding(1.5.dp)
+                    .clip(CircleShape)
+            ) {
+                KudoAvatar(
+                    name = name,
+                    size = 72.dp
+                )
+            }
+            RankBadge(
+                badge = badge,
+                height = 16.dp,
+                modifier = Modifier.offset(y = 6.dp)
             )
         }
 
@@ -107,21 +115,8 @@ fun ProfileHeader(
 
             Spacer(modifier = Modifier.width(4.dp))
 
-            // Badge pill — gold border 0.3dp, radius 30dp, text Bold 8sp white
-            Text(
-                text = badge,
-                style = MaterialTheme.typography.labelSmall.copy(
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 8.sp,
-                    lineHeight = 10.sp,
-                    letterSpacing = 0.05.sp
-                ),
-                color = KudosWhite,
-                modifier = Modifier
-                    .border(0.3.dp, KudosGold, RoundedCornerShape(30.dp))
-                    .padding(horizontal = 5.dp, vertical = 1.dp),
-                maxLines = 1
-            )
+            // Achievement rank pill — real Figma export (img_rank_*) via shared RankBadge
+            RankBadge(badge = badge, height = 14.dp)
         }
     }
 }
