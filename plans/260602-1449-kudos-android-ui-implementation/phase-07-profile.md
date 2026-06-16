@@ -59,3 +59,9 @@ completedDate: 2026-06-15
 - Full-bleed key-visual background on both profile screens (MyProfile + UserProfile)
 - Own-vs-other chrome: UserProfileScreen is detail view (back arrow + no bottom nav); MyProfileScreen is main (bottom nav, no back)
 - RankBadge component unifies rank pill rendering (label + Figma image) in both profile headers (name-line pill + avatar overlay)
+
+### Shipped — 100% done (2026-06-16)
+- Post-review fixes: bottom nav opaque through the system navigation-bar inset (no transparent strip on scroll); every tapped Sunner (feed sender/recipient, gift-recipients block, search) resolves to their own profile via `userById` (gift recipients g0..g9 added to the index; neutral "Sunner" fallback for unknown ids).
+- ~316 unit tests pass · `assembleDebug` green · verified on emulator.
+- PR: https://github.com/minhpv-3059/agentic-coding-hands-on/pull/5 (base `feat/phase-06-send-kudos` ← `feat/phase-07-profile`).
+- Note: E2E / instrumented tests remain a dedicated deferred phase per the plan (project-wide DoD gap), not a Phase 07 blocker.
