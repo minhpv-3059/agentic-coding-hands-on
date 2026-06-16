@@ -19,6 +19,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
@@ -55,7 +57,7 @@ fun NotificationItem(
     onStandardsLink: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val iconSpec = notificationIconSpec(notification.type)
+    val iconRes = notificationIconRes(notification.type)
 
     Column(
         modifier = modifier.fillMaxWidth()
@@ -67,11 +69,11 @@ fun NotificationItem(
                 .padding(8.dp),
             verticalAlignment = Alignment.Top
         ) {
-            // --- Icon 24×24dp — design node I6885:9394;128:2910 ---
+            // --- Icon 24×24dp — Figma SVG export; màu bake sẵn nên tint = Unspecified ---
             Icon(
-                imageVector = iconSpec.icon,
+                painter = painterResource(iconRes),
                 contentDescription = null,
-                tint = iconSpec.tint,
+                tint = Color.Unspecified,
                 modifier = Modifier.size(24.dp)
             )
 

@@ -1,72 +1,29 @@
 package com.sun.kudos_demo.feature.notifications.components
 
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.CardGiftcard
-import androidx.compose.material.icons.outlined.Email
-import androidx.compose.material.icons.outlined.FavoriteBorder
-import androidx.compose.material.icons.outlined.OutlinedFlag
-import androidx.compose.material.icons.outlined.StarOutline
-import androidx.compose.material.icons.outlined.VerifiedUser
-import androidx.compose.material.icons.outlined.Warning
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.annotation.DrawableRes
+import com.sun.kudos_demo.R
 import com.sun.kudos_demo.feature.notifications.NotificationType
-import com.sun.kudos_demo.ui.theme.KudosGold
-import com.sun.kudos_demo.ui.theme.KudosNotiAmber
-import com.sun.kudos_demo.ui.theme.KudosNotiBlue
-import com.sun.kudos_demo.ui.theme.KudosNotiCyan
-import com.sun.kudos_demo.ui.theme.KudosNotiGreen
-import com.sun.kudos_demo.ui.theme.KudosNotiMagenta
-import com.sun.kudos_demo.ui.theme.KudosNotiPink
 
 /**
- * Ánh xạ NotificationType → (icon vector, tint color).
+ * Ánh xạ [NotificationType] → drawable icon thật, export trực tiếp từ Figma (SVG → vector drawable).
+ * Màu fill đã bake sẵn trong từng vector → render với `tint = Color.Unspecified` để giữ đúng màu design.
  *
- * Dùng material-icons-extended (thêm vào build.gradle.kts) để đủ icons.
- * Tint lấy từ frame image visual [iOS] Notifications (_b68CBWKl5).
- * Dễ swap sang real SVG Figma asset khi export sẵn.
- *
- * Figma component IDs để reference khi export:
- *   KUDOS_RECEIVED  → 6885:8273  (phong bì xanh dương)
- *   HEART_RECEIVED  → 6885:8281  (tim hồng)
- *   SECRET_BOX      → 6885:8275  (hộp quà vàng)
- *   LEVEL_UP        → 6885:8277  (ngôi sao cyan)
- *   CONTENT_HIDDEN  → 6885:8279  (tam giác cảnh báo amber)
- *   BADGE_COLLECTED → 6885:8311  (badge xanh lá)
- *   REVIEW_REQUEST  → 6885:8313  (flag tím hồng)
+ * Figma colors (authoritative):
+ *   KUDOS_RECEIVED  → ic_receive_noti  #3F95FF (phong bì xanh dương)
+ *   HEART_RECEIVED  → ic_heart_plus    #EE5850 (tim + đỏ san hô)
+ *   SECRET_BOX      → ic_gift          #FFEA9E (hộp quà vàng)
+ *   LEVEL_UP        → ic_star          #00FBFF (ngôi sao cyan)
+ *   CONTENT_HIDDEN  → ic_warning       #FFD900 (tam giác cảnh báo vàng)
+ *   BADGE_COLLECTED → ic_notes         #2AD32D (clipboard-check xanh lá)
+ *   REVIEW_REQUEST  → ic_flag          #B51097 (cờ tím + x)
  */
-data class NotificationIconSpec(
-    val icon: ImageVector,
-    val tint: Color
-)
-
-internal fun notificationIconSpec(type: NotificationType): NotificationIconSpec = when (type) {
-    NotificationType.KUDOS_RECEIVED -> NotificationIconSpec(
-        icon = Icons.Outlined.Email,
-        tint = KudosNotiBlue        // #4A9EEA — blue envelope
-    )
-    NotificationType.HEART_RECEIVED -> NotificationIconSpec(
-        icon = Icons.Outlined.FavoriteBorder,
-        tint = KudosNotiPink        // #E85D75 — pink heart
-    )
-    NotificationType.SECRET_BOX -> NotificationIconSpec(
-        icon = Icons.Outlined.CardGiftcard,
-        tint = KudosGold            // #FFEA9E — gold gift box
-    )
-    NotificationType.LEVEL_UP -> NotificationIconSpec(
-        icon = Icons.Outlined.StarOutline,
-        tint = KudosNotiCyan        // #4DD9E5 — cyan star
-    )
-    NotificationType.CONTENT_HIDDEN -> NotificationIconSpec(
-        icon = Icons.Outlined.Warning,
-        tint = KudosNotiAmber       // #FFB800 — amber warning triangle
-    )
-    NotificationType.BADGE_COLLECTED -> NotificationIconSpec(
-        icon = Icons.Outlined.VerifiedUser,
-        tint = KudosNotiGreen       // #4CAF50 — green badge/shield
-    )
-    NotificationType.REVIEW_REQUEST -> NotificationIconSpec(
-        icon = Icons.Outlined.OutlinedFlag,
-        tint = KudosNotiMagenta     // #E879A0 — magenta/pink flag
-    )
+@DrawableRes
+internal fun notificationIconRes(type: NotificationType): Int = when (type) {
+    NotificationType.KUDOS_RECEIVED -> R.drawable.ic_receive_noti
+    NotificationType.HEART_RECEIVED -> R.drawable.ic_heart_plus
+    NotificationType.SECRET_BOX -> R.drawable.ic_gift
+    NotificationType.LEVEL_UP -> R.drawable.ic_star
+    NotificationType.CONTENT_HIDDEN -> R.drawable.ic_warning
+    NotificationType.BADGE_COLLECTED -> R.drawable.ic_notes
+    NotificationType.REVIEW_REQUEST -> R.drawable.ic_flag
 }

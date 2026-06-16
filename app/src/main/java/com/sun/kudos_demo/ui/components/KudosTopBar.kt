@@ -34,8 +34,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.sun.kudos_demo.R
 import com.sun.kudos_demo.ui.theme.KudosAppTheme
+import com.sun.kudos_demo.ui.theme.KudosAccentRed
 import com.sun.kudos_demo.ui.theme.KudosBackground
-import com.sun.kudos_demo.ui.theme.KudosGold
 import com.sun.kudos_demo.ui.theme.KudosWhite
 
 // Top app bar matching the design:
@@ -141,8 +141,10 @@ fun KudosTopBar(
                 BadgedBox(
                     badge = {
                         if (unreadCount > 0) {
+                            // Red unread dot — consistent with the notification list's unread
+                            // indicator (B.1.3). Previously gold/cream which read as white.
                             Badge(
-                                containerColor = KudosGold,
+                                containerColor = KudosAccentRed,
                                 modifier = Modifier.size(8.dp)
                             )
                         }

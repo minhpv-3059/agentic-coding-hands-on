@@ -36,10 +36,5 @@ val KudosDropdownHighlight = Color(0x33FFEA9E)   // rgba(255,234,158,0.20) ≈ 0
 // Community Standards link color — design node 6885:9933: rgba(228,96,96,1)
 val KudosLinkRed = Color(0xFFE46060)
 
-// Notification icon tints — design [iOS] Notifications screen _b68CBWKl5
-val KudosNotiBlue    = Color(0xFF4A9EEA)   // KUDOS_RECEIVED: envelope icon
-val KudosNotiPink    = Color(0xFFE85D75)   // HEART_RECEIVED: heart icon
-val KudosNotiCyan    = Color(0xFF4DD9E5)   // LEVEL_UP: star icon
-val KudosNotiAmber   = Color(0xFFFFB800)   // CONTENT_HIDDEN: warning triangle icon
-val KudosNotiGreen   = Color(0xFF4CAF50)   // BADGE_COLLECTED: badge/shield icon (SECRET_BOX uses KudosGold)
-val KudosNotiMagenta = Color(0xFFE879A0)   // REVIEW_REQUEST: flag icon
+// Notification icons are now real Figma SVG exports (res/drawable/ic_*.xml) with their fill
+// colors baked in — rendered with tint = Color.Unspecified, so no per-type Compose tints here.
