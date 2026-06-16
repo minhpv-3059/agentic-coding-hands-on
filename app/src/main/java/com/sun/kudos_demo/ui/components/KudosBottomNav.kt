@@ -1,10 +1,6 @@
 package com.sun.kudos_demo.ui.components
 
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Person
-import androidx.compose.material.icons.filled.Star
+import androidx.annotation.DrawableRes
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationBarItemDefaults
@@ -13,20 +9,21 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
+import com.sun.kudos_demo.R
 import com.sun.kudos_demo.navigation.NavRoutes
 import com.sun.kudos_demo.ui.theme.KudosAppTheme
+import androidx.compose.ui.graphics.Color
 import com.sun.kudos_demo.ui.theme.KudosContainer
-import com.sun.kudos_demo.ui.theme.KudosDivider
 import com.sun.kudos_demo.ui.theme.KudosGold
 import com.sun.kudos_demo.ui.theme.KudosGray
 
-enum class BottomNavTab(val label: String, val icon: ImageVector, val route: String) {
-    Saa2025("SAA 2025", Icons.Default.Home, NavRoutes.HOME),
-    Awards("Awards", Icons.Default.Star, NavRoutes.AWARDS),
-    Kudos("Kudos", Icons.Default.Favorite, NavRoutes.KUDOS_FEED),
-    Profile("Profile", Icons.Default.Person, NavRoutes.PROFILE_ME)
+enum class BottomNavTab(val label: String, @DrawableRes val icon: Int, val route: String) {
+    Saa2025("SAA 2025", R.drawable.ic_nav_home, NavRoutes.HOME),
+    Awards("Awards", R.drawable.ic_nav_awards, NavRoutes.AWARDS),
+    Kudos("Kudos", R.drawable.ic_nav_kudos, NavRoutes.KUDOS_FEED),
+    Profile("Profile", R.drawable.ic_nav_profile, NavRoutes.PROFILE_ME)
 }
 
 @Composable
@@ -35,6 +32,9 @@ fun KudosBottomNav(
     onTabSelected: (BottomNavTab) -> Unit,
     modifier: Modifier = Modifier
 ) {
+    // No outer navigationBarsPadding(): NavigationBar's default windowInsets already pad the
+    // items above the system nav bar while its container colour fills the inset — so the bar
+    // stays opaque down to the screen edge (no transparent strip when content scrolls behind).
     NavigationBar(
         containerColor = KudosContainer,
         modifier = modifier
@@ -46,7 +46,7 @@ fun KudosBottomNav(
                 onClick = { onTabSelected(tab) },
                 icon = {
                     Icon(
-                        imageVector = tab.icon,
+                        painter = painterResource(tab.icon),
                         contentDescription = tab.label
                     )
                 },
@@ -61,7 +61,7 @@ fun KudosBottomNav(
                     selectedTextColor = KudosGold,
                     unselectedIconColor = KudosGray,
                     unselectedTextColor = KudosGray,
-                    indicatorColor = KudosDivider
+                    indicatorColor = Color.Transparent
                 )
             )
         }

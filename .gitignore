@@ -22,3 +22,15 @@ local.properties
 .claude/metadata.json
 .claude/.takumi.json
 .claude/hooks/.logs/
+.claude/agent-memory/
+
+# IDE — ignore all Android Studio project config (per-developer)
+/.idea/
+
+# MCP tool artifacts
+.playwright-mcp/
+
+# Design reference exports — kept locally, not part of source
+/login-design.png
+/language-dropdown-design.png
+/momorph-login-screen.png

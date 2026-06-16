@@ -2,8 +2,9 @@
 phase: "07"
 title: Profile Screens
 priority: p0
-status: todo
+status: done
 blockedBy: ["phase-04-home"]
+completedDate: 2026-06-15
 ---
 
 # Phase 07 — Profile
@@ -25,3 +26,42 @@ blockedBy: ["phase-04-home"]
 
 ## Out of scope
 - Edit profile API — UI state only
+
+## Completion
+
+**Delivered 2026-06-15 + Refinement 2026-06-16:**
+
+### Files Created
+- `feature/profile/{ProfileModels.kt, ProfileMockData.kt, MyProfileViewModel.kt, UserProfileViewModel.kt, MyProfileScreen.kt, UserProfileScreen.kt}`
+- `feature/profile/components/{ProfileHeader, ProfileIconCollection, ProfileStatsCard, ProfileKudosFilter, ProfileSectionHeader, UserProfileHeader, ProfileAwardBadges, ProfileSendKudosCta, ProfileReceivedKudosLabel, UserProfileSectionHeader, RankBadge}.kt`
+- `data/CurrentUser.kt` (signed-in identity singleton)
+- `navigation/ProfileNavigation.kt`
+- 4 test files for Profile logic (ProfileModels, ViewModels x2, RankBadgeMappingTest)
+
+### Files Modified
+- `navigation/{NavRoutes, AppNavGraph, SendKudosNavigation, KudosFeedNavigation}.kt` — added PROFILE_ME, PROFILE_USER routes + recipient pre-fill wiring
+- `ui/KudosApp.kt` — suppressed global bottom nav on profile routes
+- `ui/KudosTopBar.kt` — added showScrim param (profile=false)
+- `feature/send/SendViewModel.kt` — reads CurrentUser.kt
+- `feature/feed/FeedViewModel.kt` — reads CurrentUser.kt; moved "Huỳnh Dương Xuân Nhật" from u1 to u6
+- `feature/profile/{MyProfileViewModel, UserProfileViewModel}.kt` — integrated CurrentUser.kt identity reads
+- `res/drawable-nodpi/` — 6 award-badge images (img_badge_*) + 2 rank pills (img_rank_legend_hero, img_rank_rising_hero)
+
+### Verification
+- Both screens pixel-faithful to Figma design, verified on emulator
+- KUDOS_SEND recipient pre-fill working (tapped user profile → send kudos button)
+- 315 unit tests pass (186 existing + 129 new; includes RankBadgeMappingTest + resolveCurrentUser tests)
+- Route conflict fixed: `profile/me` wildcard collision resolved
+- Reviewer findings closed: badge identity split (RankBadge component), dead fallback removed, resolve path fully tested
+- Single signed-in identity persisted at login: MyProfileViewModel → AndroidViewModel + KudosPreferences.setCurrentUser
+
+### Design Implementation
+- Full-bleed key-visual background on both profile screens (MyProfile + UserProfile)
+- Own-vs-other chrome: UserProfileScreen is detail view (back arrow + no bottom nav); MyProfileScreen is main (bottom nav, no back)
+- RankBadge component unifies rank pill rendering (label + Figma image) in both profile headers (name-line pill + avatar overlay)
+
+### Shipped — 100% done (2026-06-16)
+- Post-review fixes: bottom nav opaque through the system navigation-bar inset (no transparent strip on scroll); every tapped Sunner (feed sender/recipient, gift-recipients block, search) resolves to their own profile via `userById` (gift recipients g0..g9 added to the index; neutral "Sunner" fallback for unknown ids).
+- ~316 unit tests pass · `assembleDebug` green · verified on emulator.
+- PR: https://github.com/minhpv-3059/agentic-coding-hands-on/pull/5 (base `feat/phase-06-send-kudos` ← `feat/phase-07-profile`).
+- Note: E2E / instrumented tests remain a dedicated deferred phase per the plan (project-wide DoD gap), not a Phase 07 blocker.
