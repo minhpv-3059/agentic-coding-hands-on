@@ -82,6 +82,20 @@ Implemented two profile screens (own profile + other-user profile) from MoMorph 
 - `UserProfileScreen` is a detail screen (back arrow, no bottom nav, full-bleed key-visual); `MyProfileScreen` retains bottom nav
 - ~315 unit tests passing
 
+## Phase 08 — Notifications [Complete]
+
+Implemented the Notifications screen and in-memory shared state for unread-badge sync across Home and Feed.
+
+**Delivered:**
+- `feature/notifications/` — `NotificationModels.kt`, `NotificationsMockData.kt`, `NotificationsViewModel.kt`, `NotificationsScreen.kt`, 4 components: `NotificationItem`, `NotificationsTopBar`, `MarkAllReadButton`, `NotificationIconMapper`
+- `data/NotificationsRepository.kt` — app-process `object` singleton; `MutableStateFlow<List<AppNotification>>` seeded from `NotificationsMockData`; exposes `notifications: StateFlow`, `unreadCount: StateFlow<Int>`, `markRead(id)`, `markAllRead()` — same pattern as `KudosRepository`
+- `navigation/NotificationsNavigation.kt` — `NotificationsRoute` extracted (same pattern as `KudosFeedNavigation.kt`)
+- Bell-badge sync: `HomeViewModel` + `KudosFeedViewModel` + profile ViewModels observe `NotificationsRepository.unreadCount` so tapping "mark all read" clears badges across all top bars simultaneously
+- Notifications screen is a detail flow: back arrow, no bottom nav; localized title (VN "Thông báo" / EN "Notifications"); 7 notification types; per-type navigation on tap
+- 47 new unit tests; full suite: 361/361 passing
+
+**Residual:** 7 notification-type icons use Material Icons with design-matched tints — Figma SVG export API was unavailable; swappable in a future cleanup pass
+
 ## Phase 06 — Send Kudos [Complete]
 
 Implemented the Send Kudos flow end-to-end, introduced the first cross-feature shared state store, and wired the live feed to reflect newly submitted kudos.

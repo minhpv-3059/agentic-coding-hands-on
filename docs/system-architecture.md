@@ -19,9 +19,10 @@ Single-module Android app (`app/`).
 com.sun.kudos_demo/
 ├── MainActivity.kt          — entry point, hosts KudosApp inside KudosAppTheme
 ├── data/
-│   ├── CurrentUser.kt       — object singleton: single source of truth for the signed-in Sunner (ID = "u1", KudoUser "Phan Văn Minh"); referenced by ProfileMockData, SendKudosMockData, and feed mock data
-│   ├── KudosPreferences.kt  — DataStore Preferences persistence: liked kudo IDs + recent search terms (Flow<Set<String>>); also persists current user id via setCurrentUser() / currentUserId: Flow<String?>
-│   └── KudosRepository.kt   — in-memory singleton; MutableStateFlow<List<Kudo>> seeded from KudosMockData; shared source of truth for feed + send feature modules
+│   ├── CurrentUser.kt              — object singleton: single source of truth for the signed-in Sunner (ID = "u1", KudoUser "Phan Văn Minh"); referenced by ProfileMockData, SendKudosMockData, and feed mock data
+│   ├── KudosPreferences.kt         — DataStore Preferences persistence: liked kudo IDs + recent search terms (Flow<Set<String>>); also persists current user id via setCurrentUser() / currentUserId: Flow<String?>
+│   ├── KudosRepository.kt          — in-memory singleton; MutableStateFlow<List<Kudo>> seeded from KudosMockData; shared source of truth for feed + send feature modules
+│   └── NotificationsRepository.kt  — in-memory singleton; MutableStateFlow<List<AppNotification>> seeded from NotificationsMockData; exposes notifications: StateFlow, unreadCount: StateFlow<Int>, markRead(id), markAllRead(); observed by Home + Feed + Profile ViewModels for bell-badge sync
 ├── feature/
 │   ├── auth/
 │   │   ├── LoginScreen.kt   — login UI (key-visual, ROOT FURTHER logo, Google SSO button, language overlay)
@@ -49,6 +50,12 @@ com.sun.kudos_demo/
 │   │   ├── SendKudosScreen.kt      — Send Kudos form: recipient search, danh hiệu dropdown, rich-text toolbar, message, hashtag multi-select (max 5), Photo Picker (max 5 images), anonymous toggle + nickname, validation
 │   │   ├── SendKudosViewModel.kt   — form state, validation, submit() prepends to KudosRepository
 │   │   └── CommunityStandardsScreen.kt — 10 community criteria + security section
+│   ├── notifications/
+│   │   ├── NotificationsScreen.kt   — detail screen: back arrow, no bottom nav, mark-all-read, per-type tap navigation; localized title (VN "Thông báo" / EN "Notifications")
+│   │   ├── NotificationsViewModel.kt — reads NotificationsRepository; exposes NotificationsUiState; calls markRead / markAllRead
+│   │   ├── NotificationModels.kt    — AppNotification data class, NotificationType enum (7 types)
+│   │   ├── NotificationsMockData.kt — mock dataset
+│   │   └── components/              — 4 composables: NotificationItem, NotificationsTopBar, MarkAllReadButton, NotificationIconMapper
 │   └── profile/
 │       ├── MyProfileScreen.kt      — own-profile: header, stats card, kudos filter (Đã nhận / Đã gửi), kudos list, icon collection, secret-box CTA
 │       ├── MyProfileViewModel.kt   — filter state, like toggle, language toggle; reads KudosRepository + KudosPreferences
@@ -64,9 +71,10 @@ com.sun.kudos_demo/
 ├── navigation/
 │   ├── NavRoutes.kt              — route constants + builder helpers (17 destinations); PROFILE_ME = "my-profile" (not "profile/me" — avoids PROFILE_USER wildcard capture); KUDOS_SEND_WITH_ARG for optional recipient pre-fill
 │   ├── AppNavGraph.kt            — NavHost; LOGIN is startDestination; all major features wired to real screens
-│   ├── KudosFeedNavigation.kt    — feed route composables (KudosFeedRoute, KudosAllRoute, ViewKudoRoute, KudosSearchRoute); slot injection for filters and Spotlight
-│   ├── ProfileNavigation.kt      — profile route composables (MyProfileRoute, UserProfileRoute); follows same extraction pattern as KudosFeedNavigation
-│   └── SendKudosNavigation.kt    — send-kudos route composable
+│   ├── KudosFeedNavigation.kt        — feed route composables (KudosFeedRoute, KudosAllRoute, ViewKudoRoute, KudosSearchRoute); slot injection for filters and Spotlight
+│   ├── ProfileNavigation.kt          — profile route composables (MyProfileRoute, UserProfileRoute); follows same extraction pattern as KudosFeedNavigation
+│   ├── NotificationsNavigation.kt    — NotificationsRoute composable; same extraction pattern
+│   └── SendKudosNavigation.kt        — send-kudos route composable
 └── ui/
     ├── KudosApp.kt          — root composable: Scaffold (contentWindowInsets=0) + KudosBottomNav + AppNavGraph
     ├── theme/
@@ -96,7 +104,8 @@ The app uses `navigation-compose 2.8.0` with a single `NavHost` defined in `AppN
 - `PROFILE_ME` uses the distinct path `"my-profile"` (not `"profile/me"`) to prevent the `PROFILE_USER = "profile/{userId}"` wildcard from capturing it as `userId="me"`.
 - Feature-specific route composables are extracted to dedicated navigation files (`KudosFeedNavigation.kt`, `ProfileNavigation.kt`, `SendKudosNavigation.kt`) to keep `AppNavGraph.kt` under 200 lines — follow this pattern for future feature modules.
 - Hashtag cross-screen navigation: secondary screens (View / AllKudos) stash the tag on the Feed's `SavedStateHandle` and pop back, so the Feed ViewModel picks it up without re-composing.
-- Real screens: LOGIN, HOME, KUDOS_FEED, KUDOS_ALL, KUDOS_VIEW, KUDOS_SEARCH, KUDOS_SEND, KUDOS_COMMUNITY_STANDARDS, PROFILE_ME, PROFILE_USER. Remaining routes still use placeholder composables.
+- Real screens: LOGIN, HOME, KUDOS_FEED, KUDOS_ALL, KUDOS_VIEW, KUDOS_SEARCH, KUDOS_SEND, KUDOS_COMMUNITY_STANDARDS, PROFILE_ME, PROFILE_USER, NOTIFICATIONS. Remaining routes still use placeholder composables.
+- `NOTIFICATIONS` is a detail screen (back arrow, no bottom nav) — same treatment as `PROFILE_USER`. `KudosApp` suppresses the global bottom bar for this route.
 
 ## Theme System
 
@@ -150,6 +159,14 @@ Tokens added in Phase 06:
 - **Pattern**: Kotlin `object` singleton; holds a `MutableStateFlow<List<Kudo>>` seeded from `KudosMockData` at init time. Exposes an immutable `StateFlow` + a `kudoById(id)` helper.
 - **Cross-feature use**: `KudosFeedViewModel` combines `KudosRepository.kudos` with `KudosPreferences` flows; `SendKudosViewModel.submit()` calls `KudosRepository.prepend(kudo)` so the submitted kudo appears at the top of the feed immediately. `ViewKudoRoute` resolves the displayed kudo via `KudosRepository.kudoById`.
 - **Scope**: process-lifetime only (no disk persistence). The store resets on process death — this is intentional for the current mock phase. Migrate to a Room-backed repository when real API integration begins.
+
+## Notifications Shared State
+
+`data/NotificationsRepository.kt` is the in-memory shared state store for notifications (introduced in Phase 08).
+
+- **Pattern**: Kotlin `object` singleton; same structure as `KudosRepository`. Holds a `MutableStateFlow<List<AppNotification>>` seeded from `NotificationsMockData`. Derives `unreadCount: StateFlow<Int>` via `map + stateIn(Eagerly)`.
+- **Cross-feature use**: `NotificationsViewModel` calls `markRead(id)` / `markAllRead()`. `HomeViewModel`, `KudosFeedViewModel`, and profile ViewModels observe `unreadCount` so the bell badge in `KudosTopBar` stays in sync across all screens after any read event.
+- **Scope**: process-lifetime only (no disk persistence) — same intentional constraint as `KudosRepository`.
 
 ## Signed-in User Identity
 

@@ -2,6 +2,7 @@ package com.sun.kudos_demo.feature.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.sun.kudos_demo.data.NotificationsRepository
 import com.sun.kudos_demo.feature.auth.AppLanguage
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -19,7 +20,7 @@ data class CountdownState(
 
 data class HomeUiState(
     val language: AppLanguage = AppLanguage.VN,
-    val unreadNotifications: Int = 3,      // mock badge count
+    val unreadNotifications: Int = 0,      // mirrors NotificationsRepository.unreadCount
     val countdown: CountdownState = CountdownState()
 )
 
@@ -32,7 +33,9 @@ data class HomeUiState(
  */
 class HomeViewModel : ViewModel() {
 
-    private val _uiState = MutableStateFlow(HomeUiState())
+    private val _uiState = MutableStateFlow(
+        HomeUiState(unreadNotifications = NotificationsRepository.unreadCount.value)
+    )
     val uiState: StateFlow<HomeUiState> = _uiState.asStateFlow()
 
     private val targetTimeMs: Long =
@@ -40,6 +43,16 @@ class HomeViewModel : ViewModel() {
 
     init {
         startCountdown()
+        observeUnreadNotifications()
+    }
+
+    /** Keep the header bell badge in sync as notifications are marked read elsewhere. */
+    private fun observeUnreadNotifications() {
+        viewModelScope.launch {
+            NotificationsRepository.unreadCount.collect { count ->
+                _uiState.update { it.copy(unreadNotifications = count) }
+            }
+        }
     }
 
     private fun startCountdown() {

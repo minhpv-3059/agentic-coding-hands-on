@@ -1,5 +1,29 @@
 # Project Changelog
 
+## [Unreleased] — Phase 08: Notifications (2026-06-16)
+
+### Added
+- `feature/notifications/NotificationModels.kt` — `AppNotification` data class (id, type, isRead, actor, timestamp, payload), `NotificationType` enum (7 types)
+- `feature/notifications/NotificationsMockData.kt` — seeded mock dataset
+- `feature/notifications/NotificationsScreen.kt` — detail screen: back arrow, no bottom nav, localized title (VN "Thông báo" / EN "Notifications"), mark-all-read action, per-notification read dot, per-type navigation on tap
+- `feature/notifications/NotificationsViewModel.kt` — reads `NotificationsRepository`; exposes `NotificationsUiState`; calls `markRead` / `markAllRead`
+- `feature/notifications/components/` — 4 composables: `NotificationItem`, `NotificationsTopBar`, `MarkAllReadButton`, `NotificationIconMapper`
+- `data/NotificationsRepository.kt` — app-process `object` singleton; `MutableStateFlow<List<AppNotification>>` seeded from `NotificationsMockData`; exposes `notifications: StateFlow`, `unreadCount: StateFlow<Int>`, `markRead(id: String)`, `markAllRead()`
+- `navigation/NotificationsNavigation.kt` — `NotificationsRoute` composable (same extraction pattern as `KudosFeedNavigation.kt`)
+
+### Changed
+- `navigation/NavRoutes.kt` — `NOTIFICATIONS = "notifications"` route constant added
+- `navigation/AppNavGraph.kt` — `NOTIFICATIONS` wired to `NotificationsRoute`; Home/Feed/Profile top-bar `onNotifications` callbacks now navigate to `NOTIFICATIONS`
+- `feature/home/HomeViewModel.kt`, `KudosFeedViewModel.kt`, profile ViewModels — observe `NotificationsRepository.unreadCount` so the bell badge stays in sync across all screens after mark-read
+
+### Tests
+- 47 new unit tests; full suite: 361/361 passing
+
+### Known residuals
+- 7 notification-type icons use Material Icons with design-matched tints (Figma SVG export API unavailable at implementation time — swappable later)
+
+---
+
 ## [Unreleased] — Phase 07: Profile (refinement, 2026-06-16)
 
 ### Added

@@ -2,7 +2,7 @@
 phase: "08"
 title: Notifications
 priority: p1
-status: todo
+status: done
 blockedBy: ["phase-04-home"]
 ---
 
@@ -23,3 +23,15 @@ blockedBy: ["phase-04-home"]
 
 ## Out of scope
 - Push notification integration — UI only
+
+## Shipped
+
+**UI (92% visual match):** `NotificationsScreen.kt` + 4 components (top bar, mark-all button, item, icon mapper). Full-bleed key-visual bg, 7 colored notification types, unread red dot on first item, inline "Tiêu chuẩn cộng đồng" link.
+
+**Logic:** `NotificationModels.kt` (7-type enum), `NotificationsMockData.kt` (7 seed + 1 unread), `NotificationsRepository.kt` (in-memory + `unreadCount` StateFlow), `NotificationsViewModel.kt` (localized VN/EN title), `NotificationsNavigation.kt` (per-type nav mapping).
+
+**Integration:** AppNavGraph wired; HomeViewModel + KudosFeedViewModel sync badge from repository (mark-read syncs across views).
+
+**Quality:** 47 new unit tests, 361/361 suite passing, 0 regressions. Reviewer APPROVE_WITH_NITS 8.0/10; 2 important issues fixed.
+
+**Known residual:** 7 notification icons use Material Icons (design-matched tints) — Figma media-icon assets cannot be exported (Render API 500/401). Icon mapper ready to swap when user exports SVGs.

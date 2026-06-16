@@ -96,7 +96,7 @@ fun AppNavGraph(
             arguments = listOf(navArgument(NavRoutes.ARG_USER_ID) { type = NavType.StringType })
         ) { UserProfileRoute(navController) }
 
-        composable(NavRoutes.NOTIFICATIONS) { PlaceholderScreen("Notifications") }
+        composable(NavRoutes.NOTIFICATIONS) { NotificationsRoute(navController) }
         composable(NavRoutes.SEARCH) { KudosSearchRoute(navController) }
         composable(NavRoutes.SECRET_BOX) { PlaceholderScreen("Secret Box") }
         composable(NavRoutes.AWARDS) { PlaceholderScreen("Awards") }

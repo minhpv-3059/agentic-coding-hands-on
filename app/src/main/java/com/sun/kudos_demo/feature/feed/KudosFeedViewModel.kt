@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.sun.kudos_demo.data.CurrentUser
 import com.sun.kudos_demo.data.KudosPreferences
 import com.sun.kudos_demo.data.KudosRepository
+import com.sun.kudos_demo.data.NotificationsRepository
 import com.sun.kudos_demo.feature.auth.AppLanguage
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -27,7 +28,7 @@ data class FeedUiState(
     val departments: List<String> = KudosMockData.departments,
     val currentUserId: String = CURRENT_USER_ID,
     val language: AppLanguage = AppLanguage.VN,
-    val unreadCount: Int = 3
+    val unreadCount: Int = 0      // overridden from NotificationsRepository.unreadCount
 ) {
     /** A kudo's sender cannot like their own kudo (TC_FUN_008). */
     fun canLike(kudo: Kudo): Boolean = kudo.sender?.id != currentUserId
@@ -53,7 +54,14 @@ class KudosFeedViewModel(app: Application) : AndroidViewModel(app) {
             KudosRepository.kudos, selectedHashtag, selectedDepartment, prefs.likedKudoIds, language
         ) { kudos, tag, dept, liked, lang ->
             buildState(kudos, tag, dept, liked, lang)
-        }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), FeedUiState())
+        }.combine(NotificationsRepository.unreadCount) { state, unread ->
+            // Header bell badge mirrors the shared notifications repo (TC_NOTIF_FUN_002).
+            state.copy(unreadCount = unread)
+        }.stateIn(
+            viewModelScope,
+            SharingStarted.WhileSubscribed(5_000),
+            FeedUiState(unreadCount = NotificationsRepository.unreadCount.value)
+        )
 
     private fun buildState(
         kudos: List<Kudo>,
