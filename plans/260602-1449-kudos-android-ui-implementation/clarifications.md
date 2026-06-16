@@ -76,3 +76,21 @@ SVG→vector drawable: dùng lại script Python đã convert nav icons (trích 
 - Q: Entry tới Send Kudos? → A: Thay PlaceholderScreen route KUDOS_SEND bằng SendKudosScreen; FAB feed + Home onSendKudos đã wire tới KUDOS_SEND từ phase 04/05.
 - Q: Nút Huỷ? → A: Navigate back, không lưu. Nút Gửi đi success → toast "Đã gửi Kudos!" + prepend + pop back to feed.
 - Q: Track A/B split? → A: Track A = 2 background implementer agents (Agent 1: SendKudosScreen + sub-components UI presentational; Agent 2: CommunityStandardsScreen). Track B = SendKudosViewModel + KudosRepository + feed refactor + nav routes + integrate (rich-text, photo picker, validation, submit).
+
+## Session 2026-06-15 (Phase 07 — Profile)
+
+- Q: 6 huy hiệu award màu trên Profile người khác (REVIVAL, TOUCH OF LIGHT, STAY GOLD, FLOW TO HORIZON, BEYOND THE BOUNDARY, ROOT FUTHER) xử lý ảnh thế nào? → A: User export ảnh thật từ Figma. Build với AwardBadgePlaceholder swappable (layout pixel-chuẩn) trong khi chờ; swap sang drawable thật khi user cung cấp.
+- Q: Nút CTA "Gửi lời cảm ơn và ghi nhận tới {tên}" trên Profile người khác điều hướng đâu? → A: Mở Send Kudos + điền sẵn người nhận. Thêm optional arg recipient vào route KUDOS_SEND (kudos/send?recipient={userId}); SendKudosViewModel pre-select người nhận từ id.
+- Q: Bộ lọc KUDOS dropdown Đã nhận (5) / Đã gửi (5) trên Profile của tôi hoạt động ra sao? → A: Lọc thật trên mock — Đã nhận = kudos recipient là tôi, Đã gửi = kudos sender là tôi. Reuse pattern dropdown overlay neo dưới nút (như feed/send).
+- Q: Phạm vi wiring điều hướng? → A: Wire cả hai — thay placeholder PROFILE_ME → MyProfileScreen, PROFILE_USER → UserProfileScreen(userId); tra user theo id từ mock, id lạ → fallback an toàn. Tap user ở Feed/Search mở UserProfileScreen.
+- Q: Avatar hero + icon collection 6 vòng tròn tối (màn của tôi)? → A: Avatar = KudoAvatar placeholder màu theo tên (ảnh thật không đáng tin — tiền lệ). Icon collection của tôi = 6 vòng tròn tối rỗng đúng design (không nhãn, không ảnh).
+- Q: Giá trị stats (màn của tôi)? → A: Lấy đúng design: Kudos nhận 5, Kudos gửi 25, Tim nhận 25, Secret Box đã mở 25, Secret Box chưa mở 25.
+- Q: Hero background key-visual? → A: Reuse drawable/bg_home_keyvisual.png (cùng key-visual xoáy màu như Home).
+
+## Session 2026-06-16 (Phase 07 — Profile refinements)
+
+- Q: Ảnh 6 huy hiệu award + 2 rank pill (rising/legend hero) đã export? → A: User đã export vào ~/Downloads (ic_badge_*.png 64×64, rising_hero/legend_hero.png 122×26). Copy vào res/drawable-nodpi: img_badge_*.png (6) + img_rank_{legend,rising}_hero.png (2). Wire: AwardBadge.icon = R.drawable.img_badge_*; rank pill = component RankBadge (map "Legend Hero"/"Rising Hero" → img_rank_*).
+- Q: Rank pill ảnh dùng ở đâu? → A: 2 chỗ — pill cạnh unit_name (thay Box+border+Text cũ) VÀ overlay ở đáy avatar. Áp dụng cả ProfileHeader (own) + UserProfileHeader (other).
+- Q: Identity user đăng nhập? → A: Tạo data/CurrentUser.kt (Phan Văn Minh, id u1, CEVC1, Legend Hero) làm single source of truth. Login (LoginViewModel→AndroidViewModel) persist KudosPreferences.setCurrentUser(u1); MyProfileViewModel đọc currentUserId resolve user. ProfileMockData/SendKudosMockData/feed CURRENT_USER_ID đều trỏ về CurrentUser (fix lệch identity 3 nơi). Feed character "Huỳnh Dương Xuân Nhật" đổi id u1→u6 để u1 chỉ thuộc current user.
+- Q: Flow own vs other profile khác nhau? → A: OVERRIDE design (design chrome 2 màn giống nhau). Other profile = nút back ở header (KudosTopBar onBack) + ẩn bottom nav (detail flow, back về màn trước vd search). Own profile = giữ bottom nav, không back. UserProfileScreen bỏ selectedTab/onTabSelected, thêm onBack.
+- Q: Background bị nền đen che (header + vùng badge)? → A: Vẽ bg_home_keyvisual full-bleed (fillMaxSize) thay vì dải 288dp; KudosTopBar thêm showScrim (profile=false) để key-visual hiện sau header. Swirl xuyên suốt header→hero→badge, fade tối cho content dưới.

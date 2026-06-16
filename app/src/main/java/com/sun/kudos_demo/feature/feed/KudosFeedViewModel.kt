@@ -3,6 +3,7 @@ package com.sun.kudos_demo.feature.feed
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
+import com.sun.kudos_demo.data.CurrentUser
 import com.sun.kudos_demo.data.KudosPreferences
 import com.sun.kudos_demo.data.KudosRepository
 import com.sun.kudos_demo.feature.auth.AppLanguage
@@ -32,7 +33,7 @@ data class FeedUiState(
     fun canLike(kudo: Kudo): Boolean = kudo.sender?.id != currentUserId
 }
 
-private const val CURRENT_USER_ID = "u1"
+private const val CURRENT_USER_ID = CurrentUser.ID
 
 /**
  * State holder for the Kudos Feed. Derives the highlight carousel (top-5 by hearts),

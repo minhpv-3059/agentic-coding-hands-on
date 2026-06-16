@@ -1,5 +1,44 @@
 # Project Changelog
 
+## [Unreleased] — Phase 07: Profile (refinement, 2026-06-16)
+
+### Added
+- 6 award-badge drawables (`img_badge_beyond_boundary`, `img_badge_flow_to_horizon`, `img_badge_revival`, `img_badge_root_futher`, `img_badge_stay_gold`, `img_badge_touch_of_light`) and 2 rank-pill drawables (`img_rank_legend_hero`, `img_rank_rising_hero`) — real Figma exports in `res/drawable-nodpi/`; resolves the deferred placeholder
+- `feature/profile/components/RankBadge.kt` — shared composable mapping a badge label string to the appropriate `img_rank_*` pill image; used in both `ProfileHeader` and `UserProfileHeader` (name-line + avatar overlay)
+- `data/CurrentUser.kt` — `object` singleton: single source of truth for the signed-in Sunner (`ID = "u1"`, `profile = KudoUser("Phan Văn Minh", "CEVC1", "Legend Hero")`); referenced by `ProfileMockData`, `SendKudosMockData`, and feed mock data
+
+### Changed
+- `data/KudosPreferences.kt` — `setCurrentUser(id: String)` + `currentUserId: Flow<String?>` added; persists the current user id at login
+- `feature/auth/LoginViewModel.kt` — promoted to `AndroidViewModel` (needs `Application` for `KudosPreferences`); calls `prefs.setCurrentUser(CurrentUser.ID)` on successful login
+- `ui/components/KudosTopBar.kt` — two new optional params: `showScrim: Boolean = true` (suppresses gradient when `false`) and `onBack: (() -> Unit)? = null` (renders back-arrow when non-null); both default to prior behavior — fully backwards compatible
+- `feature/profile/UserProfileScreen.kt` — other-user profile is now a detail screen: passes `onBack` to `KudosTopBar` (back arrow rendered), no bottom navigation; full-bleed key-visual background applied; own profile (`MyProfileScreen`) retains bottom nav
+- Feed mock data: Huỳnh character re-identified from `u1` → `u6` so `CurrentUser.ID = "u1"` unambiguously maps to the signed-in Sunner
+
+### Tests
+- ~315 unit tests passing (up from 305 after first Phase 07 delivery)
+
+---
+
+## [Unreleased] — Phase 07: Profile
+
+### Added
+- `feature/profile/ProfileModels.kt` — `ProfileKudosTab` enum, `ProfileStats`, `AwardBadge` (`icon: Int?` — null until Figma export lands; layout renders a styled placeholder)
+- `feature/profile/ProfileMockData.kt` — mock dataset for both profile screens
+- `feature/profile/MyProfileScreen.kt` + `MyProfileViewModel.kt` — own-profile screen: header, stats card, kudos filter (Đã nhận / Đã gửi), scrollable kudos list, icon collection, secret box CTA
+- `feature/profile/UserProfileScreen.kt` + `UserProfileViewModel.kt` — other-user profile screen: header, award badges row, received-kudos list, "Send Kudos" CTA
+- `feature/profile/components/` — 10 composables: `ProfileHeader`, `ProfileStatsCard`, `ProfileKudosFilter`, `ProfileAwardBadges`, `ProfileIconCollection`, `ProfileReceivedKudosLabel`, `ProfileSectionHeader`, `ProfileSendKudosCta`, `UserProfileHeader`, `UserProfileSectionHeader`
+- `navigation/ProfileNavigation.kt` — `MyProfileRoute`, `UserProfileRoute` (same extraction pattern as `KudosFeedNavigation.kt`)
+
+### Changed
+- `navigation/NavRoutes.kt` — `PROFILE_ME` changed from `"profile/me"` to `"my-profile"` (fixes wildcard-capture bug: old path matched `PROFILE_USER = "profile/{userId}"` with `userId="me"`); `KUDOS_SEND_WITH_ARG` constant added (`kudos/send?recipient={recipient}`); `kudosSend(recipientId)` builder added
+- `navigation/AppNavGraph.kt` — `PROFILE_ME` + `PROFILE_USER` wired to real `MyProfileRoute` / `UserProfileRoute`; `KUDOS_SEND` updated to `KUDOS_SEND_WITH_ARG` pattern (optional `recipient` arg for pre-fill from other-user profile CTA)
+- `ui/KudosApp.kt` — `isProfileScreen` guard added: global bottom bar suppressed when route is `PROFILE_ME` or `PROFILE_USER` (each profile screen renders its own bottom nav per design)
+
+### Tests
+- 119 new unit tests covering `MyProfileViewModel`, `UserProfileViewModel`, profile filter logic; total suite: 305 passing
+
+---
+
 ## [Unreleased] — Phase 06: Send Kudos (fidelity fix round 2, 2026-06-15)
 
 ### Changed

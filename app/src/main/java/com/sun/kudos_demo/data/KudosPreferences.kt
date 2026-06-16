@@ -23,12 +23,22 @@ class KudosPreferences(private val context: Context) {
 
     private val likedKey = stringSetPreferencesKey("liked_kudo_ids")
     private val recentKey = stringPreferencesKey("recent_search_user_ids")
+    private val currentUserKey = stringPreferencesKey("current_user_id")
 
     val likedKudoIds: Flow<Set<String>> =
         context.kudosDataStore.data.map { it[likedKey] ?: emptySet() }
 
+    /** Id of the Sunner whose session is active (set at login); null before first login. */
+    val currentUserId: Flow<String?> =
+        context.kudosDataStore.data.map { it[currentUserKey] }
+
     val recentSearchIds: Flow<List<String>> =
         context.kudosDataStore.data.map { prefs -> prefs[recentKey].toIdList() }
+
+    /** Persist the signed-in Sunner's id — "creates" the local session at login. */
+    suspend fun setCurrentUser(id: String) {
+        context.kudosDataStore.edit { prefs -> prefs[currentUserKey] = id }
+    }
 
     /** Toggle a kudo's liked state (add if absent, remove if present). */
     suspend fun toggleLike(kudoId: String) {

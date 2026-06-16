@@ -27,6 +27,7 @@ import com.sun.kudos_demo.feature.feed.AllKudosScreen
 import com.sun.kudos_demo.feature.feed.KudosFeedScreen
 import com.sun.kudos_demo.feature.feed.KudosFeedViewModel
 import com.sun.kudos_demo.data.KudosRepository
+import com.sun.kudos_demo.feature.profile.ProfileMockData
 import com.sun.kudos_demo.feature.feed.KudosSearchScreen
 import com.sun.kudos_demo.feature.feed.KudosSearchViewModel
 import com.sun.kudos_demo.feature.feed.SpotlightMockData
@@ -89,6 +90,7 @@ fun KudosFeedRoute(navController: NavHostController, backStackEntry: NavBackStac
             }
         },
         spotlight = { SpotlightBoard(data = SpotlightMockData.data) },
+        // Bare base path is valid — the optional `recipient` arg defaults to "" (no pre-fill).
         onSendKudos = { navController.navigateSingleTop(NavRoutes.KUDOS_SEND) },
         onSearch = { navController.navigateSingleTop(NavRoutes.SEARCH) },
         onNotifications = { navController.navigateSingleTop(NavRoutes.NOTIFICATIONS) },
@@ -127,7 +129,7 @@ fun KudosAllRoute(navController: NavHostController) {
 
 @Composable
 fun ViewKudoRoute(navController: NavHostController, kudoId: String) {
-    val kudo = KudosRepository.kudoById(kudoId)
+    val kudo = KudosRepository.kudoById(kudoId) ?: ProfileMockData.kudoById(kudoId)
     if (kudo == null) {
         Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
             Text("Không tìm thấy Kudo #$kudoId", style = MaterialTheme.typography.titleLarge)
@@ -175,7 +177,7 @@ fun KudosSearchRoute(navController: NavHostController) {
 
 /** Copies a mock kudo share URL to the clipboard and shows the design's confirmation toast. */
 @Composable
-private fun rememberCopyLink(): (String) -> Unit {
+internal fun rememberCopyLink(): (String) -> Unit {
     val context = LocalContext.current
     val clipboard = LocalClipboardManager.current
     return remember(context, clipboard) {
@@ -198,7 +200,7 @@ private const val PENDING_HASHTAG = "pending_hashtag"
  * on the Feed's back-stack entry and pop back to it so its existing ViewModel picks it up
  * (TC_FUN_016/031). Falls back to a plain navigate if the Feed isn't on the back stack.
  */
-private fun NavHostController.applyHashtagOnFeed(tag: String) {
+internal fun NavHostController.applyHashtagOnFeed(tag: String) {
     val feedEntry = runCatching { getBackStackEntry(NavRoutes.KUDOS_FEED) }.getOrNull()
     if (feedEntry != null) {
         feedEntry.savedStateHandle[PENDING_HASHTAG] = tag

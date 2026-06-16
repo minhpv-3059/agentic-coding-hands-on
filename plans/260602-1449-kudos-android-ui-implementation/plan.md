@@ -96,7 +96,7 @@ Screens prefixed `[iOS]` are the authoritative mobile screens. Web/desktop scree
 | 04 | Home | ✅ done | Home |
 | 05 | Kudos Feed | ✅ done | Feed, All Kudos, View, Search, Filters |
 | 06 | Send Kudos Flow | ✅ done | Send form, dropdowns, validation, community standards |
-| 07 | Profile | ☐ todo | Own profile, Others' profile |
+| 07 | Profile | ✅ done | Own profile, Others' profile |
 | 08 | Notifications | ☐ todo | Notifications list |
 | 09 | Secret Box | ☐ todo | Box states, open animation |
 | 10 | Awards | ☐ todo | 6 award types |

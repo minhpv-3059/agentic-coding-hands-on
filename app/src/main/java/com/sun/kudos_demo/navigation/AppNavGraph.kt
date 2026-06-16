@@ -74,21 +74,27 @@ fun AppNavGraph(
             val id = entry.arguments?.getString(NavRoutes.ARG_KUDO_ID).orEmpty()
             ViewKudoRoute(navController, id)
         }
-        composable(NavRoutes.KUDOS_SEND) { SendKudosRoute(navController) }
+        composable(
+            route = NavRoutes.KUDOS_SEND_WITH_ARG,
+            arguments = listOf(navArgument(NavRoutes.ARG_RECIPIENT) {
+                type = NavType.StringType
+                defaultValue = ""
+            })
+        ) { entry ->
+            val recipient = entry.arguments?.getString(NavRoutes.ARG_RECIPIENT).orEmpty()
+            SendKudosRoute(navController, recipient)
+        }
         composable(NavRoutes.KUDOS_COMMUNITY_STANDARDS) {
             CommunityStandardsScreen(onBack = { navController.popBackStack() })
         }
 
-        // Literal PROFILE_ME must be registered before PROFILE_USER so "profile/me"
-        // matches the literal route and is not captured as userId = "me".
-        composable(NavRoutes.PROFILE_ME) { PlaceholderScreen("My Profile") }
+        // PROFILE_ME uses a distinct path ("my-profile") so it can't be captured by the
+        // PROFILE_USER wildcard ("profile/{userId}").
+        composable(NavRoutes.PROFILE_ME) { MyProfileRoute(navController) }
         composable(
             route = NavRoutes.PROFILE_USER,
             arguments = listOf(navArgument(NavRoutes.ARG_USER_ID) { type = NavType.StringType })
-        ) { entry ->
-            val userId = entry.arguments?.getString(NavRoutes.ARG_USER_ID).orEmpty()
-            PlaceholderScreen("Profile of $userId")
-        }
+        ) { UserProfileRoute(navController) }
 
         composable(NavRoutes.NOTIFICATIONS) { PlaceholderScreen("Notifications") }
         composable(NavRoutes.SEARCH) { KudosSearchRoute(navController) }
