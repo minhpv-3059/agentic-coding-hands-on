@@ -1,7 +1,6 @@
 package com.sun.kudos_demo.ui.components
 
 import androidx.annotation.DrawableRes
-import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationBarItemDefaults
@@ -33,9 +32,12 @@ fun KudosBottomNav(
     onTabSelected: (BottomNavTab) -> Unit,
     modifier: Modifier = Modifier
 ) {
+    // No outer navigationBarsPadding(): NavigationBar's default windowInsets already pad the
+    // items above the system nav bar while its container colour fills the inset — so the bar
+    // stays opaque down to the screen edge (no transparent strip when content scrolls behind).
     NavigationBar(
         containerColor = KudosContainer,
-        modifier = modifier.navigationBarsPadding()
+        modifier = modifier
     ) {
         BottomNavTab.entries.forEach { tab ->
             val selected = tab == selectedTab

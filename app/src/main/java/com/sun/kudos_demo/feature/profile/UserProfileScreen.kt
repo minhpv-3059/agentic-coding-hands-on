@@ -5,9 +5,12 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -125,9 +128,12 @@ private fun UserProfileContent(
     onHashtagClick: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
+    // No bottom nav here — pad the list past the system navigation-bar inset so the last card
+    // isn't hidden behind the gesture bar.
+    val navBarInset = WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()
     LazyColumn(
         modifier = modifier.fillMaxSize(),
-        contentPadding = PaddingValues(bottom = 24.dp)
+        contentPadding = PaddingValues(bottom = 24.dp + navBarInset)
     ) {
         // Spacer clears the overlaid top bar (status bar + 56dp app bar)
         item { Spacer(Modifier.height(100.dp)) }
