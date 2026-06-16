@@ -149,9 +149,22 @@ class ProfileMockDataTest {
         val user = ProfileMockData.userById("unknown-id-xyz")
         assertNotNull(user)
         assertEquals("unknown-id-xyz", user.id)
-        assertEquals("Huỳnh Dương Xuân Nhật", user.name)
-        assertEquals("CEVC3", user.code)
+        assertEquals("Sunner", user.name)
+        assertEquals("SAA", user.code)
         assertEquals("Rising Hero", user.badge)
+    }
+
+    @Test
+    fun userById_GiftRecipientIds_ResolveToTheirOwnDistinctUsers() {
+        // "10 Sunner nhận quà mới nhất" uses ids g0..g9 — each must open its own profile,
+        // not a shared fallback (regression guard for the gift-recipient lookup bug).
+        val g0 = ProfileMockData.userById("g0")
+        val g1 = ProfileMockData.userById("g1")
+        assertEquals("g0", g0.id)
+        assertEquals("g1", g1.id)
+        assertNotEquals(g0.name, g1.name)          // different Sunners, not all the same person
+        assertNotEquals("Sunner", g0.name)         // resolved, not the unknown fallback
+        assertNotEquals("Sunner", g1.name)
     }
 
     @Test

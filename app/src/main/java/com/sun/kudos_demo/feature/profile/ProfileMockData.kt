@@ -45,14 +45,20 @@ object ProfileMockData {
 
     private val others: List<KudoUser> = KudosMockData.searchableUsers
 
-    /** Every Sunner reachable from the feed/search, indexed by id for profile lookups. */
+    /**
+     * Every Sunner reachable from a profile route — feed kudo senders/recipients, the gift
+     * recipients block ("10 Sunner nhận quà mới nhất"), and the search pool — indexed by id so a
+     * tapped user opens THEIR profile (not a fallback). `associateBy` keeps the last duplicate id.
+     */
     private val userIndex: Map<String, KudoUser> =
-        (KudosMockData.kudos.flatMap { listOfNotNull(it.sender, it.recipient) } + others)
+        (KudosMockData.kudos.flatMap { listOfNotNull(it.sender, it.recipient) } +
+            KudosMockData.giftRecipients.map { it.user } +
+            others)
             .associateBy { it.id }
 
-    /** Identity for a profile opened by an unknown id — the design depicts a Rising Hero. */
+    /** Neutral placeholder for a profile opened by an unknown id (not a real person's identity). */
     private fun fallbackUser(id: String) =
-        KudoUser(id = id, name = "Huỳnh Dương Xuân Nhật", code = "CEVC3", badge = "Rising Hero")
+        KudoUser(id = id, name = "Sunner", code = "SAA", badge = "Rising Hero")
 
     /** Resolve the Sunner behind a profile route arg; never null so the screen always renders. */
     fun userById(id: String): KudoUser =
