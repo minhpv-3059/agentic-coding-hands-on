@@ -82,6 +82,22 @@ Implemented two profile screens (own profile + other-user profile) from MoMorph 
 - `UserProfileScreen` is a detail screen (back arrow, no bottom nav, full-bleed key-visual); `MyProfileScreen` retains bottom nav
 - ~315 unit tests passing
 
+## Phase 09 — Secret Box [Complete]
+
+Implemented the Secret Box feature module: one screen driven by three ViewModel states, first video playback in the app via Media3 ExoPlayer, and a shared repository synced into the Profile stats card.
+
+**Delivered:**
+- `feature/secretbox/SecretBoxScreen.kt` + `SecretBoxViewModel.kt` — 3-state UI: `CLOSED` (looping idle video + unopened counter) → `OPENING` (tap + open videos play once) → `REWARD` (random prize PNG + "Tiếp tục" → back to `CLOSED`, count -1)
+- `feature/secretbox/SecretBoxModels.kt` — `SecretBoxPhase` enum, `SecretBoxReward` data class
+- `feature/secretbox/SecretBoxMockData.kt` — 6 prize entries; assets resolved at runtime by name via `resources.getIdentifier`
+- `feature/secretbox/components/` — 5 composables: `GiftBoxAnimation`, `GiftBoxPlaceholder`, `SecretBoxHeader`, `SecretBoxRewardView`, `SecretBoxTopBar`
+- `data/SecretBoxRepository.kt` — in-memory `object` singleton; `MutableStateFlow<SecretBoxCounts>` (unopened/opened); `openOne()` decrements unopened + increments opened; observed by `SecretBoxViewModel` and `MyProfileViewModel` for stats-card sync
+- `navigation/SecretBoxNavigation.kt` — `SecretBoxRoute` composable; route: `"secret-box"`
+- Video assets: `res/raw/secretbox_idle.mp4`, `secretbox_tap.mp4`, `secretbox_open.mp4`; 6 reward PNGs in `res/drawable-nodpi/`
+- `androidx.media3:media3-exoplayer` + `media3-ui` 1.4.1 added — **first video playback** in the app
+- `kotlinx-coroutines-test` 1.7.3 added — enables `MainDispatcherRule` + `runTest` for ViewModel `StateFlow` tests
+- 101 new unit tests (5 test files); full suite: 462/462 passing
+
 ## Phase 08 — Notifications [Complete]
 
 Implemented the Notifications screen and in-memory shared state for unread-badge sync across Home and Feed.

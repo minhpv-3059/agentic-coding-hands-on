@@ -1,5 +1,32 @@
 # Project Changelog
 
+## [Unreleased] — Phase 09: Secret Box (2026-06-16)
+
+### Added
+- `feature/secretbox/SecretBoxModels.kt` — `SecretBoxPhase` enum (CLOSED / OPENING / REWARD), `SecretBoxReward` data class (`id`, `name`, `imageResName` — resolved at runtime via `resources.getIdentifier`)
+- `feature/secretbox/SecretBoxMockData.kt` — 6-prize reward pool (khăn, tem, cốc, áo thun, combo, phần quà); `randomReward()` picks one on open
+- `feature/secretbox/SecretBoxScreen.kt` — single screen driving 3 ViewModel states: idle looping video (`CLOSED`) → open animation videos (`OPENING`) → prize PNG + "Tiếp tục" button (`REWARD`); screen is a detail flow (back arrow, no bottom nav)
+- `feature/secretbox/SecretBoxViewModel.kt` — plain `ViewModel`; combines local `phase`/`reward` `MutableStateFlow` with `SecretBoxRepository.counts`; exposes `SecretBoxUiState`; `onBoxTap()`, `onOpenAnimationEnd()`, `onContinue()` drive the state machine
+- `feature/secretbox/components/` — 5 composables: `GiftBoxAnimation`, `GiftBoxPlaceholder`, `SecretBoxHeader`, `SecretBoxRewardView`, `SecretBoxTopBar`
+- `data/SecretBoxRepository.kt` — in-memory `object` singleton; `MutableStateFlow<SecretBoxCounts>` seeded (unopened=5, opened=25); `openOne()` moves one from unopened to opened; same pattern as `KudosRepository` / `NotificationsRepository`
+- `navigation/SecretBoxNavigation.kt` — `SecretBoxRoute` composable (same extraction pattern as other feature nav files); route: `"secret-box"`
+- Video assets: `res/raw/secretbox_idle.mp4`, `res/raw/secretbox_tap.mp4`, `res/raw/secretbox_open.mp4` — **first use of video in the app**
+- 6 reward PNG assets in `res/drawable-nodpi/` (`img_secretbox_scarf`, `img_secretbox_stamps`, `img_secretbox_mug`, `img_secretbox_tshirt`, `img_secretbox_combo`, `img_secretbox_gift`)
+
+### Changed
+- `feature/profile/MyProfileViewModel.kt` — now combines `SecretBoxRepository.counts` into `ProfileUiState`; `secretBoxOpened` and `secretBoxUnopened` fields on the stats card stay in sync after the user opens a box
+- `navigation/NavRoutes.kt` — `SECRET_BOX = "secret-box"` route constant added
+- `navigation/AppNavGraph.kt` — `SECRET_BOX` wired to `SecretBoxRoute`
+
+### Dependencies
+- `androidx.media3:media3-exoplayer` + `androidx.media3:media3-ui` 1.4.1 — ExoPlayer-backed video playback (first video dependency in project)
+- `kotlinx-coroutines-test` 1.7.3 — first `testImplementation` dependency enabling `MainDispatcherRule` + `runTest` for ViewModel `StateFlow` tests
+
+### Tests
+- 101 new unit tests across 5 files (`SecretBoxRepositoryTest`, `SecretBoxMockDataTest`, `SecretBoxModelsTest`, `SecretBoxViewModelTest`, `SecretBoxViewModelStateFlowTest`); full suite: 462/462 passing
+
+---
+
 ## [Unreleased] — Phase 08: Notifications (2026-06-16)
 
 ### Added

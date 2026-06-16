@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.sun.kudos_demo.data.KudosPreferences
+import com.sun.kudos_demo.data.SecretBoxRepository
 import com.sun.kudos_demo.feature.auth.AppLanguage
 import com.sun.kudos_demo.feature.feed.Kudo
 import com.sun.kudos_demo.feature.feed.KudoUser
@@ -44,11 +45,19 @@ class MyProfileViewModel(app: Application) : AndroidViewModel(app) {
     private val language = MutableStateFlow(AppLanguage.VN)
 
     val uiState: StateFlow<MyProfileUiState> =
-        combine(filter, prefs.likedKudoIds, language, prefs.currentUserId) { f, liked, lang, uid ->
+        combine(
+            filter, prefs.likedKudoIds, language, prefs.currentUserId, SecretBoxRepository.counts
+        ) { f, liked, lang, uid, boxCounts ->
             // Resolve the signed-in Sunner from the persisted login session (falls back to the
-            // canonical CurrentUser identity before the first login completes).
+            // canonical CurrentUser identity before the first login completes). Secret Box tallies
+            // come from the shared repository so opening a box on the Secret Box screen updates the
+            // stats card here too (clarifications.md Session 2026-06-16 — Phase 09).
             MyProfileUiState(
                 user = ProfileMockData.resolveCurrentUser(uid),
+                stats = ProfileMockData.currentUserStats.copy(
+                    secretBoxOpened = boxCounts.opened,
+                    secretBoxUnopened = boxCounts.unopened
+                ),
                 filter = f, likedIds = liked, language = lang
             )
         }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), MyProfileUiState())

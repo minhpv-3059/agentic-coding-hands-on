@@ -98,7 +98,7 @@ fun AppNavGraph(
 
         composable(NavRoutes.NOTIFICATIONS) { NotificationsRoute(navController) }
         composable(NavRoutes.SEARCH) { KudosSearchRoute(navController) }
-        composable(NavRoutes.SECRET_BOX) { PlaceholderScreen("Secret Box") }
+        composable(NavRoutes.SECRET_BOX) { SecretBoxRoute(navController) }
         composable(NavRoutes.AWARDS) { PlaceholderScreen("Awards") }
         composable(NavRoutes.RULES) { PlaceholderScreen("Rules") }
 
