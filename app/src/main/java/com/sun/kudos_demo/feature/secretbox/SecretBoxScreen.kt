@@ -64,16 +64,17 @@ fun SecretBoxScreen(
             // Top bar — absorb status bar inset bên trong
             SecretBoxTopBar(onBack = onBack)
 
-            // Content panel — chiếm phần còn lại, cuộn dọc nếu màn nhỏ
-            // weight(1f) cần thiết để verticalScroll có giới hạn chiều cao (tiền lệ NotificationsScreen)
+            // Content panel — full chiều rộng device (design node 6885:9434 width=375, startX=0).
+            // 7.3/13.7px của node là padding TRONG → đặt SAU background để nền #00101A chạm sát
+            // 2 mép màn hình (không lộ key-visual). weight(1f) cấp giới hạn chiều cao cho verticalScroll.
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
                     .weight(1f)
-                    .padding(horizontal = 7.dp, vertical = 14.dp)
                     .clip(RoundedCornerShape(7.dp))
                     .background(Color(0xFF00101A))
-                    .verticalScroll(rememberScrollState()),
+                    .verticalScroll(rememberScrollState())
+                    .padding(horizontal = 7.dp, vertical = 14.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Spacer(Modifier.height(14.dp))
