@@ -2,34 +2,65 @@
 phase: "06"
 title: Send Kudos Flow
 priority: p0
-status: todo
-blockedBy: ["phase-05-kudos-feed"]
+status: done
+blockedBy: []
 ---
 
 # Phase 06 — Send Kudos Flow
 
 **Goal:** Implement full Send Kudos form with dropdowns, validation states, and community standards.
 
-## MoMorph refs
-- [iOS] Sun*Kudos_Gửi lời chúc Kudos: https://momorph.ai/files/9ypp4enmFmdK3YAFJLIu6C/screens/PV7jBVZU1N
-- [iOS] Sun*Kudos_Viết Kudo_default: https://momorph.ai/files/9ypp4enmFmdK3YAFJLIu6C/screens/7fFAb-K35a
-- [iOS] Sun*Kudos_Lỗi chưa điền hết: https://momorph.ai/files/9ypp4enmFmdK3YAFJLIu6C/screens/0le8xKnFE_
-- [iOS] Sun*Kudos_Tiêu chuẩn cộng đồng: https://momorph.ai/files/9ypp4enmFmdK3YAFJLIu6C/screens/xms7csmDhD
-- [iOS] Sun*Kudos_Gửi lời chúc Kudos_dropdown hashtag: https://momorph.ai/files/9ypp4enmFmdK3YAFJLIu6C/screens/aKWA2klsnt
-- [iOS] Sun*Kudos_Gửi lời chúc Kudos_dropdown tên người nhận: https://momorph.ai/files/9ypp4enmFmdK3YAFJLIu6C/screens/5MU728Tjck
-- [iOS] Ẩn danh: https://momorph.ai/files/9ypp4enmFmdK3YAFJLIu6C/screens/p9vFVBE_tc
+**Status:** ✅ Completed — build PASS, 152 unit tests PASS.
 
-## Files to create
-- `app/src/main/java/com/sun/kudos_demo/feature/send/SendKudosScreen.kt`
-- `app/src/main/java/com/sun/kudos_demo/feature/send/SendKudosViewModel.kt`
-- `app/src/main/java/com/sun/kudos_demo/feature/send/CommunityStandardsScreen.kt`
-- `app/src/main/java/com/sun/kudos_demo/ui/components/RecipientDropdown.kt`
-- `app/src/main/java/com/sun/kudos_demo/ui/components/AnonymousToggle.kt`
+## Completed Deliverables
 
-## Integration contract
-- On submit success → navigate back to feed with refresh
-- Validation: recipient + hashtag + message required
-- Anonymous toggle → hides sender identity in kudo card
+**UI Components:**
+- SendKudosScreen, SendKudosFormContent, SendKudosErrorBanner
+- RecipientField (search dropdown, horizontal label-left layout), DanhHieuField dropdown
+- RichTextToolbar (markdown: bold, italic, strike, link, list, quote)
+- MessageField, HashtagSection (multi-select, max 5, white chips), ImageAttachRow (photo thumbnails)
+- AnonymousSection toggle
+- CommunityStandardsScreen + CommunityStandardsContent (10 criteria, security section, ROOT banner)
 
-## Out of scope
-- Real submit API — mock success/error
+**Logic & State:**
+- SendKudosViewModel: recipient+message+hashtag validation, submit→prepend, double-tap guard, recipient search, hashtag cap
+- RichTextFormatter: functional markdown on selection
+- SendKudosMockData + SendKudosUiState
+- KudosRepository: in-memory store (addKudo prepends, kudoById)
+- KudosFeedViewModel refactored to read from KudosRepository
+
+**Behavior:**
+- Real Android Photo Picker (max 5 images, bitmap thumbnail decode, no Coil)
+- New kudo appears at top of feed/All Kudos
+- Navigation: KUDOS_SEND → SendKudosRoute, KUDOS_COMMUNITY_STANDARDS → route
+- "Tiêu chuẩn cộng đồng" link wired
+
+## Files Created/Modified
+- `feature/send/SendKudosScreen.kt`, `SendKudosViewModel.kt`, `CommunityStandardsScreen.kt`
+- `ui/components/RecipientDropdown.kt`, `RichTextToolbar.kt`, `MessageField.kt`, `HashtagSection.kt`, `ImageAttachRow.kt`, `AnonymousToggle.kt`
+- `data/KudosRepository.kt`
+- `viewmodel/KudosFeedViewModel.kt` (refactored)
+- Mock data + unit tests for validation, formatting, repository
+
+## Quality Assurance
+- Code review: 20 findings (2 medium, 18 low), all fixed and verified
+- Test coverage: 152 unit tests pass
+- Design compliance: validated against MoMorph specs (clarifications.md Session 2026-06-12)
+
+## Post-delivery Fixes (2026-06-15)
+
+**Emulator Testing & Fidelity Alignment (emulator-5554, 186 unit tests PASS):**
+- Dropdown styling: recipient/danh hiệu/hashtag fields now show dark background (#00070C / KudosContainer2) with white items and gold checkmarks (matched MoMorph design).
+- Recipient search field: switched to BasicTextField to prevent text clipping at 40dp field height.
+- Action buttons: "Huỷ" and "Gửi đi" now use 4dp rounded-rectangle corners (design spec) instead of full pills; other pill buttons unchanged.
+- Screen background: key-visual artwork now displays; "New Kudo" title centered and white.
+
+**Enhancements:**
+- **Markdown rendering** (`ui/components/MarkdownText.kt`): new parseKudoMarkdown utility renders **bold**, *italic*, ~~strikethrough~~, and [links]. Integrated into KudosCard and KudoDetailCard in feed so sent kudos display formatted instead of raw markers.
+- **Preview feature**: "Xem trước Kudo" button opens dialog showing full kudo card (recipient, title, markdown-rendered message, hashtags, images) using reused KudosCard component.
+
+**Round 2 (2026-06-15, 186 unit tests PASS):**
+- Nickname (ẩn danh) field: switched to BasicTextField to prevent text clipping — matches recipient field fix.
+- "Tiêu chuẩn cộng đồng" link: moved from Danh hiệu helper to markdown toolbar row (right side), recolored RED (#E46060, KudosLinkRed token), verified vs design node 6885:9933.
+- Markdown toolbar: added vertical dividers between format buttons (design nodes 6885:9919).
+- Community Standards screen: added bg_home_keyvisual background artwork, corrected typography/spacing (gold titles, white body, list/section gaps).
