@@ -129,6 +129,55 @@ Isolate non-UI, non-Android logic into dedicated `*Logic.kt` files (e.g., `Kudos
 - Can be unit-tested without instrumentation
 - Are the first target for unit tests in each feature module
 
+## ExoPlayer-in-Compose Lifecycle Pattern
+
+When embedding `ExoPlayer` via `AndroidView` inside a Compose screen (e.g., `GiftBoxAnimation`):
+
+1. Create the player inside `remember { ExoPlayer.Builder(context).build() }` — one instance per composition.
+2. Pause/resume the player in response to `Lifecycle.Event.ON_STOP` / `ON_START` using a `LifecycleEventObserver` registered inside `DisposableEffect(player, lifecycleOwner)`. This prevents the player decoding and emitting audio while the app is in the background.
+3. Release the player in the `onDispose` block of the same `DisposableEffect`.
+4. Use `rememberUpdatedState(phase)` for any value captured by the observer/listener so the observer always reads the current phase without being re-registered.
+5. Control playback mode and media items in a `LaunchedEffect(phase)` block — not inside the observer.
+
+```kotlin
+DisposableEffect(player, lifecycleOwner) {
+    val observer = LifecycleEventObserver { _, event ->
+        when (event) {
+            Lifecycle.Event.ON_STOP -> player.pause()
+            Lifecycle.Event.ON_START -> if (currentPhase != SecretBoxPhase.REWARD) player.play()
+            else -> Unit
+        }
+    }
+    lifecycleOwner.lifecycle.addObserver(observer)
+    onDispose {
+        lifecycleOwner.lifecycle.removeObserver(observer)
+        player.release()
+    }
+}
+```
+
+Do not add Coil or any image-loading library for video — use Media3 ExoPlayer for MP4 assets from `res/raw/`.
+
+## ViewModel StateFlow Tests (MainDispatcherRule + runTest)
+
+For ViewModels that expose `StateFlow` built with `combine(...).stateIn(WhileSubscribed(...))`, use `kotlinx-coroutines-test` with `UnconfinedTestDispatcher`:
+
+1. Add `@get:Rule val mainDispatcherRule = MainDispatcherRule()` to the test class — this swaps `Dispatchers.Main` for a test dispatcher so coroutines launched by `viewModelScope` run synchronously.
+2. Activate the `StateFlow` inside `runTest` by collecting it on a `backgroundScope` with `UnconfinedTestDispatcher(testScheduler)` — this triggers the `WhileSubscribed` upstream so `.value` reflects mutations immediately.
+3. Reset any `object` singleton repositories in `@Before` and `@After` via an `internal fun resetForTest()` on the repository — ensures test order independence.
+
+```kotlin
+@get:Rule val mainDispatcherRule = MainDispatcherRule()
+
+@Test fun example() = runTest {
+    backgroundScope.launch(UnconfinedTestDispatcher(testScheduler)) { vm.uiState.collect {} }
+    vm.onBoxTap()
+    assertEquals(SecretBoxPhase.OPENING, vm.uiState.value.phase)
+}
+```
+
+This pattern applies to any ViewModel that uses `SharingStarted.WhileSubscribed` — not just SecretBox.
+
 ## Previews
 
 Every component file must include at least one `@Preview` using `KudosAppTheme` with `backgroundColor = 0xFF00101A` (or the relevant surface color) so previews render on the correct dark background.

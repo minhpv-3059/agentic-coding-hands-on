@@ -22,7 +22,8 @@ com.sun.kudos_demo/
 │   ├── CurrentUser.kt              — object singleton: single source of truth for the signed-in Sunner (ID = "u1", KudoUser "Phan Văn Minh"); referenced by ProfileMockData, SendKudosMockData, and feed mock data
 │   ├── KudosPreferences.kt         — DataStore Preferences persistence: liked kudo IDs + recent search terms (Flow<Set<String>>); also persists current user id via setCurrentUser() / currentUserId: Flow<String?>
 │   ├── KudosRepository.kt          — in-memory singleton; MutableStateFlow<List<Kudo>> seeded from KudosMockData; shared source of truth for feed + send feature modules
-│   └── NotificationsRepository.kt  — in-memory singleton; MutableStateFlow<List<AppNotification>> seeded from NotificationsMockData; exposes notifications: StateFlow, unreadCount: StateFlow<Int>, markRead(id), markAllRead(); observed by Home + Feed + Profile ViewModels for bell-badge sync
+│   ├── NotificationsRepository.kt  — in-memory singleton; MutableStateFlow<List<AppNotification>> seeded from NotificationsMockData; exposes notifications: StateFlow, unreadCount: StateFlow<Int>, markRead(id), markAllRead(); observed by Home + Feed + Profile ViewModels for bell-badge sync
+│   └── SecretBoxRepository.kt      — in-memory singleton; MutableStateFlow<SecretBoxCounts> (unopened/opened tallies); openOne() decrements unopened and increments opened; observed by SecretBoxViewModel and MyProfileViewModel so Profile stats card stays in sync
 ├── feature/
 │   ├── auth/
 │   │   ├── LoginScreen.kt   — login UI (key-visual, ROOT FURTHER logo, Google SSO button, language overlay)
@@ -56,6 +57,12 @@ com.sun.kudos_demo/
 │   │   ├── NotificationModels.kt    — AppNotification data class, NotificationType enum (7 types)
 │   │   ├── NotificationsMockData.kt — mock dataset
 │   │   └── components/              — 4 composables: NotificationItem, NotificationsTopBar, MarkAllReadButton, NotificationIconMapper
+│   ├── secretbox/
+│   │   ├── SecretBoxScreen.kt      — detail screen (back arrow, no bottom nav): 3-state UI driven by SecretBoxPhase; CLOSED shows looping idle video + unopened counter; OPENING plays tap + open videos once; REWARD reveals a prize PNG + "Tiếp tục" button
+│   │   ├── SecretBoxViewModel.kt   — plain ViewModel; combines local phase/reward MutableStateFlow with SecretBoxRepository.counts into SecretBoxUiState; onBoxTap / onOpenAnimationEnd / onContinue drive the state machine
+│   │   ├── SecretBoxModels.kt      — SecretBoxPhase enum (CLOSED/OPENING/REWARD), SecretBoxReward data class (id, name, imageResName)
+│   │   ├── SecretBoxMockData.kt    — 6-prize reward pool; randomReward() selects one on open; imageResName resolved at runtime via resources.getIdentifier
+│   │   └── components/             — 5 composables: GiftBoxAnimation (ExoPlayer VideoView), GiftBoxPlaceholder, SecretBoxHeader, SecretBoxRewardView, SecretBoxTopBar
 │   └── profile/
 │       ├── MyProfileScreen.kt      — own-profile: header, stats card, kudos filter (Đã nhận / Đã gửi), kudos list, icon collection, secret-box CTA
 │       ├── MyProfileViewModel.kt   — filter state, like toggle, language toggle; reads KudosRepository + KudosPreferences
@@ -74,6 +81,7 @@ com.sun.kudos_demo/
 │   ├── KudosFeedNavigation.kt        — feed route composables (KudosFeedRoute, KudosAllRoute, ViewKudoRoute, KudosSearchRoute); slot injection for filters and Spotlight
 │   ├── ProfileNavigation.kt          — profile route composables (MyProfileRoute, UserProfileRoute); follows same extraction pattern as KudosFeedNavigation
 │   ├── NotificationsNavigation.kt    — NotificationsRoute composable; same extraction pattern
+│   ├── SecretBoxNavigation.kt        — SecretBoxRoute composable; same extraction pattern; route: "secret-box"
 │   └── SendKudosNavigation.kt        — send-kudos route composable
 └── ui/
     ├── KudosApp.kt          — root composable: Scaffold (contentWindowInsets=0) + KudosBottomNav + AppNavGraph
@@ -104,7 +112,7 @@ The app uses `navigation-compose 2.8.0` with a single `NavHost` defined in `AppN
 - `PROFILE_ME` uses the distinct path `"my-profile"` (not `"profile/me"`) to prevent the `PROFILE_USER = "profile/{userId}"` wildcard from capturing it as `userId="me"`.
 - Feature-specific route composables are extracted to dedicated navigation files (`KudosFeedNavigation.kt`, `ProfileNavigation.kt`, `SendKudosNavigation.kt`) to keep `AppNavGraph.kt` under 200 lines — follow this pattern for future feature modules.
 - Hashtag cross-screen navigation: secondary screens (View / AllKudos) stash the tag on the Feed's `SavedStateHandle` and pop back, so the Feed ViewModel picks it up without re-composing.
-- Real screens: LOGIN, HOME, KUDOS_FEED, KUDOS_ALL, KUDOS_VIEW, KUDOS_SEARCH, KUDOS_SEND, KUDOS_COMMUNITY_STANDARDS, PROFILE_ME, PROFILE_USER, NOTIFICATIONS. Remaining routes still use placeholder composables.
+- Real screens: LOGIN, HOME, KUDOS_FEED, KUDOS_ALL, KUDOS_VIEW, KUDOS_SEARCH, KUDOS_SEND, KUDOS_COMMUNITY_STANDARDS, PROFILE_ME, PROFILE_USER, NOTIFICATIONS, SECRET_BOX. Remaining routes still use placeholder composables.
 - `NOTIFICATIONS` is a detail screen (back arrow, no bottom nav) — same treatment as `PROFILE_USER`. `KudosApp` suppresses the global bottom bar for this route.
 
 ## Theme System
@@ -142,6 +150,7 @@ Tokens added in Phase 06:
 | `lifecycle-viewmodel-compose` | 2.6.1 | ViewModel integration in Compose |
 | `lifecycle-runtime-ktx` | (catalog) | Lifecycle-aware coroutines |
 | `datastore-preferences` | 1.1.1 | Persistence: liked kudo IDs + recent search terms |
+| `media3-exoplayer` + `media3-ui` | 1.4.1 | Video playback (Secret Box idle/open animations from `res/raw/*.mp4`); first video dependency in project |
 | DSEG7 Classic font (TTF) | — | Seven-segment countdown digits; bundled in `res/font/`; SIL OFL license in `assets/` |
 
 ## Persistence Layer
@@ -167,6 +176,15 @@ Tokens added in Phase 06:
 - **Pattern**: Kotlin `object` singleton; same structure as `KudosRepository`. Holds a `MutableStateFlow<List<AppNotification>>` seeded from `NotificationsMockData`. Derives `unreadCount: StateFlow<Int>` via `map + stateIn(Eagerly)`.
 - **Cross-feature use**: `NotificationsViewModel` calls `markRead(id)` / `markAllRead()`. `HomeViewModel`, `KudosFeedViewModel`, and profile ViewModels observe `unreadCount` so the bell badge in `KudosTopBar` stays in sync across all screens after any read event.
 - **Scope**: process-lifetime only (no disk persistence) — same intentional constraint as `KudosRepository`.
+
+## Secret Box Shared State
+
+`data/SecretBoxRepository.kt` is the in-memory shared state store for Secret Box counts (introduced in Phase 09).
+
+- **Pattern**: Kotlin `object` singleton; same structure as `KudosRepository` and `NotificationsRepository`. Holds a `MutableStateFlow<SecretBoxCounts>` seeded from design values (unopened=5, opened=25).
+- **Cross-feature use**: `SecretBoxViewModel` reads `counts` to gate the open action and display the counter. `MyProfileViewModel` also combines `SecretBoxRepository.counts` into `ProfileUiState` — so tapping "Tiếp tục" on the Secret Box screen decrements the counter visible on the Profile stats card without any additional signaling.
+- **Video assets**: 3 MP4 files in `res/raw/` (`secretbox_idle.mp4`, `secretbox_tap.mp4`, `secretbox_open.mp4`) played via `androidx.media3` ExoPlayer (1.4.1) — the first use of video playback in the project.
+- **Scope**: process-lifetime only (no disk persistence) — same intentional constraint as the other repositories.
 
 ## Signed-in User Identity
 
