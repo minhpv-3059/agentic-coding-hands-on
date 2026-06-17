@@ -21,6 +21,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
@@ -28,6 +29,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.sun.kudos_demo.R
 import com.sun.kudos_demo.feature.send.RichTextFormatter
+import com.sun.kudos_demo.ui.KudosTestTags
 import com.sun.kudos_demo.ui.theme.KudosAppTheme
 import com.sun.kudos_demo.ui.theme.KudosBorder
 import com.sun.kudos_demo.ui.theme.KudosDarkText
@@ -110,6 +112,7 @@ fun MessageField(
                 .heightIn(min = 89.dp)
                 .border(1.dp, borderColor, TextFieldBottomShape)
                 .background(KudosWhite, TextFieldBottomShape)
+                .testTag(KudosTestTags.SEND_MESSAGE_INPUT)
         )
 
         Spacer(Modifier.height(4.dp))

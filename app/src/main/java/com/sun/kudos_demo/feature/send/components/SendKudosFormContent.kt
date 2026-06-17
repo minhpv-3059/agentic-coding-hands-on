@@ -18,9 +18,11 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.sun.kudos_demo.R
+import com.sun.kudos_demo.ui.KudosTestTags
 import com.sun.kudos_demo.feature.feed.KudoUser
 import com.sun.kudos_demo.feature.send.SendKudosUiState
 import com.sun.kudos_demo.ui.theme.KudosBorder
@@ -202,6 +204,7 @@ fun SendKudosFormContent(
                 modifier = Modifier
                     .weight(1f)
                     .height(40.dp)
+                    .testTag(KudosTestTags.SEND_SUBMIT_BUTTON)
             ) {
                 Text(text = stringResource(R.string.send_btn_submit), style = MaterialTheme.typography.labelMedium)
             }
