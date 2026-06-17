@@ -50,7 +50,7 @@ fun AppNavGraph(
             HomeScreen(
                 onAboutAward = { navigateOnce(NavRoutes.AWARDS) },
                 onAboutKudos = { navigateOnce(NavRoutes.KUDOS_FEED) },
-                onAwardDetail = { navigateOnce(NavRoutes.AWARDS) }, // Award detail = Phase 10
+                onAwardDetail = { awardId -> navigateOnce(NavRoutes.awards(awardId)) },
                 onKudosDetail = { navigateOnce(NavRoutes.KUDOS_FEED) },
                 onSendKudos = { navigateOnce(NavRoutes.KUDOS_SEND) },
                 onOpenKudosFeed = { navigateOnce(NavRoutes.KUDOS_FEED) },
@@ -99,7 +99,13 @@ fun AppNavGraph(
         composable(NavRoutes.NOTIFICATIONS) { NotificationsRoute(navController) }
         composable(NavRoutes.SEARCH) { KudosSearchRoute(navController) }
         composable(NavRoutes.SECRET_BOX) { SecretBoxRoute(navController) }
-        composable(NavRoutes.AWARDS) { PlaceholderScreen("Awards") }
+        composable(
+            route = NavRoutes.AWARDS_WITH_ARG,
+            arguments = listOf(navArgument(NavRoutes.ARG_AWARD) {
+                type = NavType.StringType
+                defaultValue = ""
+            })
+        ) { AwardsRoute(navController) }
         composable(NavRoutes.RULES) { PlaceholderScreen("Rules") }
 
         composable(NavRoutes.ERROR_403) { PlaceholderScreen("403 — Access Denied") }

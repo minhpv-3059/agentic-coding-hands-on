@@ -1,5 +1,29 @@
 # Project Changelog
 
+## [Unreleased] — Phase 10: Awards (2026-06-17)
+
+### Added
+- `feature/awards/AwardsScreen.kt` — Awards bottom-nav TAB: dropdown selecting among 6 award types (MVP, Best Manager, Signature 2025-Creator, Top Project, Top Project Leader, Top Talent); selecting updates the Award Information Block (title, description, quantity+unit, 1–2 value rows); display-only (eligibility logic out of scope)
+- `feature/awards/AwardContent.kt` — award info block composable rendering title, description, quantity+unit, and value rows from the selected award
+- `feature/awards/AwardData.kt` — data definitions and mock dataset for all 6 award types
+- `feature/awards/AwardViewModel.kt` — plain `ViewModel`; holds selected award `StateFlow`; `onAwardSelected()` drives dropdown state; accepts optional pre-select arg from nav
+- `feature/awards/components/` — 4 composables: `AwardHeaderSection`, `AwardKvSection`, `AwardTrophyCard`, `AwardsKudosSection`
+- `navigation/AwardsNavigation.kt` — `AwardsRoute` composable; route: `awards?award={award}` (optional pre-select arg)
+- 6 trophy PNG assets in `res/drawable-nodpi/img_award_*.png` — extracted from MoMorph S3 and composited (ring + name label) via PIL
+- 3 award section icon drawables: `ic_award_*.xml`
+- `ic_kudos_wordmark.xml` drawable
+
+### Changed
+- `navigation/NavRoutes.kt` — `AWARDS = "awards"`, `AWARDS_WITH_ARG = "awards?award={award}"`, `ARG_AWARD = "award"` constants added; `awards(awardId)` builder added
+- `navigation/AppNavGraph.kt` — `AWARDS_WITH_ARG` wired to `AwardsRoute`; Home award card "Chi tiết" taps navigate with pre-selected award id
+- `ui/KudosApp.kt` — bottom-nav tab-highlight strips query string (base route match) so the Awards tab stays highlighted while `awards?award=…` is the current destination
+- `feature/home/components/AwardCard.kt` (or equivalent) — Top Project and Top Project Leader award cards now display real trophy PNGs (`img_award_top_project`, `img_award_top_project_leader`) replacing Phase 04 placeholders
+
+### Tests
+- `AwardDataTest`, `AwardViewModelTest`, `AwardViewModelStateFlowTest` — new unit tests; full suite: 541/541 passing; `assembleDebug` PASS
+
+---
+
 ## [Unreleased] — Phase 09: Secret Box (2026-06-16)
 
 ### Added

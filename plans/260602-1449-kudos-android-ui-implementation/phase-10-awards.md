@@ -2,13 +2,24 @@
 phase: "10"
 title: Awards
 priority: p2
-status: todo
+status: done
 blockedBy: ["phase-07-profile"]
 ---
 
 # Phase 10 — Awards
 
 **Goal:** Implement award detail screens for all 6 award types.
+**Status:** ✅ DONE (2026-06-17)
+
+## Completion Summary
+
+Shipped single-screen Awards tab (`AwardsScreen.kt`) with dropdown selector for all 6 award types. User selects award → display title, description, quantity+unit, and value rows (Signature 2025-Creator has 2 value rows). Layout matches Home (content panel + KudosTopBar overlay); bottom nav integration wired. Trophy assets extracted from MoMorph S3 + composited via PIL. Home Awards Section wired with real trophies for Top Project and Top Project Leader. Pre-selection from Home working (user navigates from Home award card → Awards tab defaults to selected award).
+
+**Deviation from contract:** Screen named `AwardsScreen.kt` (not `AwardDetailScreen.kt`) — single consolidated tab+dropdown, not separate detail screens per type.
+
+**Assets:** All 6 trophy images created and wired: MVP, Best Manager, Signature 2025-Creator, Top Project, Top Project Leader, Top Talent.
+
+**Tests:** 541 unit tests pass (0 fail); AwardDataTest, AwardViewModelTest, AwardViewModelStateFlowTest added. Reviewed 8.5/10, 0 critical issues. Emulator visual verification: layout, dropdown, Signature 2-value-rows, Home wiring — all confirmed.
 
 ## MoMorph refs
 - [iOS] Award_MVP: https://momorph.ai/files/9ypp4enmFmdK3YAFJLIu6C/screens/b2BuS8HYIt
@@ -18,26 +29,10 @@ blockedBy: ["phase-07-profile"]
 - [iOS] Award_Top project leader: https://momorph.ai/files/9ypp4enmFmdK3YAFJLIu6C/screens/QQvsfK3yaK
 - [iOS] Award_Top talent: https://momorph.ai/files/9ypp4enmFmdK3YAFJLIu6C/screens/c-QM3_zjkG
 
-## Files to create
-- `app/src/main/java/com/sun/kudos_demo/feature/awards/AwardDetailScreen.kt` — parametric, covers all types
-- `app/src/main/java/com/sun/kudos_demo/feature/awards/AwardViewModel.kt`
-
-## Integration contract
-- Single `AwardDetailScreen` parameterized by award type enum
-- Accessible from profile screen → awards section
-
-## Out of scope
-- Award eligibility logic — display only
-
-## Asset notes (cross-phase — ĐỌC khi bắt đầu Phase 10)
-
-Phase 10 phải download/trích ảnh trophy cho các loại giải. **Các trophy này dùng CHUNG với Awards section ở màn Home (Phase 04)** → làm Phase 10 nhớ wire luôn vào Home, đừng để sót.
-
-Trạng thái trophy ở Home hiện tại (`feature/home/components/HomeAwardsSection.kt` → `mockAwards`, field `AwardItem.image: Int?`):
-- ✅ **Top Talent** — `R.drawable.img_award_top_talent` (đã có, user export 2026-06-05)
-- ⏳ **Top Project** — placeholder 🏆, CẦN download (Figma node `mm_media_Picture-Award` = `I6885:9034;72:2115` trong `mms_4.2_award list` 6885:9032)
-- ⏳ **Top Project Leader** — placeholder 🏆 (design card 3 chỉ có glow chung, không có chữ tên riêng)
-
-**Khi có ảnh:** copy vào `res/drawable-nodpi/img_award_<name>.png` rồi set `mockAwards[].image = R.drawable.img_award_<name>` — `AwardCard.kt` đã tự fallback placeholder khi `image == null`, nên chỉ cần gán là xong.
-
-⚠️ `get_figma_image` (500) + `get_media_file` (401) đang lỗi (2026-06-05) → không tự download bytes được; cần user export Figma trực tiếp hoặc chờ API hồi phục.
+## Files created/modified
+- **New:** `feature/awards/{AwardsScreen.kt, AwardContent.kt, AwardData.kt, AwardViewModel.kt}`
+- **New:** `feature/awards/components/{AwardKvSection.kt, AwardHeaderSection.kt, AwardTrophyCard.kt, AwardsKudosSection.kt}`
+- **New:** `navigation/{AwardsNavigation.kt, NAV_ROUTE updates}`
+- **Modified:** `ui/KudosApp.kt` (bottom-nav tab match logic), `feature/home/components/HomeAwardsSection.kt` (real trophy wiring)
+- **Assets:** `res/drawable-nodpi/img_award_{mvp,best_manager,signature_creator,top_project,top_project_leader,top_talent}.png`, `res/drawable/ic_award_{badge,diamond,flag}.xml`, `res/drawable/ic_kudos_wordmark.xml`
+- **Tests:** `AwardDataTest.kt, AwardViewModelTest.kt, AwardViewModelStateFlowTest.kt`

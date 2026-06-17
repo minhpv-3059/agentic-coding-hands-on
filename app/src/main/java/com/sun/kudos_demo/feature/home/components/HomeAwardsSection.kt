@@ -40,12 +40,14 @@ val mockAwards = listOf(
     AwardItem(
         id = "top_project",
         name = "Top Project",
-        description = "Giải thưởng Top Project vinh danh các tập thể dự án xuất sắc nhất năm"
+        description = "Giải thưởng Top Project vinh danh các tập thể dự án xuất sắc nhất năm",
+        image = R.drawable.img_award_top_project
     ),
     AwardItem(
         id = "top_project_leader",
         name = "Top Project Leader",
-        description = "Giải thưởng Top Project Leader vinh danh những nhà lãnh đạo dự án xuất sắc"
+        description = "Giải thưởng Top Project Leader vinh danh những nhà lãnh đạo dự án xuất sắc",
+        image = R.drawable.img_award_top_project_leader
     )
 )
 

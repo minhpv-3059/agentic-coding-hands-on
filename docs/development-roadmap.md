@@ -45,7 +45,7 @@ Implemented the Home screen from MoMorph design with live countdown and upgraded
 - `KudosBottomNav` upgraded: `BottomNavTab` now uses Figma vector drawables (`ic_nav_*`) instead of Material icons
 - HOME route wired to real `HomeScreen` in `AppNavGraph`
 
-**Deferred to Phase 10:** award trophy images (Top Project, Top Project Leader) — still placeholders
+**Resolved in Phase 10:** Top Project and Top Project Leader award cards received real trophy PNGs.
 
 ## Phase 05 — Kudos Feed [Complete]
 
@@ -81,6 +81,20 @@ Implemented two profile screens (own profile + other-user profile) from MoMorph 
 - `KudosTopBar` gained `showScrim` + `onBack` optional params (backwards compatible)
 - `UserProfileScreen` is a detail screen (back arrow, no bottom nav, full-bleed key-visual); `MyProfileScreen` retains bottom nav
 - ~315 unit tests passing
+
+## Phase 10 — Awards [Complete]
+
+Implemented the Awards bottom-nav TAB: award type dropdown, information block, trophy assets, and nav wiring.
+
+**Delivered:**
+- `feature/awards/AwardsScreen.kt` + `AwardViewModel.kt` — Awards tab screen; dropdown over 6 award types (MVP, Best Manager, Signature 2025-Creator, Top Project, Top Project Leader, Top Talent); selecting updates the Award Information Block (title, description, quantity+unit, 1–2 value rows); display-only
+- `feature/awards/AwardContent.kt` + `AwardData.kt` — award info block composable + data/mock dataset for all 6 types
+- `feature/awards/components/` — 4 composables: `AwardHeaderSection`, `AwardKvSection`, `AwardTrophyCard`, `AwardsKudosSection`
+- `navigation/AwardsNavigation.kt` — `AwardsRoute`; route: `awards?award={award}` (optional pre-select arg); Home "Chi tiết" cards deep-link with award id; bottom "Chi tiết ↗" → RULES (Phase 11 placeholder)
+- `ui/KudosApp.kt` — tab-highlight strips query string (base route match) so the Awards tab stays selected while `awards?award=…` is the active destination
+- 6 trophy PNGs (`res/drawable-nodpi/img_award_*.png`) composited via PIL (ring + name label); 3 section icon drawables; `ic_kudos_wordmark.xml`
+- Home Top Project / Top Project Leader award cards now show real trophy PNGs (resolves Phase 04 placeholder)
+- `AwardDataTest`, `AwardViewModelTest`, `AwardViewModelStateFlowTest`; full suite: 541/541 passing; `assembleDebug` PASS
 
 ## Phase 09 — Secret Box [Complete]
 

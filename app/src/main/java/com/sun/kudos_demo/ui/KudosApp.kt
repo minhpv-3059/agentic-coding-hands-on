@@ -22,16 +22,19 @@ import com.sun.kudos_demo.ui.components.KudosBottomNav
 fun KudosApp(navController: NavHostController = rememberNavController()) {
     val backStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = backStackEntry?.destination?.route
+    // Strip any query-arg suffix so tab matching works for optional-arg routes
+    // (e.g. the Awards tab registers as "awards?award={award}").
+    val baseRoute = currentRoute?.substringBefore("?")
 
     // Secondary Kudos screens (All Kudos / View / Search) keep the bottom nav with the
     // Kudos tab active, matching the design.
-    val kudosFamily = currentRoute in setOf(NavRoutes.KUDOS_ALL, NavRoutes.KUDOS_VIEW, NavRoutes.SEARCH)
+    val kudosFamily = baseRoute in setOf(NavRoutes.KUDOS_ALL, NavRoutes.KUDOS_VIEW, NavRoutes.SEARCH)
     // Profile screens (own + other) render their own bottom bar per design, so suppress the
     // global one here to avoid a duplicate bar.
-    val isProfileScreen = currentRoute == NavRoutes.PROFILE_ME || currentRoute == NavRoutes.PROFILE_USER
+    val isProfileScreen = baseRoute == NavRoutes.PROFILE_ME || baseRoute == NavRoutes.PROFILE_USER
     val effectiveTab = when {
         isProfileScreen -> null
-        else -> BottomNavTab.entries.firstOrNull { it.route == currentRoute }
+        else -> BottomNavTab.entries.firstOrNull { it.route == baseRoute }
             ?: if (kudosFamily) BottomNavTab.Kudos else null
     }
     val showBottomBar = effectiveTab != null
