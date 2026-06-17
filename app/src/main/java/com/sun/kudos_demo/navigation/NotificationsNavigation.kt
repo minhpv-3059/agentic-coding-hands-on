@@ -26,7 +26,6 @@ fun NotificationsRoute(navController: NavHostController) {
     val state by vm.uiState.collectAsState()
 
     NotificationsScreen(
-        title = state.title,
         notifications = state.notifications,
         onBack = { navController.popBackStack() },
         onItemClick = { notif ->

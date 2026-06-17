@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- ============ Notifications — Screen title ============ -->
+    <string name="noti_title">Notifications</string>
+
+    <!-- ============ Notifications — Top bar ============ -->
+    <string name="noti_back_desc">Go back</string>
+
+    <!-- ============ Notifications — Actions ============ -->
+    <string name="noti_mark_all_read">Mark all read</string>
+
+    <!-- ============ Notifications — Inline link (CONTENT_HIDDEN) ============ -->
+    <string name="noti_standards_link">Community standards ↗</string>
+
+    <!-- ============ Notifications — Relative-time labels ============ -->
+    <string name="noti_time_15_min">15 minutes ago</string>
+    <string name="noti_time_1_hour">1 hour ago</string>
+    <string name="noti_time_1_day">1 day ago</string>
+    <string name="noti_time_1_month">1 month ago</string>
+</resources>

@@ -21,11 +21,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.sun.kudos_demo.R
 import com.sun.kudos_demo.feature.notifications.AppNotification
 import com.sun.kudos_demo.feature.notifications.NotificationType
 import com.sun.kudos_demo.ui.theme.KudosAccentRed
@@ -95,7 +97,7 @@ fun NotificationItem(
                 if (notification.type == NotificationType.CONTENT_HIDDEN) {
                     Spacer(Modifier.height(4.dp))
                     Text(
-                        text = "Tiêu chuẩn cộng đồng ↗",
+                        text = stringResource(R.string.noti_standards_link),
                         style = MaterialTheme.typography.bodyMedium.copy(
                             textDecoration = TextDecoration.Underline,
                             fontWeight = FontWeight.Medium,
@@ -110,7 +112,7 @@ fun NotificationItem(
 
                 // Time — bodySmall 12sp, màu KudosGray (#999999)
                 Text(
-                    text = notification.time,
+                    text = stringResource(notification.timeRes),
                     style = MaterialTheme.typography.bodySmall,
                     color = KudosGray
                 )
@@ -150,7 +152,7 @@ private fun NotificationItemUnreadPreview() {
                 id = "n1",
                 type = NotificationType.KUDOS_RECEIVED,
                 message = "Sunner Huỳnh Dương Xuân Nhật vừa gửi đến bạn lời ghi nhận đầy yêu thương!",
-                time = "15 phút trước",
+                timeRes = R.string.noti_time_15_min,
                 isRead = false
             ),
             isLast = false,
@@ -169,7 +171,7 @@ private fun NotificationItemContentHiddenPreview() {
                 id = "n5",
                 type = NotificationType.CONTENT_HIDDEN,
                 message = "Tiếc quá! Bạn có một lời nhắn bị tạm ẩn vì \"vướng\" một số tiêu chuẩn! Hãy xem các tiêu chuẩn và gửi lại cho đồng đội nhé!",
-                time = "1 tháng trước",
+                timeRes = R.string.noti_time_1_month,
                 isRead = true
             ),
             isLast = true,

@@ -1,5 +1,6 @@
 package com.sun.kudos_demo.feature.notifications
 
+import com.sun.kudos_demo.R
 import org.junit.Test
 import org.junit.Assert.*
 
@@ -122,13 +123,21 @@ class NotificationsMockDataTest {
     }
 
     @Test
-    fun seed_NoBlankTimes() {
+    fun seed_AllTimeResourcesAreSet() {
         val notifications = NotificationsMockData.notifications
 
         for (notif in notifications) {
-            assertFalse("Time for id=${notif.id} must not be blank", notif.time.isBlank())
-            assertTrue("Time for id=${notif.id} must have non-zero length", notif.time.length > 0)
+            assertNotEquals("timeRes for id=${notif.id} must be set", 0, notif.timeRes)
         }
+    }
+
+    @Test
+    fun seed_TimeResourcesAreDistinct() {
+        val notifications = NotificationsMockData.notifications
+        val timeResources = notifications.map { it.timeRes }
+
+        // Verify that we have distinct resources (at least 2+ distinct values across 7 notifications)
+        assertTrue("Time resources should have multiple distinct values", timeResources.distinct().size >= 2)
     }
 
     @Test

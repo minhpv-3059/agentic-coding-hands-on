@@ -1,5 +1,7 @@
 package com.sun.kudos_demo.feature.secretbox
 
+import androidx.annotation.StringRes
+
 /**
  * Visual phase of the single Secret Box screen (clarifications.md Session 2026-06-16 — Phase 09).
  *
@@ -14,10 +16,11 @@ enum class SecretBoxPhase { CLOSED, OPENING, REWARD }
  * A Secret Box prize revealed after the open animation. The 6 prize images are user-exported
  * Figma PNGs (320×320) — referenced by [imageResName] and resolved at runtime via
  * resources.getIdentifier so the app still builds while the assets land (swappable placeholder
- * precedent, phase 04/07). [name] is the caption shown under the prize.
+ * precedent, phase 04/07). [nameRes] is the string resource id for the caption shown under
+ * the prize — resolved via stringResource() at the call site so the runtime locale switch works.
  */
 data class SecretBoxReward(
     val id: String,
-    val name: String,
+    @StringRes val nameRes: Int,
     val imageResName: String
 )

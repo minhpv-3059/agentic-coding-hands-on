@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- ============ Send Kudos — Top bar ============ -->
+    <string name="send_screen_title">Gửi lời chúc Kudos</string>
+    <string name="send_nav_back_desc">Quay lại</string>
+    <string name="send_form_tagline">Gửi lời cám ơn và ghi nhận đến đồng đội</string>
+
+    <!-- ============ Send Kudos — Recipient field ============ -->
+    <string name="send_recipient_label">Người nhận</string>
+    <string name="send_recipient_required">*</string>
+    <string name="send_recipient_placeholder">Tìm kiếm</string>
+    <string name="send_recipient_cd">Chọn người nhận Kudos</string>
+
+    <!-- ============ Send Kudos — Title (Danh hiệu) field ============ -->
+    <string name="send_title_label">Danh hiệu</string>
+    <string name="send_title_required">*</string>
+    <string name="send_title_placeholder">Dành tặng một danh hiệu cho...</string>
+    <string name="send_title_helper">Ví dụ: Người truyền động lực cho tôi.\nDanh hiệu sẽ hiển thị làm tiêu đề Kudos của bạn.</string>
+
+    <!-- ============ Send Kudos — Message field ============ -->
+    <string name="send_message_label">Lời nhắn</string>
+    <string name="send_message_placeholder">Hãy gửi gắm lời cảm ơn và lời nhắn đến đồng đội tại đây nhé</string>
+    <string name="send_message_helper">Bạn có thể \"@ + tên\" để nhắc tới đồng nghiệp khác</string>
+
+    <!-- ============ Send Kudos — Community Standards link ============ -->
+    <string name="send_community_standards_link">Tiêu chuẩn cộng đồng</string>
+
+    <!-- ============ Send Kudos — Hashtag section ============ -->
+    <string name="send_hashtag_label">Hashtag</string>
+    <string name="send_hashtag_required">*</string>
+    <!-- %1$d = max hashtag count -->
+    <string name="send_hashtag_add_button"> Hashtag (Tối đa %1$d)</string>
+    <string name="send_hashtag_remove_cd">Xoá hashtag %1$s</string>
+
+    <!-- ============ Send Kudos — Image attach row ============ -->
+    <string name="send_image_label">Image</string>
+    <!-- %1$d = max image count -->
+    <string name="send_image_add_button"> Image (Tối đa %1$d)</string>
+    <string name="send_image_thumbnail_cd">Ảnh đính kèm</string>
+    <string name="send_image_remove_cd">Xoá ảnh</string>
+
+    <!-- ============ Send Kudos — Anonymous section ============ -->
+    <string name="send_anonymous_checkbox">Gửi lời cám ơn và ghi nhận ẩn danh</string>
+    <string name="send_anonymous_nickname_label">Nickname ẩn danh</string>
+    <string name="send_anonymous_nickname_required"> *</string>
+    <string name="send_anonymous_nickname_placeholder">Nhập nickname...</string>
+
+    <!-- ============ Send Kudos — Action buttons ============ -->
+    <string name="send_btn_cancel">Huỷ</string>
+    <string name="send_btn_submit">Gửi đi</string>
+    <string name="send_btn_preview">Xem trước Kudo</string>
+
+    <!-- ============ Send Kudos — Error banner ============ -->
+    <string name="send_error_missing_fields">Bạn cần điền đủ Người nhận, Lời nhắn gửi và Hashtag để gửi Kudos!</string>
+
+    <!-- ============ Send Kudos — Success toast ============ -->
+    <string name="send_success_toast">Đã gửi Kudos!</string>
+
+    <!-- ============ Send Kudos — Preview dialog ============ -->
+    <string name="send_preview_title">Xem trước</string>
+    <string name="send_preview_close">Đóng</string>
+
+    <!-- ============ Community Standards — Top bar ============ -->
+    <string name="send_community_standards_screen_title">Tiêu chuẩn cộng đồng</string>
+    <string name="send_community_standards_back_cd">Quay lại</string>
+
+    <!-- ============ Community Standards — Logo banner ============ -->
+    <string name="send_root_further_cd">ROOT FURTHER — SAA 2025</string>
+
+    <!-- ============ Community Standards — Section B title ============ -->
+    <string name="send_community_section_title">Tiêu chuẩn cộng đồng</string>
+    <string name="send_community_intro_bold">Tiêu chuẩn Cộng đồng (Community Standards) được xây dựng nhằm đảm bảo một môi trường văn minh, an toàn và tích cực cho tất cả thành viên tham gia phong trào ghi nhận, cảm ơn Sun* Kudos.</string>
+    <string name="send_community_criteria_intro">Các nội dung phát hiện có một trong những tiêu chí vi phạm bên dưới sẽ được gắn nhãn Spam và được hệ thống chủ động ẩn.</string>
+
+    <!-- Community criteria — 10 items (indices 1–10) -->
+    <string name="send_community_criterion_1">Sử dụng từ ngữ thô tục, chửi bậy, hay có nội dung xúc phạm, bôi nhọ.</string>
+    <string name="send_community_criterion_2">Đề cập đến các vấn đề chính trị, tôn giáo, phân biệt giới tính.</string>
+    <string name="send_community_criterion_3">Chứa số liệu cụ thể (doanh thu, hợp đồng, KPI, khách hàng, mã dự án, số tài khoản…).</string>
+    <string name="send_community_criterion_4">Đề cập tên đối tác, khách hàng, tổ chức bên ngoài.</string>
+    <string name="send_community_criterion_5">Chứa thông tin cá nhân (email, số điện thoại, địa chỉ, thông tin gia đình).</string>
+    <string name="send_community_criterion_6">Gửi lặp lại 3+ tin nhắn có nội dung tương tự nhau trong thời gian ngắn.</string>
+    <string name="send_community_criterion_7">Nội dung Kudos quá ngắn (dưới 30 kí tự), không có ngữ cảnh (\"Cảm ơn nhiều\", \"Thanks nhé\", \"Good job!\").</string>
+    <string name="send_community_criterion_8">Gửi cho quá nhiều người/nhóm người trong thời gian ngắn (&lt;3s/lời nhắn).</string>
+    <string name="send_community_criterion_9">Ngôn từ spam (chỉ chứa ký tự như \".\", \",\", \"...\", hay ký tự không có nội dung).</string>
+    <string name="send_community_criterion_10">Mức độ \"tim\" tăng đột biến bất thường (theo hành vi người dùng trung bình).</string>
+
+    <!-- ============ Community Standards — Section C (Security) ============ -->
+    <string name="send_security_section_title">Tiêu chuẩn bảo mật</string>
+    <string name="send_security_intro">Sunner cam kết bảo vệ thông tin. Mọi thành viên có trách nhiệm bảo mật nội dung chia sẻ trên hệ thống.</string>
+    <string name="send_security_item_a_label">Bảo mật Thông tin</string>
+    <string name="send_security_item_a_body">Toàn bộ thông tin Sunner chia sẻ sẽ được bảo mật trên hệ thống.</string>
+    <string name="send_security_item_b_label">Phạm vi Chia sẻ</string>
+    <string name="send_security_item_b_body">Toàn bộ thông tin nhân sự và dự án trong hệ thống được bảo mật. Sunner vui lòng chỉ chia sẻ trong nội bộ Sun*.</string>
+    <string name="send_security_contact_label">Liên hệ Hỗ trợ: </string>
+    <string name="send_security_contact_body">Mọi thắc mắc, Sunner vui lòng liên hệ đại diện BTC SAA: Slack duong.thi.thuy.an để được hỗ trợ.</string>
+</resources>

@@ -15,9 +15,11 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.sun.kudos_demo.R
 import com.sun.kudos_demo.ui.theme.KudosAppTheme
 import com.sun.kudos_demo.ui.theme.KudosWhite
 
@@ -50,7 +52,7 @@ fun MarkAllReadButton(
         )
         Spacer(Modifier.width(4.dp))
         Text(
-            text = "Đánh dấu đọc tất cả",
+            text = stringResource(R.string.noti_mark_all_read),
             style = MaterialTheme.typography.titleMedium.copy(
                 // design: Montserrat 700 14sp — titleMedium là Medium 14sp, override weight
                 fontWeight = androidx.compose.ui.text.font.FontWeight.Bold

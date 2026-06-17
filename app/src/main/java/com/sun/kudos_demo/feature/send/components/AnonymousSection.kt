@@ -20,8 +20,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.sun.kudos_demo.R
 import com.sun.kudos_demo.ui.theme.KudosAppTheme
 import com.sun.kudos_demo.ui.theme.KudosBorder
 import com.sun.kudos_demo.ui.theme.KudosDarkText
@@ -66,7 +68,7 @@ fun AnonymousSection(
             )
             Spacer(Modifier.padding(start = 8.dp))
             Text(
-                text = "Gửi lời cám ơn và ghi nhận ẩn danh",
+                text = stringResource(R.string.send_anonymous_checkbox),
                 style = MaterialTheme.typography.bodySmall,
                 color = KudosDarkText
             )
@@ -77,12 +79,12 @@ fun AnonymousSection(
             Spacer(Modifier.height(8.dp))
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Text(
-                    text = "Nickname ẩn danh",
+                    text = stringResource(R.string.send_anonymous_nickname_label),
                     style = MaterialTheme.typography.bodySmall,
                     color = KudosDarkText
                 )
                 Text(
-                    text = " *",
+                    text = stringResource(R.string.send_anonymous_nickname_required),
                     style = MaterialTheme.typography.bodySmall,
                     color = KudosGold
                 )
@@ -108,7 +110,7 @@ fun AnonymousSection(
                     decorationBox = { innerTextField ->
                         if (anonymousNickname.isEmpty()) {
                             Text(
-                                text = "Nhập nickname...",
+                                text = stringResource(R.string.send_anonymous_nickname_placeholder),
                                 style = MaterialTheme.typography.bodySmall,
                                 color = KudosGray
                             )

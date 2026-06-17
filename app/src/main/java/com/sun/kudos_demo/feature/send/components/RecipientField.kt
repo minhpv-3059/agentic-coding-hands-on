@@ -20,8 +20,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.sun.kudos_demo.R
 import com.sun.kudos_demo.feature.feed.KudoUser
 import com.sun.kudos_demo.feature.feed.KudosMockData
 import com.sun.kudos_demo.ui.components.KudoAvatar
@@ -71,12 +73,12 @@ fun RecipientField(
         // Label: "Người nhận *"
         Row(verticalAlignment = Alignment.CenterVertically) {
             Text(
-                text = "Người nhận",
+                text = stringResource(R.string.send_recipient_label),
                 style = MaterialTheme.typography.bodySmall,
                 color = KudosDarkText
             )
             Text(
-                text = "*",
+                text = stringResource(R.string.send_recipient_required),
                 style = MaterialTheme.typography.bodySmall,
                 color = KudosError
             )
@@ -109,7 +111,7 @@ fun RecipientField(
                     decorationBox = { innerTextField ->
                         if ((selectedRecipient ?: query).isEmpty()) {
                             Text(
-                                text = "Tìm kiếm",
+                                text = stringResource(R.string.send_recipient_placeholder),
                                 style = MaterialTheme.typography.bodySmall,
                                 color = KudosGray
                             )

@@ -11,6 +11,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import com.sun.kudos_demo.R
 import com.sun.kudos_demo.feature.profile.ProfileMockData
 import com.sun.kudos_demo.feature.send.SendKudosMockData
 import com.sun.kudos_demo.feature.send.SendKudosScreen
@@ -63,7 +64,7 @@ fun SendKudosRoute(navController: NavHostController, recipientId: String = "") {
         onCancel = { navController.popBackStack() },
         onSubmit = {
             if (vm.submit()) {
-                Toast.makeText(context, "Đã gửi Kudos!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, context.getString(R.string.send_success_toast), Toast.LENGTH_SHORT).show()
                 navController.popBackStack()
             }
         },

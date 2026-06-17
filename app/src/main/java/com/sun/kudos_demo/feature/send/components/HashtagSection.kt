@@ -28,8 +28,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.sun.kudos_demo.R
 import com.sun.kudos_demo.feature.send.SendKudosMockData
 import com.sun.kudos_demo.ui.theme.KudosAppTheme
 import com.sun.kudos_demo.ui.theme.KudosBorder
@@ -74,12 +76,12 @@ fun HashtagSection(
         // Label row: "Hashtag *"
         Row(verticalAlignment = Alignment.CenterVertically) {
             Text(
-                text = "Hashtag",
+                text = stringResource(R.string.send_hashtag_label),
                 style = MaterialTheme.typography.bodySmall,
                 color = KudosDarkText
             )
             Text(
-                text = "*",
+                text = stringResource(R.string.send_hashtag_required),
                 style = MaterialTheme.typography.bodySmall,
                 color = KudosError
             )
@@ -107,7 +109,7 @@ fun HashtagSection(
                     )
                     Icon(
                         imageVector = Icons.Filled.Close,
-                        contentDescription = "Remove $tag",
+                        contentDescription = stringResource(R.string.send_hashtag_remove_cd, tag),
                         tint = KudosBorder,
                         modifier = Modifier
                             .padding(start = 4.dp)
@@ -134,7 +136,7 @@ fun HashtagSection(
                             modifier = Modifier.size(12.dp)
                         )
                         Text(
-                            text = " Hashtag (Tối đa ${SendKudosMockData.MAX_HASHTAGS})",
+                            text = stringResource(R.string.send_hashtag_add_button, SendKudosMockData.MAX_HASHTAGS),
                             style = MaterialTheme.typography.labelSmall,
                             color = KudosGray
                         )

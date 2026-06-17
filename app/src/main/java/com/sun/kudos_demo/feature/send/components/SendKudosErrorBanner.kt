@@ -6,8 +6,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.sun.kudos_demo.R
 import com.sun.kudos_demo.ui.theme.KudosAppTheme
 import com.sun.kudos_demo.ui.theme.KudosAccentRed
 
@@ -20,7 +22,7 @@ import com.sun.kudos_demo.ui.theme.KudosAccentRed
 @Composable
 fun SendKudosErrorBanner(modifier: Modifier = Modifier) {
     Text(
-        text = "Bạn cần điền đủ Người nhận, Lời nhắn gửi và Hashtag để gửi Kudos!",
+        text = stringResource(R.string.send_error_missing_fields),
         style = MaterialTheme.typography.bodySmall,
         color = KudosAccentRed,
         modifier = modifier.fillMaxWidth()

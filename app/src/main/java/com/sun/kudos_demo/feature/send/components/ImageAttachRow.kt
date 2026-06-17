@@ -39,8 +39,10 @@ import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.sun.kudos_demo.R
 import com.sun.kudos_demo.feature.send.SendKudosMockData
 import com.sun.kudos_demo.ui.theme.KudosAppTheme
 import com.sun.kudos_demo.ui.theme.KudosBorder
@@ -75,7 +77,7 @@ fun ImageAttachRow(
 
     Column(modifier = modifier.fillMaxWidth()) {
         Text(
-            text = "Image",
+            text = stringResource(R.string.send_image_label),
             style = MaterialTheme.typography.bodySmall,
             color = KudosDarkText
         )
@@ -105,7 +107,7 @@ fun ImageAttachRow(
                         modifier = Modifier.size(12.dp)
                     )
                     Text(
-                        text = " Image (Tối đa ${SendKudosMockData.MAX_IMAGES})",
+                        text = stringResource(R.string.send_image_add_button, SendKudosMockData.MAX_IMAGES),
                         style = MaterialTheme.typography.labelSmall,
                         color = KudosGray
                     )
@@ -129,7 +131,7 @@ private fun ImageThumbnail(uri: Uri, onRemove: () -> Unit) {
         if (thumb != null) {
             Image(
                 bitmap = thumb,
-                contentDescription = "Ảnh đính kèm",
+                contentDescription = stringResource(R.string.send_image_thumbnail_cd),
                 contentScale = ContentScale.Crop,
                 modifier = Modifier.fillMaxSize().clip(ThumbShape)
             )
@@ -144,7 +146,7 @@ private fun ImageThumbnail(uri: Uri, onRemove: () -> Unit) {
         ) {
             Icon(
                 imageVector = Icons.Filled.Close,
-                contentDescription = "Xoá ảnh",
+                contentDescription = stringResource(R.string.send_image_remove_cd),
                 tint = Color.White,
                 modifier = Modifier.size(10.dp)
             )

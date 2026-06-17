@@ -82,22 +82,27 @@ Implemented two profile screens (own profile + other-user profile) from MoMorph 
 - `UserProfileScreen` is a detail screen (back arrow, no bottom nav, full-bleed key-visual); `MyProfileScreen` retains bottom nav
 - ~315 unit tests passing
 
-## Phase 11 — Supporting Screens [Complete]
+## Phase 11 — Supporting Screens + Full-App i18n [Complete]
 
-Added Rules/Thể lệ screen, Access Denied + Not Found error screens, and the first app-wide i18n architecture (runtime locale switching without Activity recreation).
+Added Rules/Thể lệ screen, Access Denied + Not Found error screens, established the runtime i18n architecture, then expanded i18n to cover all main screens.
 
-**Delivered:**
+**Delivered (supporting screens + i18n foundation):**
 - `feature/rules/RulesScreen.kt` + 2 components (`RulesHeroSection`, `RulesIconGrid`) — Rules/Thể lệ detail screen; reachable from Home "Chi tiết ↗" on award cards
 - `feature/error/ErrorScreen.kt` — shared error scaffold (full-screen robot illustration + message + CTA); used by both error screens
 - `feature/error/AccessDeniedScreen.kt` — 403 screen (wired from Rules demo trigger)
 - `feature/error/NotFoundScreen.kt` — 404 screen (wired from Rules demo trigger)
 - `feature/auth/AppLanguage.kt` (extended) — `LanguageManager` process-global `StateFlow` singleton added; `loadInitial()` seeds from DataStore at startup; `set()` triggers live locale switch
 - `data/KudosPreferences.kt` (extended) — `languageCode: Flow<String>` + `setLanguageCode()` added; language selection is now DataStore-persisted across sessions
-- `MainActivity` — observes `LanguageManager.language`, wraps `KudosApp` in `CompositionLocalProvider(LocalContext + LocalConfiguration)` with a locale-overridden context; no Activity recreation required
-- `res/values/strings.xml` (VN default) + `res/values-en/strings.xml` (EN) — first use of Android string resources in the project; Login, Rules, and Error screens migrated; other screens intentionally still use hardcoded VN strings
-- `ui/components/LanguageDropdown.kt` — extracted reusable language selector composable
+- `MainActivity` — observes `LanguageManager.language`, wraps `KudosApp` in `CompositionLocalProvider(LocalContext + LocalConfiguration)` with a locale-overridden context via `ContextThemeWrapper`; no Activity recreation required
+- `res/values/strings.xml` (VN default) + `res/values-en/strings.xml` (EN) — shared string resource files; plus per-feature `strings_<feature>.xml` pairs for all main feature modules
+- `ui/components/LanguageDropdown.kt` — extracted reusable language selector composable; `KudosTopBar` self-manages the VN/EN dropdown and drives `LanguageManager.set()`
 - Assets: `img_error_robot.png` (404/403 illustration), `ic_uk_flag.png` (EN flag in language selector)
 - Nav: `RULES`, `ERROR_403`, `ERROR_404` route constants added; Home "Chi tiết ↗" → `RULES`; `RULES` demo triggers → `ERROR_403` / `ERROR_404`
+
+**Delivered (full-app i18n expansion):**
+- All main screens now use `stringResource(...)`: Home, Feed, Awards, Profile, Notifications, Secret Box, Send Kudos, Community Standards, shared `KudosCard`, feed filter dropdowns
+- `AwardContent`, `SecretBoxReward`, `AppNotification` data class user-text fields converted `String` → `@StringRes Int`; resolved via `stringResource(...)` at composable call sites
+- Bug fix: Send Kudos photo-picker crash — `MainActivity` switched from `createConfigurationContext` to `ContextThemeWrapper` so `LocalActivityResultRegistryOwner` resolves correctly under the locale override
 
 ## Phase 10 — Awards [Complete]
 

@@ -219,18 +219,27 @@ The app intentionally avoids image-loading libraries (no Coil, no Glide) for bit
 
 ## Localization / i18n Architecture
 
-Introduced in Phase 11. Supports runtime locale switching between Vietnamese (default) and English without Activity recreation.
+Introduced in Phase 11 (initial: Login / Rules / Error); expanded to full-app scope in a subsequent pass covering all main screens. Supports runtime locale switching between Vietnamese (default) and English without Activity recreation.
 
 **Components:**
 
 - `AppLanguage` enum (`feature/auth/AppLanguage.kt`) — two variants: `VN(code="VN", locale="vi")`, `EN(code="EN", locale="en")`. `fromCode(String?)` maps a persisted code back; unknown → `VN`.
 - `LanguageManager` object (`feature/auth/AppLanguage.kt`) — process-global `StateFlow<AppLanguage>`. `loadInitial(language)` seeds from DataStore at startup; `set(language)` triggers live switch. Observed by `MainActivity`.
 - `KudosPreferences.languageCode: Flow<String>` + `setLanguageCode(code)` — persists the selected language code to DataStore so the choice survives process death.
-- `MainActivity` — collects `LanguageManager.language` as Compose state; builds a locale-overridden `Context` from the base context; wraps `KudosApp` in `CompositionLocalProvider(LocalContext provides localizedContext, LocalConfiguration provides localizedContext.resources.configuration)`. Every `stringResource(...)` call inside the tree re-resolves against the correct `values` / `values-en` bucket — no `recreate()` call needed.
+- `MainActivity` — collects `LanguageManager.language` as Compose state; wraps `KudosApp` in `CompositionLocalProvider(LocalContext provides localizedContext, LocalConfiguration provides localizedContext.resources.configuration)`. Uses `ContextThemeWrapper(baseContext, theme)` to build the locale-overridden context — **not** `createConfigurationContext`. See pitfall note below.
+- `KudosTopBar` — self-manages a VN/EN dropdown panel and calls `LanguageManager.set()` directly; every screen that shows the top bar gets the language toggle without additional wiring.
 
-**String resources:**
+**String resource layout:**
 
-- `res/values/strings.xml` — Vietnamese (default locale). This is the canonical source; add new user-facing strings here first.
-- `res/values-en/strings.xml` — English overrides. Must mirror every key in `values/strings.xml`.
+- `res/values/strings.xml` — shared/cross-feature Vietnamese keys (default locale). Canonical source; add here first.
+- `res/values-en/strings.xml` — shared English overrides; must mirror every key in `values/strings.xml`.
+- `res/values/strings_<feature>.xml` — per-feature VN strings (e.g. `strings_home.xml`, `strings_feed.xml`, `strings_awards.xml`, `strings_profile.xml`, `strings_notifications.xml`, `strings_secretbox.xml`, `strings_send.xml`). Use a feature-specific key prefix (e.g. `home_hero_title`, `awards_dropdown_label`) to avoid collisions.
+- `res/values-en/strings_<feature>.xml` — per-feature EN overrides; must mirror the corresponding `values/` file.
 
-**Convention:** Only screens explicitly scoped for i18n (Login, Rules, Error screens as of Phase 11) use `stringResource(...)`. Other screens that still have hardcoded Vietnamese strings are intentionally left as-is during the mock phase — migrate them when full i18n is required. Do not add `stringResource(...)` calls to un-scoped screens unless also adding the corresponding EN string.
+**Screens covered (full-app i18n):** Home, Feed (KudosFeed, AllKudos, ViewKudo, KudosSearch), Awards, Profile (MyProfile, UserProfile), Notifications, Secret Box, Send Kudos, Community Standards, Login, Rules, Error screens, shared `KudosCard`, feed filter dropdowns.
+
+**`@StringRes` in data classes:** Data classes whose fields hold user-visible text (`AwardContent`, `SecretBoxReward`, `AppNotification`) store the value as `@StringRes Int` rather than `String`. The string is resolved via `stringResource(field)` at the composable call site. This keeps data classes free of `Context` and ensures the string resolves against the currently active locale.
+
+**Mock/user-generated content** (kudo messages, sender names, hashtags) is intentionally not localized — this data is always Vietnamese regardless of the selected locale.
+
+**ContextThemeWrapper pitfall:** Do **not** use `createConfigurationContext(config)` to build the locale-overridden context in `MainActivity`. `createConfigurationContext` returns a plain `ContextWrapper` that severs the `ComponentActivity` identity — `LocalActivityResultRegistryOwner` (used internally by the Android Photo Picker and other `rememberLauncherForActivityResult` callers) resolves to `null` inside the Compose tree, causing a crash. Use `ContextThemeWrapper(this, theme)` with the locale configuration applied separately; this preserves the `Activity` chain while still overriding the locale for all `stringResource(...)` calls.

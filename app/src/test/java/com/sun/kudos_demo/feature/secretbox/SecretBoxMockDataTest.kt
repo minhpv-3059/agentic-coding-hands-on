@@ -1,5 +1,6 @@
 package com.sun.kudos_demo.feature.secretbox
 
+import com.sun.kudos_demo.R
 import kotlin.random.Random
 import org.junit.Test
 import org.junit.Assert.*
@@ -41,9 +42,9 @@ class SecretBoxMockDataTest {
     }
 
     @Test
-    fun rewards_AllEntriesHaveNonBlankNames() {
+    fun rewards_AllEntriesHaveSetNameResources() {
         SecretBoxMockData.rewards.forEachIndexed { idx, reward ->
-            assertFalse("Reward at index $idx must have non-blank name", reward.name.isBlank())
+            assertNotEquals("Reward at index $idx must have nameRes set", 0, reward.nameRes)
         }
     }
 
@@ -59,7 +60,7 @@ class SecretBoxMockDataTest {
         SecretBoxMockData.rewards.forEachIndexed { idx, reward ->
             assertNotNull("Reward at index $idx must not be null", reward)
             assertNotNull("Reward at index $idx id must not be null", reward.id)
-            assertNotNull("Reward at index $idx name must not be null", reward.name)
+            assertNotEquals("Reward at index $idx nameRes must be set", 0, reward.nameRes)
             assertNotNull("Reward at index $idx imageResName must not be null", reward.imageResName)
         }
     }
@@ -67,50 +68,50 @@ class SecretBoxMockDataTest {
     // ===================== Specific reward validation =====================
 
     @Test
-    fun rewards_ContainsScarf_WithVietnamieseName() {
+    fun rewards_ContainsScarf_WithValidNameResource() {
         val scarf = SecretBoxMockData.rewards.find { it.id == "scarf" }
         assertNotNull("Scarf reward must exist", scarf)
-        assertEquals("Scarf name must be 'Khăn Root Further'", "Khăn Root Further", scarf!!.name)
+        assertNotEquals("Scarf nameRes must be set", 0, scarf!!.nameRes)
         assertEquals("Scarf imageResName must be 'img_secretbox_scarf'", "img_secretbox_scarf", scarf.imageResName)
     }
 
     @Test
-    fun rewards_ContainsStamps_WithVietnamieseName() {
+    fun rewards_ContainsStamps_WithValidNameResource() {
         val stamps = SecretBoxMockData.rewards.find { it.id == "stamps" }
         assertNotNull("Stamps reward must exist", stamps)
-        assertEquals("Stamps name must be 'Tem Root Further'", "Tem Root Further", stamps!!.name)
+        assertNotEquals("Stamps nameRes must be set", 0, stamps!!.nameRes)
         assertEquals("Stamps imageResName must be 'img_secretbox_stamps'", "img_secretbox_stamps", stamps.imageResName)
     }
 
     @Test
-    fun rewards_ContainsMug_WithVietnamieseName() {
+    fun rewards_ContainsMug_WithValidNameResource() {
         val mug = SecretBoxMockData.rewards.find { it.id == "mug" }
         assertNotNull("Mug reward must exist", mug)
-        assertEquals("Mug name must be 'Cốc Root Further'", "Cốc Root Further", mug!!.name)
+        assertNotEquals("Mug nameRes must be set", 0, mug!!.nameRes)
         assertEquals("Mug imageResName must be 'img_secretbox_mug'", "img_secretbox_mug", mug.imageResName)
     }
 
     @Test
-    fun rewards_ContainsTshirt_WithVietnamieseName() {
+    fun rewards_ContainsTshirt_WithValidNameResource() {
         val tshirt = SecretBoxMockData.rewards.find { it.id == "tshirt" }
         assertNotNull("Tshirt reward must exist", tshirt)
-        assertEquals("Tshirt name must be 'Áo thun Burberry'", "Áo thun Burberry", tshirt!!.name)
+        assertNotEquals("Tshirt nameRes must be set", 0, tshirt!!.nameRes)
         assertEquals("Tshirt imageResName must be 'img_secretbox_tshirt'", "img_secretbox_tshirt", tshirt.imageResName)
     }
 
     @Test
-    fun rewards_ContainsCombo_WithVietnamieseName() {
+    fun rewards_ContainsCombo_WithValidNameResource() {
         val combo = SecretBoxMockData.rewards.find { it.id == "combo" }
         assertNotNull("Combo reward must exist", combo)
-        assertEquals("Combo name must be 'Cốc & Tem Root Further'", "Cốc & Tem Root Further", combo!!.name)
+        assertNotEquals("Combo nameRes must be set", 0, combo!!.nameRes)
         assertEquals("Combo imageResName must be 'img_secretbox_combo'", "img_secretbox_combo", combo.imageResName)
     }
 
     @Test
-    fun rewards_ContainsGift_WithVietnamieseName() {
+    fun rewards_ContainsGift_WithValidNameResource() {
         val gift = SecretBoxMockData.rewards.find { it.id == "gift" }
         assertNotNull("Gift reward must exist", gift)
-        assertEquals("Gift name must be 'Phần quà SAA 2025'", "Phần quà SAA 2025", gift!!.name)
+        assertNotEquals("Gift nameRes must be set", 0, gift!!.nameRes)
         assertEquals("Gift imageResName must be 'img_secretbox_gift'", "img_secretbox_gift", gift.imageResName)
     }
 
@@ -199,44 +200,44 @@ class SecretBoxMockDataTest {
 
     @Test
     fun secretBoxReward_DataClass_HasProperEquality() {
-        val reward1 = SecretBoxReward("scarf", "Khăn Root Further", "img_secretbox_scarf")
-        val reward2 = SecretBoxReward("scarf", "Khăn Root Further", "img_secretbox_scarf")
+        val reward1 = SecretBoxReward("scarf", R.string.sb_gift_scarf, "img_secretbox_scarf")
+        val reward2 = SecretBoxReward("scarf", R.string.sb_gift_scarf, "img_secretbox_scarf")
 
         assertEquals("Rewards with same values must be equal", reward1, reward2)
     }
 
     @Test
     fun secretBoxReward_DataClass_DifferentIds_AreNotEqual() {
-        val reward1 = SecretBoxReward("scarf", "Khăn Root Further", "img_secretbox_scarf")
-        val reward2 = SecretBoxReward("stamps", "Khăn Root Further", "img_secretbox_scarf")
+        val reward1 = SecretBoxReward("scarf", R.string.sb_gift_scarf, "img_secretbox_scarf")
+        val reward2 = SecretBoxReward("stamps", R.string.sb_gift_scarf, "img_secretbox_scarf")
 
         assertNotEquals("Rewards with different ids must not be equal", reward1, reward2)
     }
 
     @Test
-    fun secretBoxReward_DataClass_DifferentNames_AreNotEqual() {
-        val reward1 = SecretBoxReward("scarf", "Khăn Root Further", "img_secretbox_scarf")
-        val reward2 = SecretBoxReward("scarf", "Tem Root Further", "img_secretbox_scarf")
+    fun secretBoxReward_DataClass_DifferentNameRes_AreNotEqual() {
+        val reward1 = SecretBoxReward("scarf", R.string.sb_gift_scarf, "img_secretbox_scarf")
+        val reward2 = SecretBoxReward("scarf", R.string.sb_gift_stamps, "img_secretbox_scarf")
 
-        assertNotEquals("Rewards with different names must not be equal", reward1, reward2)
+        assertNotEquals("Rewards with different nameRes must not be equal", reward1, reward2)
     }
 
     @Test
     fun secretBoxReward_DataClass_DifferentImageResNames_AreNotEqual() {
-        val reward1 = SecretBoxReward("scarf", "Khăn Root Further", "img_secretbox_scarf")
-        val reward2 = SecretBoxReward("scarf", "Khăn Root Further", "img_secretbox_stamps")
+        val reward1 = SecretBoxReward("scarf", R.string.sb_gift_scarf, "img_secretbox_scarf")
+        val reward2 = SecretBoxReward("scarf", R.string.sb_gift_scarf, "img_secretbox_stamps")
 
         assertNotEquals("Rewards with different imageResNames must not be equal", reward1, reward2)
     }
 
     @Test
     fun secretBoxReward_Copy_PreservesValues() {
-        val original = SecretBoxReward("scarf", "Khăn Root Further", "img_secretbox_scarf")
+        val original = SecretBoxReward("scarf", R.string.sb_gift_scarf, "img_secretbox_scarf")
         val modified = original.copy(id = "stamps")
 
         assertEquals("Original id must be scarf", "scarf", original.id)
         assertEquals("Modified id must be stamps", "stamps", modified.id)
-        assertEquals("Modified name must be preserved", "Khăn Root Further", modified.name)
+        assertEquals("Modified nameRes must be preserved", R.string.sb_gift_scarf, modified.nameRes)
         assertEquals("Modified imageResName must be preserved", "img_secretbox_scarf", modified.imageResName)
     }
 

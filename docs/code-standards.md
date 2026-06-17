@@ -180,12 +180,37 @@ This pattern applies to any ViewModel that uses `SharingStarted.WhileSubscribed`
 
 ## String Resources and Localization
 
-User-facing strings are managed via Android string resources (`res/values/strings.xml` + `res/values-en/strings.xml`) for screens that are explicitly i18n-scoped (Login, Rules, Error screens as of Phase 11).
+All main screens use Android string resources for user-facing text. Runtime locale switching (VN ↔ EN) is handled by `LanguageManager` + `CompositionLocalProvider` in `MainActivity` — no Activity recreation required.
 
-- **Add new strings to `values/strings.xml` (VN) first**, then add the EN equivalent to `values-en/strings.xml`. Both files must stay in sync.
-- Use `stringResource(R.string.key)` inside composables for i18n-scoped screens. Do not use `stringResource(...)` in screens that still have hardcoded Vietnamese text unless you also add the EN override — partial migration produces a mixed-locale UI.
-- Non-i18n-scoped screens may continue to hardcode Vietnamese strings during the mock phase. This is intentional, not a bug.
-- Do not use `LocalContext.current.getString(...)` inside composables — use `stringResource(...)` so the string resolves against the `CompositionLocal`-overridden locale (see `system-architecture.md` → "Localization / i18n Architecture").
+**File layout:**
+- `res/values/strings.xml` — shared/cross-feature Vietnamese keys (default locale). Add here first.
+- `res/values-en/strings.xml` — shared English overrides. Must mirror every key in the VN file.
+- `res/values/strings_<feature>.xml` — per-feature VN strings. Use a feature-specific prefix for all keys (e.g. `home_`, `awards_`, `feed_`, `profile_`, `notifications_`, `secretbox_`, `send_`) to prevent key collisions across features.
+- `res/values-en/strings_<feature>.xml` — per-feature EN overrides. Must mirror the corresponding VN file.
+
+**Adding new strings:**
+1. Add the VN string to `res/values/strings_<feature>.xml` with the feature prefix.
+2. Add the EN override to `res/values-en/strings_<feature>.xml`.
+3. Use `stringResource(R.string.feature_key)` inside the composable.
+
+**`@StringRes` in data classes:** When a data class field holds user-visible text, declare it as `@StringRes Int` (not `String`). Resolve it via `stringResource(field)` at the composable call site. Never call `context.getString(...)` inside a composable.
+
+```kotlin
+// Data class — store the resource ID
+data class AwardContent(
+    @StringRes val title: Int,
+    @StringRes val description: Int,
+)
+
+// Composable — resolve at render time
+Text(text = stringResource(award.title))
+```
+
+**Do not** use `LocalContext.current.getString(...)` inside composables — `stringResource(...)` is required so the lookup resolves against the `CompositionLocal`-overridden locale.
+
+**ContextThemeWrapper pitfall (MainActivity locale wrapping):** Use `ContextThemeWrapper(this, theme)` to build the locale-overridden context — do **not** use `createConfigurationContext`. `createConfigurationContext` detaches the `Activity` from its `ComponentActivity` identity, breaking `LocalActivityResultRegistryOwner` (used by `rememberLauncherForActivityResult` / Photo Picker) and causing a crash. See `system-architecture.md` → "Localization / i18n Architecture" for the full explanation.
+
+**Mock/user-generated content** (kudo messages, names, hashtags) is intentionally not localized — hardcoded Vietnamese is correct for these fields.
 
 ## Previews
 

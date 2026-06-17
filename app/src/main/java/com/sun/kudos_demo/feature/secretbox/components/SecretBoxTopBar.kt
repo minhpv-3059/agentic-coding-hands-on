@@ -16,8 +16,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.sun.kudos_demo.R
 import com.sun.kudos_demo.ui.theme.KudosAppTheme
 import com.sun.kudos_demo.ui.theme.KudosWhite
 
@@ -50,14 +52,14 @@ fun SecretBoxTopBar(
             ) {
                 Icon(
                     imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                    contentDescription = "Quay lại",
+                    contentDescription = stringResource(R.string.sb_back_cd),
                     tint = KudosWhite
                 )
             }
         }
-        // Title "Secret Box" — căn giữa tuyệt đối
+        // Title — căn giữa tuyệt đối
         Text(
-            text = "Secret Box",
+            text = stringResource(R.string.sb_title),
             style = MaterialTheme.typography.titleLarge,
             color = KudosWhite
         )

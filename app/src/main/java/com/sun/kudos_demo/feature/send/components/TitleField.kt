@@ -26,8 +26,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.sun.kudos_demo.R
 import com.sun.kudos_demo.feature.send.SendKudosMockData
 import com.sun.kudos_demo.ui.theme.KudosAppTheme
 import com.sun.kudos_demo.ui.theme.KudosBorder
@@ -74,12 +76,12 @@ fun TitleField(
             // Label: "Danh hiệu *" — B5: red asterisk confirmed in design (node 6885:9913)
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Text(
-                    text = "Danh hiệu",
+                    text = stringResource(R.string.send_title_label),
                     style = MaterialTheme.typography.bodySmall,
                     color = KudosDarkText
                 )
                 Text(
-                    text = "*",
+                    text = stringResource(R.string.send_title_required),
                     style = MaterialTheme.typography.bodySmall,
                     color = KudosError
                 )
@@ -102,7 +104,7 @@ fun TitleField(
             ) {
                 // B3: placeholder = "Dành tặng một danh hiệu cho..." (verbatim from design node)
                 Text(
-                    text = selectedTitle ?: "Dành tặng một danh hiệu cho...",
+                    text = selectedTitle ?: stringResource(R.string.send_title_placeholder),
                     style = MaterialTheme.typography.bodySmall,
                     color = if (selectedTitle != null) KudosDarkText else KudosGray,
                     maxLines = 1
@@ -166,7 +168,7 @@ fun TitleField(
         // B4: Helper text — node 6885:9915: only "Ví dụ: …" copy, no link here.
         // "Tiêu chuẩn cộng đồng" link moved to toolbar row (node 6885:9931).
         Text(
-            text = "Ví dụ: Người truyền động lực cho tôi.\nDanh hiệu sẽ hiển thị làm tiêu đề Kudos của bạn.",
+            text = stringResource(R.string.send_title_helper),
             style = MaterialTheme.typography.labelSmall,
             color = KudosGray,
             modifier = Modifier.fillMaxWidth()

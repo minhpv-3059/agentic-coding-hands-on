@@ -15,11 +15,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.sun.kudos_demo.R
 import com.sun.kudos_demo.feature.secretbox.SecretBoxPhase
 import com.sun.kudos_demo.ui.theme.KudosAppTheme
 import com.sun.kudos_demo.ui.theme.KudosGold
@@ -60,7 +62,7 @@ fun SecretBoxHeader(
 private fun ClosedHeader(allOpened: Boolean) {
     // Title — Montserrat Bold 18sp/24sp gold (node 6885:9437)
     Text(
-        text = "KHÁM PHÁ SECRET BOX CỦA BẠN",
+        text = stringResource(R.string.sb_header_title),
         style = MaterialTheme.typography.headlineSmall.copy(
             fontWeight = FontWeight.Bold,
             fontSize = 18.sp,
@@ -82,7 +84,8 @@ private fun ClosedHeader(allOpened: Boolean) {
     Spacer(Modifier.height(8.dp))
 
     // Subtitle — Montserrat Medium 14sp/20sp white (node 6885:9440)
-    val subtitle = if (allOpened) "Bạn đã mở hết Secret Box" else "Click vào box để mở"
+    val subtitle = if (allOpened) stringResource(R.string.sb_subtitle_all_opened)
+                   else stringResource(R.string.sb_subtitle_tap)
     Text(
         text = subtitle,
         style = MaterialTheme.typography.bodyMedium.copy(
@@ -103,7 +106,7 @@ private fun ClosedHeader(allOpened: Boolean) {
 private fun RewardHeader() {
     // Heading chúc mừng — Montserrat Bold 18sp/24sp gold (node 6885:9659, 2 dòng, height=48dp)
     Text(
-        text = "Chúc mừng bạn đã nhận được phần quà từ BTC SAA 2025",
+        text = stringResource(R.string.sb_reward_heading),
         style = MaterialTheme.typography.headlineSmall.copy(
             fontWeight = FontWeight.Bold,
             fontSize = 18.sp,
@@ -148,7 +151,7 @@ fun SecretBoxCounter(
     ) {
         // Label — Montserrat 400 12sp/16sp white (node 6885:9446)
         Text(
-            text = "Secret box chưa mở",
+            text = stringResource(R.string.sb_counter_label),
             style = MaterialTheme.typography.bodySmall.copy(
                 fontWeight = FontWeight.Normal,
                 fontSize = 12.sp,

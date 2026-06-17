@@ -1,5 +1,6 @@
 package com.sun.kudos_demo.data
 
+import com.sun.kudos_demo.R
 import com.sun.kudos_demo.feature.notifications.AppNotification
 import com.sun.kudos_demo.feature.notifications.NotificationType
 import org.junit.Before
@@ -85,7 +86,7 @@ class NotificationsRepositoryTest {
             assertNotNull(item.id)
             assertNotNull(item.type)
             assertNotNull(item.message)
-            assertNotNull(item.time)
+            assertNotEquals("timeRes must be set", 0, item.timeRes)
         }
     }
 
@@ -116,7 +117,7 @@ class NotificationsRepositoryTest {
             id = "test-mark-read-$nanoTime",
             type = NotificationType.KUDOS_RECEIVED,
             message = "Test message",
-            time = "Just now",
+            timeRes = R.string.noti_time_15_min,
             isRead = false,
             targetId = "k1"
         )

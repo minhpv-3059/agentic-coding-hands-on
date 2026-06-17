@@ -189,8 +189,8 @@ private fun PreviewReward() {
             allOpened = false,
             reward = SecretBoxReward(
                 id = "b",
-                name = "Khăn Root Further",
-                imageResName = "reward_khan_root_further"
+                nameRes = R.string.sb_gift_scarf,
+                imageResName = "img_secretbox_scarf"
             ),
             onBack = {},
             onBoxTap = {},

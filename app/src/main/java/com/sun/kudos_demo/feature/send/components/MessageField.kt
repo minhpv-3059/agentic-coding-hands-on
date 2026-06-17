@@ -21,10 +21,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.sun.kudos_demo.R
 import com.sun.kudos_demo.feature.send.RichTextFormatter
 import com.sun.kudos_demo.ui.theme.KudosAppTheme
 import com.sun.kudos_demo.ui.theme.KudosBorder
@@ -85,7 +87,7 @@ fun MessageField(
             },
             placeholder = {
                 Text(
-                    text = "Hãy gửi gắm lời cảm ơn và lời nhắn đến đồng đội tại đây nhé",
+                    text = stringResource(R.string.send_message_placeholder),
                     style = MaterialTheme.typography.bodySmall,
                     color = KudosGray
                 )
@@ -113,7 +115,7 @@ fun MessageField(
         Spacer(Modifier.height(4.dp))
 
         Text(
-            text = "Bạn có thể \"@ + tên\" để nhắc tới đồng nghiệp khác",
+            text = stringResource(R.string.send_message_helper),
             style = MaterialTheme.typography.labelSmall,
             color = KudosGray
         )

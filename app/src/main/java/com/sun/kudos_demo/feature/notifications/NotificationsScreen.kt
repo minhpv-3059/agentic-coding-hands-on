@@ -18,6 +18,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.sun.kudos_demo.R
@@ -39,16 +40,14 @@ import com.sun.kudos_demo.ui.theme.KudosBackground
  *
  * KHÔNG có bottom nav (detail flow). Mọi state đi vào qua params, event ra qua lambda.
  *
- * @param title           tiêu đề top bar (localized: "Thông báo" VN / "Notifications" EN)
  * @param notifications   danh sách 7 item, theo thứ tự từ design
  * @param onBack          back arrow tap
  * @param onItemClick     tap lên bất kỳ notification item
- * @param onMarkAllRead   tap "Đánh dấu đọc tất cả"
+ * @param onMarkAllRead   tap "Đánh dấu đọc tất cả" / "Mark all read"
  * @param onStandardsLink tap inline link "Tiêu chuẩn cộng đồng ↗" (chỉ CONTENT_HIDDEN)
  */
 @Composable
 fun NotificationsScreen(
-    title: String,
     notifications: List<AppNotification>,
     onBack: () -> Unit,
     onItemClick: (AppNotification) -> Unit,
@@ -74,7 +73,7 @@ fun NotificationsScreen(
         Column(modifier = Modifier.fillMaxSize()) {
             // 1. Top bar — hấp thụ status bar inset qua statusBarsPadding() bên trong
             NotificationsTopBar(
-                title = title,
+                title = stringResource(R.string.noti_title),
                 onBack = onBack
             )
 
@@ -127,7 +126,6 @@ private fun NotificationsScreenPreview() {
     // Reuse the shared seed (DRY) — same 7 items the route injects at runtime.
     KudosAppTheme {
         NotificationsScreen(
-            title = "Thông báo",
             notifications = NotificationsMockData.notifications,
             onBack = {},
             onItemClick = {},

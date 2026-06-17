@@ -1,5 +1,24 @@
 # Project Changelog
 
+## [Unreleased] — Phase 11: Full-App Runtime i18n + Bug Fix (2026-06-17)
+
+### Added
+- Per-feature string resource files: `res/values/strings_<feature>.xml` + `res/values-en/strings_<feature>.xml` — one pair per feature module (Home, Feed, Awards, Profile, Notifications, Secret Box, Send Kudos, Community Standards); shared/cross-screen keys remain in `res/values/strings.xml`
+- Runtime i18n now covers **all main screens**: Home, Feed (KudosFeed, AllKudos, ViewKudo, KudosSearch), Awards, Profile (MyProfile, UserProfile), Notifications, Secret Box, Send Kudos, Community Standards, shared `KudosCard`, and feed filter dropdowns
+- `KudosTopBar` self-manages a VN/EN dropdown panel and drives `LanguageManager.set()` — every header screen gets the language switcher without extra wiring
+
+### Changed
+- `AwardContent` data class, `SecretBoxReward` data class, `AppNotification` data class — user-text fields (`title`, `description`, `name`, etc.) converted from `String` to `@StringRes Int`; resolved via `stringResource(...)` at the call site, keeping data classes free of `Context`
+- `MainActivity` now wraps the base `Activity` with `ContextThemeWrapper` (replacing `createConfigurationContext`) before passing it as the locale-overridden context to `CompositionLocalProvider`
+
+### Fixed
+- **Send Kudos photo-picker crash** — using `createConfigurationContext` detached the `Activity` from its `ComponentActivity` identity, breaking `LocalActivityResultRegistryOwner` (used internally by the Android Photo Picker). Switching to `ContextThemeWrapper(baseContext, theme)` preserves the `Activity`'s composition-local chain while still applying the locale override, eliminating the crash
+
+### Notes
+- Mock/user-generated content (kudo messages, user names, hashtags) is intentionally not localized — this data is always Vietnamese regardless of the selected locale
+
+---
+
 ## [Unreleased] — Phase 11: Supporting Screens (2026-06-17)
 
 ### Added

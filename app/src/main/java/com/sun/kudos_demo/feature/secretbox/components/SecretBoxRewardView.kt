@@ -20,11 +20,13 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.sun.kudos_demo.R
 import com.sun.kudos_demo.feature.secretbox.SecretBoxReward
 import com.sun.kudos_demo.ui.components.KudosPrimaryButton
 import com.sun.kudos_demo.ui.theme.KudosAppTheme
@@ -58,6 +60,7 @@ fun SecretBoxRewardImage(
         reward.imageResName, "drawable", context.packageName
     )
 
+    val giftName = stringResource(reward.nameRes)
     Box(
         modifier = modifier.size(320.dp),
         contentAlignment = Alignment.Center
@@ -65,7 +68,7 @@ fun SecretBoxRewardImage(
         if (drawableId != 0) {
             Image(
                 painter = painterResource(drawableId),
-                contentDescription = reward.name,
+                contentDescription = giftName,
                 contentScale = ContentScale.Fit,
                 modifier = Modifier.size(320.dp)
             )
@@ -91,7 +94,7 @@ fun SecretBoxRewardImage(
                 contentAlignment = Alignment.Center
             ) {
                 Text(
-                    text = reward.name,
+                    text = giftName,
                     style = MaterialTheme.typography.bodyMedium.copy(
                         fontWeight = FontWeight.SemiBold,
                         fontSize = 16.sp,
@@ -124,7 +127,7 @@ fun SecretBoxRewardView(
     ) {
         // Caption tên quà — Montserrat Regular 14sp/20sp #FFEA9E, letterSpacing 0.25
         Text(
-            text = reward.name,
+            text = stringResource(reward.nameRes),
             style = MaterialTheme.typography.bodyMedium.copy(
                 fontWeight = FontWeight.Normal,
                 fontSize = 14.sp,
@@ -138,9 +141,9 @@ fun SecretBoxRewardView(
 
         Spacer(Modifier.height(24.dp))
 
-        // Nút "Tiếp tục" — gold fill, pill, 56dp, full-width (KudosPrimaryButton pattern)
+        // Continue button — gold fill, pill, 56dp, full-width (KudosPrimaryButton pattern)
         KudosPrimaryButton(
-            text = "Tiếp tục",
+            text = stringResource(R.string.sb_continue_button),
             onClick = onContinue,
             modifier = Modifier
                 .fillMaxWidth()
@@ -156,8 +159,8 @@ private fun SecretBoxRewardViewPreview() {
         SecretBoxRewardView(
             reward = SecretBoxReward(
                 id = "b",
-                name = "Khăn Root Further",
-                imageResName = "reward_khan_root_further"
+                nameRes = R.string.sb_gift_scarf,
+                imageResName = "img_secretbox_scarf"
             ),
             onContinue = {},
             modifier = Modifier.padding(16.dp)

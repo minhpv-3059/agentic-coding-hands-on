@@ -1,5 +1,7 @@
 package com.sun.kudos_demo.feature.notifications
 
+import androidx.annotation.StringRes
+
 /**
  * The 7 notification categories in the Sun*Kudos system.
  * Design [iOS] Notifications (screen _b68CBWKl5), spec item B.1.
@@ -24,7 +26,8 @@ enum class NotificationType {
  * @param id        stable list key
  * @param type      drives icon, tint and tap navigation
  * @param message   full display text — design templates already filled with mock values
- * @param time      relative-time label exactly as rendered in the design ("15 phút trước", …)
+ * @param timeRes   string resource for the relative-time label (e.g. R.string.noti_time_15_min)
+ *                  resolved at the composable layer so VN↔EN runtime switch works
  * @param isRead    false → the red unread dot (B.1.3) is shown and the text is emphasised
  * @param targetId  kudo id to open for KUDOS_RECEIVED / HEART_RECEIVED / CONTENT_HIDDEN
  */
@@ -32,7 +35,7 @@ data class AppNotification(
     val id: String,
     val type: NotificationType,
     val message: String,
-    val time: String,
+    @StringRes val timeRes: Int,
     val isRead: Boolean,
     val targetId: String? = null
 )

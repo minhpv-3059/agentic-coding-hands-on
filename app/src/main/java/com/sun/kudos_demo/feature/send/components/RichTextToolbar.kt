@@ -19,12 +19,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.sun.kudos_demo.R
 import com.sun.kudos_demo.ui.theme.KudosAppTheme
 import com.sun.kudos_demo.ui.theme.KudosBorder
 import com.sun.kudos_demo.ui.theme.KudosDarkText
@@ -118,11 +120,11 @@ fun RichTextToolbar(
             )
         }
 
-        // Right-side "Tiêu chuẩn cộng đồng" link — design node 6885:9931.
+        // Right-side community standards link — design node 6885:9931.
         // Fills remaining space (flex: 1 0 0), text centered, color KudosLinkRed (rgba(228,96,96,1)).
         Spacer(Modifier.weight(1f))
         Text(
-            text = "Tiêu chuẩn cộng đồng",
+            text = stringResource(R.string.send_community_standards_link),
             style = MaterialTheme.typography.labelSmall.copy(
                 color = KudosLinkRed,
                 fontSize = 10.sp,

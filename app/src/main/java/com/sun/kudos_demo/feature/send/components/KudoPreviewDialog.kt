@@ -14,7 +14,9 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.sun.kudos_demo.R
 import com.sun.kudos_demo.feature.feed.Kudo
 import com.sun.kudos_demo.ui.components.KudosCard
 import com.sun.kudos_demo.ui.theme.KudosBackground
@@ -47,7 +49,7 @@ fun KudoPreviewDialog(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
-                    text = "Xem trước",
+                    text = stringResource(R.string.send_preview_title),
                     style = MaterialTheme.typography.titleMedium,
                     color = KudosGold
                 )
@@ -70,7 +72,7 @@ fun KudoPreviewDialog(
                     modifier = Modifier.align(Alignment.End)
                 ) {
                     Text(
-                        text = "Đóng",
+                        text = stringResource(R.string.send_preview_close),
                         style = MaterialTheme.typography.labelLarge,
                         color = KudosGold
                     )

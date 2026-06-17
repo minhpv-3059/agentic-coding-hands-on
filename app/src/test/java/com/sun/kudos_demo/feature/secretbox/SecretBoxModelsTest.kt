@@ -1,5 +1,6 @@
 package com.sun.kudos_demo.feature.secretbox
 
+import com.sun.kudos_demo.R
 import org.junit.Test
 import org.junit.Assert.*
 
@@ -85,14 +86,14 @@ class SecretBoxModelsTest {
 
     @Test
     fun secretBoxUiState_CustomReward() {
-        val reward = SecretBoxReward("scarf", "Khăn Root Further", "img_secretbox_scarf")
+        val reward = SecretBoxReward("scarf", R.string.sb_gift_scarf, "img_secretbox_scarf")
         val state = SecretBoxUiState(reward = reward)
         assertEquals("Reward must be set correctly", reward, state.reward)
     }
 
     @Test
     fun secretBoxUiState_AllFieldsCustom() {
-        val reward = SecretBoxReward("mug", "Cốc Root Further", "img_secretbox_mug")
+        val reward = SecretBoxReward("mug", R.string.sb_gift_mug, "img_secretbox_mug")
         val state = SecretBoxUiState(
             phase = SecretBoxPhase.REWARD,
             unopenedCount = 2,
@@ -141,8 +142,8 @@ class SecretBoxModelsTest {
 
     @Test
     fun secretBoxUiState_Inequality_WithDifferentReward() {
-        val reward1 = SecretBoxReward("scarf", "Khăn Root Further", "img_secretbox_scarf")
-        val reward2 = SecretBoxReward("mug", "Cốc Root Further", "img_secretbox_mug")
+        val reward1 = SecretBoxReward("scarf", R.string.sb_gift_scarf, "img_secretbox_scarf")
+        val reward2 = SecretBoxReward("mug", R.string.sb_gift_mug, "img_secretbox_mug")
 
         val state1 = SecretBoxUiState(reward = reward1)
         val state2 = SecretBoxUiState(reward = reward2)
@@ -152,7 +153,7 @@ class SecretBoxModelsTest {
 
     @Test
     fun secretBoxUiState_Inequality_NullVsNonNullReward() {
-        val reward = SecretBoxReward("scarf", "Khăn Root Further", "img_secretbox_scarf")
+        val reward = SecretBoxReward("scarf", R.string.sb_gift_scarf, "img_secretbox_scarf")
 
         val state1 = SecretBoxUiState(reward = null)
         val state2 = SecretBoxUiState(reward = reward)
@@ -198,8 +199,8 @@ class SecretBoxModelsTest {
 
     @Test
     fun secretBoxUiState_Copy_CanChangeReward() {
-        val reward1 = SecretBoxReward("scarf", "Khăn Root Further", "img_secretbox_scarf")
-        val reward2 = SecretBoxReward("mug", "Cốc Root Further", "img_secretbox_mug")
+        val reward1 = SecretBoxReward("scarf", R.string.sb_gift_scarf, "img_secretbox_scarf")
+        val reward2 = SecretBoxReward("mug", R.string.sb_gift_mug, "img_secretbox_mug")
 
         val original = SecretBoxUiState(reward = reward1)
         val modified = original.copy(reward = reward2)
@@ -210,7 +211,7 @@ class SecretBoxModelsTest {
 
     @Test
     fun secretBoxUiState_Copy_CanClearReward() {
-        val reward = SecretBoxReward("scarf", "Khăn Root Further", "img_secretbox_scarf")
+        val reward = SecretBoxReward("scarf", R.string.sb_gift_scarf, "img_secretbox_scarf")
 
         val original = SecretBoxUiState(reward = reward)
         val modified = original.copy(reward = null)
@@ -221,8 +222,8 @@ class SecretBoxModelsTest {
 
     @Test
     fun secretBoxUiState_Copy_MultipleFieldsCanChange() {
-        val reward1 = SecretBoxReward("scarf", "Khăn Root Further", "img_secretbox_scarf")
-        val reward2 = SecretBoxReward("mug", "Cốc Root Further", "img_secretbox_mug")
+        val reward1 = SecretBoxReward("scarf", R.string.sb_gift_scarf, "img_secretbox_scarf")
+        val reward2 = SecretBoxReward("mug", R.string.sb_gift_mug, "img_secretbox_mug")
 
         val original = SecretBoxUiState(
             phase = SecretBoxPhase.CLOSED,
@@ -279,7 +280,7 @@ class SecretBoxModelsTest {
 
     @Test
     fun secretBoxUiState_TransitionOpening_ToReward() {
-        val reward = SecretBoxReward("gift", "Phần quà SAA 2025", "img_secretbox_gift")
+        val reward = SecretBoxReward("gift", R.string.sb_gift_gift, "img_secretbox_gift")
         val opening = SecretBoxUiState(phase = SecretBoxPhase.OPENING, unopenedCount = 5, reward = null)
         val reward_state = opening.copy(phase = SecretBoxPhase.REWARD, reward = reward)
 
@@ -290,7 +291,7 @@ class SecretBoxModelsTest {
 
     @Test
     fun secretBoxUiState_TransitionReward_ToClosed() {
-        val reward = SecretBoxReward("gift", "Phần quà SAA 2025", "img_secretbox_gift")
+        val reward = SecretBoxReward("gift", R.string.sb_gift_gift, "img_secretbox_gift")
         val reward_state = SecretBoxUiState(phase = SecretBoxPhase.REWARD, unopenedCount = 4, reward = reward)
         val closed = reward_state.copy(phase = SecretBoxPhase.CLOSED, reward = null, unopenedCount = 4)
 
@@ -302,7 +303,7 @@ class SecretBoxModelsTest {
 
     @Test
     fun secretBoxUiState_FullFlow_ClosedToOpeningToRewardToClosed() {
-        val reward = SecretBoxReward("stamps", "Tem Root Further", "img_secretbox_stamps")
+        val reward = SecretBoxReward("stamps", R.string.sb_gift_stamps, "img_secretbox_stamps")
 
         // Start: CLOSED, 5 unopened
         val step1 = SecretBoxUiState(phase = SecretBoxPhase.CLOSED, unopenedCount = 5)

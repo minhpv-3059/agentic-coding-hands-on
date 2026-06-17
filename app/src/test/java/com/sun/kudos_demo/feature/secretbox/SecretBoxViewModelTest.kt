@@ -1,5 +1,6 @@
 package com.sun.kudos_demo.feature.secretbox
 
+import com.sun.kudos_demo.R
 import com.sun.kudos_demo.data.SecretBoxRepository
 import org.junit.Before
 import org.junit.Test
@@ -205,7 +206,7 @@ class SecretBoxViewModelTest {
     @Test
     fun onContinue_ClearsReward() {
         // onContinue clears the reward when transitioning back to CLOSED
-        val reward = SecretBoxReward("gift", "Phần quà SAA 2025", "img_secretbox_gift")
+        val reward = SecretBoxReward("gift", R.string.sb_gift_gift, "img_secretbox_gift")
         val rewardState = SecretBoxUiState(phase = SecretBoxPhase.REWARD, reward = reward, unopenedCount = 4)
 
         // Simulate onContinue() effect: transition to CLOSED and clear reward
@@ -218,7 +219,7 @@ class SecretBoxViewModelTest {
 
     @Test
     fun stateFlow_ClosedToOpeningToRewardToClosed() {
-        val reward = SecretBoxReward("stamps", "Tem Root Further", "img_secretbox_stamps")
+        val reward = SecretBoxReward("stamps", R.string.sb_gift_stamps, "img_secretbox_stamps")
 
         // Step 1: Start in CLOSED
         var state = SecretBoxUiState(phase = SecretBoxPhase.CLOSED, unopenedCount = 5)
@@ -252,7 +253,7 @@ class SecretBoxViewModelTest {
     fun stateFlow_MultipleBoxes_DrainAll() {
         SecretBoxRepository.resetForTest()
         val initialCounts = SecretBoxRepository.counts.value
-        val reward = SecretBoxReward("gift", "Phần quà SAA 2025", "img_secretbox_gift")
+        val reward = SecretBoxReward("gift", R.string.sb_gift_gift, "img_secretbox_gift")
 
         var state = SecretBoxUiState(
             phase = SecretBoxPhase.CLOSED,

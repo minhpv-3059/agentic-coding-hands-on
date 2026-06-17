@@ -18,7 +18,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.sun.kudos_demo.R
 import com.sun.kudos_demo.feature.feed.KudoUser
 import com.sun.kudos_demo.feature.send.SendKudosUiState
 import com.sun.kudos_demo.ui.theme.KudosBorder
@@ -70,7 +72,7 @@ fun SendKudosFormContent(
         Spacer(Modifier.height(8.dp))
 
         Text(
-            text = "Gửi lời cám ơn và ghi nhận đến đồng đội",
+            text = stringResource(R.string.send_form_tagline),
             style = MaterialTheme.typography.titleMedium,
             color = KudosGold,
             modifier = Modifier.fillMaxWidth()
@@ -160,7 +162,7 @@ fun SendKudosFormContent(
                 ),
                 modifier = Modifier.height(36.dp)
             ) {
-                Text(text = "Xem trước Kudo", style = MaterialTheme.typography.labelMedium)
+                Text(text = stringResource(R.string.send_btn_preview), style = MaterialTheme.typography.labelMedium)
             }
         }
 
@@ -184,7 +186,7 @@ fun SendKudosFormContent(
                     .weight(1f)
                     .height(40.dp)
             ) {
-                Text(text = "Huỷ", style = MaterialTheme.typography.labelMedium)
+                Text(text = stringResource(R.string.send_btn_cancel), style = MaterialTheme.typography.labelMedium)
             }
             Spacer(Modifier.padding(horizontal = 6.dp))
             // "Gửi đi" — solid gold rgba(255,234,158,1), dark text
@@ -201,7 +203,7 @@ fun SendKudosFormContent(
                     .weight(1f)
                     .height(40.dp)
             ) {
-                Text(text = "Gửi đi", style = MaterialTheme.typography.labelMedium)
+                Text(text = stringResource(R.string.send_btn_submit), style = MaterialTheme.typography.labelMedium)
             }
         }
 
