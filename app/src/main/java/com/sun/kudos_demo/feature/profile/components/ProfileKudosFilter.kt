@@ -28,9 +28,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.sun.kudos_demo.R
 import com.sun.kudos_demo.feature.profile.ProfileKudosTab
 import com.sun.kudos_demo.ui.theme.KudosAppTheme
 import com.sun.kudos_demo.ui.theme.KudosBorder
@@ -67,8 +69,8 @@ fun ProfileKudosFilter(
     var expanded by remember { mutableStateOf(false) }
 
     val labelText = when (selectedTab) {
-        ProfileKudosTab.RECEIVED -> "Đã nhận ($receivedCount)"
-        ProfileKudosTab.SENT     -> "Đã gửi ($sentCount)"
+        ProfileKudosTab.RECEIVED -> stringResource(R.string.profile_tab_received, receivedCount)
+        ProfileKudosTab.SENT     -> stringResource(R.string.profile_tab_sent, sentCount)
     }
 
     Box(modifier = modifier) {
@@ -110,7 +112,7 @@ fun ProfileKudosFilter(
                 .border(1.dp, KudosBorder, MenuShape)
         ) {
             FilterMenuItem(
-                label = "Đã nhận ($receivedCount)",
+                label = stringResource(R.string.profile_tab_received, receivedCount),
                 isSelected = selectedTab == ProfileKudosTab.RECEIVED,
                 onClick = {
                     onFilterChange(ProfileKudosTab.RECEIVED)
@@ -118,7 +120,7 @@ fun ProfileKudosFilter(
                 }
             )
             FilterMenuItem(
-                label = "Đã gửi ($sentCount)",
+                label = stringResource(R.string.profile_tab_sent, sentCount),
                 isSelected = selectedTab == ProfileKudosTab.SENT,
                 onClick = {
                     onFilterChange(ProfileKudosTab.SENT)

@@ -18,11 +18,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.sun.kudos_demo.R
 import com.sun.kudos_demo.feature.profile.ProfileStats
 import com.sun.kudos_demo.ui.theme.KudosAppTheme
 import com.sun.kudos_demo.ui.theme.KudosBorder
@@ -59,15 +61,15 @@ fun ProfileStatsCard(
             .padding(12.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
-        StatRow(label = "Số Kudos bạn nhận được", value = stats.kudosReceived.toString())
-        StatRow(label = "Số Kudos bạn đã gửi",    value = stats.kudosSent.toString())
-        StatRow(label = "Số tim bạn nhận được",    value = stats.heartsReceived.toString())
+        StatRow(label = stringResource(R.string.profile_stat_kudos_received), value = stats.kudosReceived.toString())
+        StatRow(label = stringResource(R.string.profile_stat_kudos_sent),     value = stats.kudosSent.toString())
+        StatRow(label = stringResource(R.string.profile_stat_hearts_received), value = stats.heartsReceived.toString())
 
         // Divider: mms_D.1.5_phân cách nội dung (6885:10375), 1dp, #2E3940
         HorizontalDivider(thickness = 1.dp, color = KudosDivider)
 
-        StatRow(label = "Số Secret Box bạn đã mở", value = stats.secretBoxOpened.toString())
-        StatRow(label = "Số Secret Box chưa mở",   value = stats.secretBoxUnopened.toString())
+        StatRow(label = stringResource(R.string.profile_stat_secret_box_opened),   value = stats.secretBoxOpened.toString())
+        StatRow(label = stringResource(R.string.profile_stat_secret_box_unopened), value = stats.secretBoxUnopened.toString())
 
         // Button: mms_Button (6885:10386), 40dp height, bg gold, radius 4dp
         Box(
@@ -80,7 +82,7 @@ fun ProfileStatsCard(
             contentAlignment = Alignment.Center
         ) {
             Text(
-                text = "Mở Secret Box 🎁",
+                text = stringResource(R.string.profile_open_secret_box),
                 style = MaterialTheme.typography.bodyMedium.copy(
                     fontWeight = FontWeight.Medium,
                     fontSize = 14.sp,

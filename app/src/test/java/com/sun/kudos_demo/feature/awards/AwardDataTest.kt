@@ -69,42 +69,42 @@ class AwardDataTest {
     fun awardData_MVP_HasCorrectQuantity() {
         val mvp = AwardData.awards[0]
         assertEquals("MVP quantity must be 01", "01", mvp.quantity)
-        assertEquals("MVP quantityUnit must be Cá nhân", "Cá nhân", mvp.quantityUnit)
+        assertNotEquals("MVP quantityUnitRes must be set", 0, mvp.quantityUnitRes)
     }
 
     @Test
     fun awardData_BestManager_HasCorrectQuantity() {
         val bestManager = AwardData.awards[1]
         assertEquals("Best Manager quantity must be 01", "01", bestManager.quantity)
-        assertEquals("Best Manager quantityUnit must be Cá nhân", "Cá nhân", bestManager.quantityUnit)
+        assertNotEquals("Best Manager quantityUnitRes must be set", 0, bestManager.quantityUnitRes)
     }
 
     @Test
     fun awardData_SignatureCreator_HasCorrectQuantity() {
         val signatureCreator = AwardData.awards[2]
         assertEquals("Signature Creator quantity must be 01", "01", signatureCreator.quantity)
-        assertEquals("Signature Creator quantityUnit must be Cá nhân hoặc tập thể", "Cá nhân hoặc tập thể", signatureCreator.quantityUnit)
+        assertNotEquals("Signature Creator quantityUnitRes must be set", 0, signatureCreator.quantityUnitRes)
     }
 
     @Test
     fun awardData_TopProject_HasCorrectQuantity() {
         val topProject = AwardData.awards[3]
         assertEquals("Top Project quantity must be 02", "02", topProject.quantity)
-        assertEquals("Top Project quantityUnit must be Tập thể", "Tập thể", topProject.quantityUnit)
+        assertNotEquals("Top Project quantityUnitRes must be set", 0, topProject.quantityUnitRes)
     }
 
     @Test
     fun awardData_TopProjectLeader_HasCorrectQuantity() {
         val topProjectLeader = AwardData.awards[4]
         assertEquals("Top Project Leader quantity must be 03", "03", topProjectLeader.quantity)
-        assertEquals("Top Project Leader quantityUnit must be Cá nhân", "Cá nhân", topProjectLeader.quantityUnit)
+        assertNotEquals("Top Project Leader quantityUnitRes must be set", 0, topProjectLeader.quantityUnitRes)
     }
 
     @Test
     fun awardData_TopTalent_HasCorrectQuantity() {
         val topTalent = AwardData.awards[5]
         assertEquals("Top Talent quantity must be 10", "10", topTalent.quantity)
-        assertEquals("Top Talent quantityUnit must be Cá nhân", "Cá nhân", topTalent.quantityUnit)
+        assertNotEquals("Top Talent quantityUnitRes must be set", 0, topTalent.quantityUnitRes)
     }
 
     // ===================== Award values tests =====================
@@ -149,8 +149,9 @@ class AwardDataTest {
     fun awardData_SignatureCreator_Values_AreForPersonalAndTeam() {
         val signatureCreator = AwardData.awards[2]
         val (personal, team) = signatureCreator.values
-        assertTrue("First value must be for personal (cá nhân)", personal.note.contains("cá nhân"))
-        assertTrue("Second value must be for team (tập thể)", team.note.contains("tập thể"))
+        assertNotEquals("Personal value note resource must be set", 0, personal.noteRes)
+        assertNotEquals("Team value note resource must be set", 0, team.noteRes)
+        assertNotEquals("Personal and team notes must be distinct resources", personal.noteRes, team.noteRes)
     }
 
     // ===================== byId() tests =====================
@@ -219,14 +220,14 @@ class AwardDataTest {
 
     @Test
     fun awardData_AllAwards_HaveNonBlankDropdownLabels() {
-        assertTrue("All awards must have non-blank dropdownLabel",
-            AwardData.awards.all { it.dropdownLabel.isNotBlank() })
+        assertTrue("All awards must have a dropdown-label string resource",
+            AwardData.awards.all { it.dropdownLabelRes != 0 })
     }
 
     @Test
     fun awardData_AllAwards_HaveNonBlankDescriptions() {
-        assertTrue("All awards must have non-blank description",
-            AwardData.awards.all { it.description.isNotBlank() })
+        assertTrue("All awards must have a description string resource",
+            AwardData.awards.all { it.descriptionRes != 0 })
     }
 
     @Test
@@ -243,8 +244,8 @@ class AwardDataTest {
 
     @Test
     fun awardData_AllAwards_HaveNonBlankQuantityUnits() {
-        assertTrue("All awards must have non-blank quantityUnit",
-            AwardData.awards.all { it.quantityUnit.isNotBlank() })
+        assertTrue("All awards must have a quantity-unit string resource",
+            AwardData.awards.all { it.quantityUnitRes != 0 })
     }
 
     @Test
@@ -261,8 +262,8 @@ class AwardDataTest {
 
     @Test
     fun awardData_AllAwardValues_HaveNonBlankNotes() {
-        assertTrue("All award values must have non-blank note",
-            AwardData.awards.all { award -> award.values.all { it.note.isNotBlank() } })
+        assertTrue("All award values must have a note string resource",
+            AwardData.awards.all { award -> award.values.all { it.noteRes != 0 } })
     }
 
     // ===================== Award uniqueness tests =====================
@@ -275,7 +276,7 @@ class AwardDataTest {
 
     @Test
     fun awardData_AllAwards_HaveUniqueDropdownLabels() {
-        val labels = AwardData.awards.map { it.dropdownLabel }
-        assertEquals("All award labels must be unique", labels.size, labels.distinct().size)
+        val labels = AwardData.awards.map { it.dropdownLabelRes }
+        assertEquals("All award label resources must be unique", labels.size, labels.distinct().size)
     }
 }

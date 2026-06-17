@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- ============ Feed — Screen titles & top bars ============ -->
+    <string name="feed_screen_title_all_kudos">All Kudos</string>
+    <string name="feed_screen_heading_all_kudos">ALL KUDOS</string>
+    <string name="feed_screen_title_kudo_detail">Kudo</string>
+
+    <!-- ============ Feed — Navigation content descriptions ============ -->
+    <string name="feed_nav_back_desc">Go back</string>
+
+    <!-- ============ Feed — Hero banner ============ -->
+    <string name="feed_hero_tagline">Recognition and appreciation system</string>
+    <string name="feed_hero_logo_desc">Sun* Kudos</string>
+
+    <!-- ============ Feed — Section headers & eyebrows ============ -->
+    <string name="feed_section_eyebrow">Sun* Annual Awards 2025</string>
+    <string name="feed_section_highlight_kudos">HIGHLIGHT KUDOS</string>
+    <string name="feed_section_spotlight_board">SPOTLIGHT BOARD</string>
+    <string name="feed_section_all_kudos">ALL KUDOS</string>
+
+    <!-- ============ Feed — Send Kudos prompt ============ -->
+    <string name="feed_send_kudos_desc">Send Kudos</string>
+    <string name="feed_send_kudos_prompt">Who do you want to send kudos to today?</string>
+
+    <!-- ============ Feed — Highlight carousel navigation ============ -->
+    <string name="feed_carousel_prev">Previous</string>
+    <string name="feed_carousel_next">Next</string>
+
+    <!-- ============ Feed — Empty state ============ -->
+    <string name="feed_empty_kudos">No Kudos yet.</string>
+
+    <!-- ============ Feed — View all link ============ -->
+    <string name="feed_view_all_kudos">View all Kudos</string>
+
+    <!-- ============ Feed — Spotlight search ============ -->
+    <string name="feed_spotlight_search_hint">Search Sunner</string>
+
+    <!-- ============ Feed — Stats block ============ -->
+    <string name="feed_stats_received">Kudos received:</string>
+    <string name="feed_stats_sent">Kudos sent:</string>
+    <string name="feed_stats_hearts">Hearts received:</string>
+    <string name="feed_stats_hearts_x2_desc">x2 hearts</string>
+    <string name="feed_stats_secret_box_opened">Secret Boxes opened:</string>
+    <string name="feed_stats_secret_box_unopened">Secret Boxes unopened:</string>
+    <string name="feed_open_secret_box">Open Secret Box 🎁</string>
+
+    <!-- ============ Feed — Gift recipients section ============ -->
+    <string name="feed_gift_recipients_title">TOP 10 LATEST GIFT RECIPIENTS</string>
+    <string name="feed_gift_recipients_empty">No data yet.</string>
+
+    <!-- ============ Feed — Kudo detail card actions ============ -->
+    <string name="feed_kudo_send_to_desc">Send to</string>
+    <string name="feed_kudo_anonymous_sender">Anonymous sender</string>
+    <string name="feed_kudo_unlike_desc">Unlike</string>
+    <string name="feed_kudo_like_desc">Like</string>
+    <string name="feed_kudo_copy_link">Copy Link</string>
+    <string name="feed_kudo_view_detail">View detail</string>
+
+    <!-- ============ Feed — Search screen ============ -->
+    <string name="feed_search_hint">Search Sunner</string>
+    <string name="feed_search_recent_title">Recent</string>
+    <string name="feed_search_view_all">View all</string>
+    <string name="feed_search_back_desc">Back</string>
+    <string name="feed_search_remove_recent_desc">Remove from recent</string>
+</resources>

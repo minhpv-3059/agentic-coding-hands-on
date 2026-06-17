@@ -27,9 +27,11 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.sun.kudos_demo.R
 import com.sun.kudos_demo.feature.feed.Kudo
 import com.sun.kudos_demo.feature.feed.KudoUser
 import com.sun.kudos_demo.feature.feed.starLevel
@@ -163,7 +165,7 @@ private fun SenderRecipientRow(
             name = kudo.senderDisplayName,
             code = if (kudo.isAnonymous) null else kudo.sender?.code,
             badge = if (kudo.isAnonymous) null else kudo.sender?.badge,
-            subLabel = if (kudo.isAnonymous) "Người gửi ẩn danh" else null,
+            subLabel = if (kudo.isAnonymous) stringResource(R.string.feed_kudo_anonymous_sender) else null,
             isAnonymous = kudo.isAnonymous,
             onClick = if (kudo.isAnonymous) null else kudo.sender?.let { s -> { onSenderClick(s) } },
             modifier = Modifier.weight(1f)
@@ -172,7 +174,7 @@ private fun SenderRecipientRow(
         // Paper plane icon (center)
         Icon(
             imageVector = Icons.AutoMirrored.Filled.Send,
-            contentDescription = "Gửi tới",
+            contentDescription = stringResource(R.string.feed_kudo_send_to_desc),
             tint = KudosGold,
             modifier = Modifier
                 .padding(horizontal = 8.dp)
@@ -282,7 +284,7 @@ private fun ActionRow(
             )
             Icon(
                 imageVector = if (isLiked) Icons.Filled.Favorite else Icons.Filled.FavoriteBorder,
-                contentDescription = if (isLiked) "Bỏ thích" else "Thích",
+                contentDescription = if (isLiked) stringResource(R.string.feed_kudo_unlike_desc) else stringResource(R.string.feed_kudo_like_desc),
                 tint = if (isLiked) HeartActiveColor else KudosDarkText,
                 modifier = Modifier.size(14.dp)
             )
@@ -303,7 +305,7 @@ private fun ActionRow(
                 modifier = Modifier.size(12.dp)
             )
             Text(
-                text = "Copy Link",
+                text = stringResource(R.string.feed_kudo_copy_link),
                 style = MaterialTheme.typography.labelSmall,
                 color = KudosDarkText
             )
@@ -318,7 +320,7 @@ private fun ActionRow(
                 .padding(4.dp)
         ) {
             Text(
-                text = "Xem chi tiết",
+                text = stringResource(R.string.feed_kudo_view_detail),
                 style = MaterialTheme.typography.labelSmall,
                 color = KudosDarkText
             )

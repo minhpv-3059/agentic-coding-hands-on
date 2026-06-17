@@ -127,10 +127,8 @@ fun AwardsScreen(
 
         // KudosTopBar pinned at top, drawn over keyvisual
         KudosTopBar(
-            currentLanguage = uiState.language.code,
             unreadCount = uiState.unreadCount,
             showScrim = true,
-            onLanguageClick = onLanguageClick,
             onSearchClick = onSearch,
             onNotificationClick = onNotifications,
             modifier = Modifier.align(Alignment.TopCenter)

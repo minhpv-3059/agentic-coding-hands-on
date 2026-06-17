@@ -34,6 +34,7 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -110,7 +111,7 @@ fun KudosSearchScreen(
                 ) {
                     Icon(
                         imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                        contentDescription = "Back",
+                        contentDescription = stringResource(R.string.feed_search_back_desc),
                         tint = KudosWhite,
                         modifier = Modifier.size(24.dp)
                     )
@@ -172,7 +173,7 @@ private fun SearchBar(
             ) {
                 if (query.isEmpty()) {
                     Text(
-                        text = "Search Sunner",
+                        text = stringResource(R.string.feed_search_hint),
                         style = MaterialTheme.typography.bodyMedium,
                         color = KudosGray
                     )
@@ -200,14 +201,14 @@ private fun RecentSection(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                text = "Recent",
+                text = stringResource(R.string.feed_search_recent_title),
                 style = MaterialTheme.typography.titleMedium,
                 color = KudosWhite,
                 modifier = Modifier.weight(1f)
             )
             TextButton(onClick = onViewAll) {
                 Text(
-                    text = "View all",
+                    text = stringResource(R.string.feed_search_view_all),
                     style = MaterialTheme.typography.labelMedium,
                     color = KudosGold
                 )

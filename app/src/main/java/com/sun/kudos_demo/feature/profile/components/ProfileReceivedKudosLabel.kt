@@ -10,9 +10,11 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.sun.kudos_demo.R
 import com.sun.kudos_demo.ui.theme.KudosAppTheme
 import com.sun.kudos_demo.ui.theme.KudosBorder
 import com.sun.kudos_demo.ui.theme.KudosSecondaryButtonNormal
@@ -44,7 +46,7 @@ fun ProfileReceivedKudosLabel(
         border = BorderStroke(1.dp, KudosBorder)
     ) {
         Text(
-            text = "Đã nhận $receivedCount kudos",
+            text = stringResource(R.string.profile_received_kudos_label, receivedCount),
             style = MaterialTheme.typography.bodyMedium.copy(
                 fontSize = 14.sp,
                 lineHeight = 20.sp,

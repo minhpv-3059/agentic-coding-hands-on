@@ -12,6 +12,7 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.sun.kudos_demo.R
@@ -64,8 +65,8 @@ fun HomeAwardsSection(
 ) {
     Column(modifier = modifier.fillMaxWidth()) {
         SectionHeader(
-            eyebrow = "Sun* Annual Awards 2025",
-            title = "Hệ thống giải thưởng",
+            eyebrow = stringResource(R.string.home_awards_eyebrow),
+            title = stringResource(R.string.home_awards_title),
             modifier = Modifier.padding(horizontal = 20.dp)
         )
 

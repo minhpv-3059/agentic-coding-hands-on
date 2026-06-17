@@ -14,8 +14,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.sun.kudos_demo.R
 import com.sun.kudos_demo.feature.feed.GiftRecipient
 import com.sun.kudos_demo.feature.feed.Kudo
 import com.sun.kudos_demo.feature.feed.KudoStats
@@ -54,8 +56,8 @@ fun AllKudosSection(
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         SectionHeader(
-            eyebrow = "Sun* Annual Awards 2025",
-            title = "ALL KUDOS"
+            eyebrow = stringResource(R.string.feed_section_eyebrow),
+            title = stringResource(R.string.feed_section_all_kudos)
         )
 
         StatsBlock(
@@ -100,7 +102,7 @@ fun AllKudosSection(
             horizontalArrangement = Arrangement.Center
         ) {
             Text(
-                text = "View all Kudos",
+                text = stringResource(R.string.feed_view_all_kudos),
                 style = MaterialTheme.typography.labelLarge,
                 color = KudosGold
             )

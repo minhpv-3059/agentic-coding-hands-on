@@ -24,8 +24,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.sun.kudos_demo.R
 import com.sun.kudos_demo.feature.feed.components.EmptyKudosHint
 import com.sun.kudos_demo.ui.components.KudosCard
 import com.sun.kudos_demo.ui.theme.KudosAppTheme
@@ -69,7 +71,7 @@ fun AllKudosScreen(
 
         // --- Heading ---
         Text(
-            text = "ALL KUDOS",
+            text = stringResource(R.string.feed_screen_heading_all_kudos),
             style = MaterialTheme.typography.headlineMedium,
             color = KudosGold,
             modifier = Modifier.padding(horizontal = 20.dp, vertical = 16.dp)
@@ -125,14 +127,14 @@ private fun AllKudosTopBar(onBack: () -> Unit) {
             IconButton(onClick = onBack, modifier = Modifier.size(48.dp)) {
                 Icon(
                     imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                    contentDescription = "Quay lại",
+                    contentDescription = stringResource(R.string.feed_nav_back_desc),
                     tint = KudosWhite
                 )
             }
         }
         // Title — centred
         Text(
-            text = "All Kudos",
+            text = stringResource(R.string.feed_screen_title_all_kudos),
             style = MaterialTheme.typography.titleLarge,
             color = KudosWhite
         )

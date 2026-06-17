@@ -22,6 +22,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.sun.kudos_demo.R
@@ -74,7 +75,7 @@ fun HomeFab(
             ) {
                 Icon(
                     imageVector = Icons.Filled.Create,
-                    contentDescription = "Send Kudos",
+                    contentDescription = stringResource(R.string.home_fab_send_kudos_desc),
                     tint = KudosBackground,
                     modifier = Modifier.size(22.dp)
                 )
@@ -101,7 +102,7 @@ fun HomeFab(
                 // Real Sun* Kudos logo (ic_kudos_logo) — multicolor, no tint
                 Image(
                     painter = painterResource(R.drawable.ic_kudos_logo),
-                    contentDescription = "Kudos Feed",
+                    contentDescription = stringResource(R.string.home_fab_kudos_feed_desc),
                     modifier = Modifier.size(24.dp)
                 )
             }

@@ -19,8 +19,10 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.sun.kudos_demo.R
 import com.sun.kudos_demo.feature.feed.components.KudoDetailCard
 import com.sun.kudos_demo.ui.theme.KudosAppTheme
 import com.sun.kudos_demo.ui.theme.KudosBackground
@@ -64,7 +66,7 @@ fun ViewKudoScreen(
         TopAppBar(
             title = {
                 Text(
-                    text = "Kudo",
+                    text = stringResource(R.string.feed_screen_title_kudo_detail),
                     style = MaterialTheme.typography.titleLarge,
                     color = KudosGold
                 )
@@ -73,7 +75,7 @@ fun ViewKudoScreen(
                 IconButton(onClick = onBack) {
                     Icon(
                         imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                        contentDescription = "Quay lại",
+                        contentDescription = stringResource(R.string.feed_nav_back_desc),
                         tint = KudosGold
                     )
                 }

@@ -13,10 +13,12 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.sun.kudos_demo.R
 import com.sun.kudos_demo.ui.theme.KudosAppTheme
 import com.sun.kudos_demo.ui.theme.KudosDivider
 import com.sun.kudos_demo.ui.theme.KudosGold
@@ -45,7 +47,7 @@ fun UserProfileSectionHeader(
     ) {
         // "Sun* Annual Awards 2025" — 12sp regular white (node I6885:10418;75:1884)
         Text(
-            text = "Sun* Annual Awards 2025",
+            text = stringResource(R.string.profile_section_awards_subtitle),
             style = MaterialTheme.typography.bodySmall.copy(
                 fontSize = 12.sp,
                 lineHeight = 16.sp,
@@ -63,7 +65,7 @@ fun UserProfileSectionHeader(
 
         // "KUDOS" — 22sp medium gold (node I6885:10418;75:1887)
         Text(
-            text = "KUDOS",
+            text = stringResource(R.string.profile_section_kudos_headline),
             style = MaterialTheme.typography.headlineMedium.copy(
                 fontSize = 22.sp,
                 lineHeight = 28.sp,

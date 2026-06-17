@@ -23,9 +23,11 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.sun.kudos_demo.R
 import com.sun.kudos_demo.feature.awards.AwardContent
 import com.sun.kudos_demo.feature.awards.AwardData
 import com.sun.kudos_demo.feature.home.components.SectionHeader
@@ -61,8 +63,8 @@ fun AwardHeaderSection(
     ) {
         // mms_B.1_header (6885:10758) — reuse SectionHeader (eyebrow 12sp white + gold divider + title 22sp gold)
         SectionHeader(
-            eyebrow = "Sun* Annual Awards 2025",
-            title = "Hệ thống giải thưởng \nSAA 2025"
+            eyebrow = stringResource(R.string.award_header_eyebrow),
+            title = stringResource(R.string.award_header_title)
         )
 
         // filter (6885:10759) — 248×40dp dropdown field
@@ -79,7 +81,7 @@ fun AwardHeaderSection(
                     .padding(horizontal = 8.dp)
             ) {
                 Text(
-                    text = selected.dropdownLabel,
+                    text = stringResource(selected.dropdownLabelRes),
                     style = MaterialTheme.typography.bodyMedium,
                     color = KudosWhite,
                     maxLines = 1,
@@ -105,7 +107,7 @@ fun AwardHeaderSection(
                     DropdownMenuItem(
                         text = {
                             Text(
-                                text = award.dropdownLabel,
+                                text = stringResource(award.dropdownLabelRes),
                                 style = MaterialTheme.typography.bodyMedium,
                                 color = if (isSelected) KudosGold else KudosWhite
                             )

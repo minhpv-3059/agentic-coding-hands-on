@@ -19,8 +19,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.sun.kudos_demo.R
 import com.sun.kudos_demo.ui.theme.KudosAppTheme
 import com.sun.kudos_demo.ui.theme.KudosBackground
 import com.sun.kudos_demo.ui.theme.KudosBorder
@@ -42,13 +44,13 @@ fun HeroActionButtonRow(
         horizontalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         HeroActionButton(
-            text = "ABOUT AWARD",
+            text = stringResource(R.string.home_about_award),
             isPrimary = true,
             onClick = onAboutAward,
             modifier = Modifier.weight(1f)
         )
         HeroActionButton(
-            text = "ABOUT KUDOS",
+            text = stringResource(R.string.home_about_kudos),
             isPrimary = false,
             onClick = onAboutKudos,
             modifier = Modifier.weight(1f)

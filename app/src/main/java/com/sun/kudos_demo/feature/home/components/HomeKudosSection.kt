@@ -14,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -42,8 +43,8 @@ fun HomeKudosSection(
         verticalArrangement = Arrangement.spacedBy(24.dp)
     ) {
         SectionHeader(
-            eyebrow = "Phong trào ghi nhận",
-            title = "Sun* Kudos"
+            eyebrow = stringResource(R.string.home_kudos_eyebrow),
+            title = stringResource(R.string.home_kudos_title)
         )
 
         // Kudos banner — real Figma asset (335×145), scales to width keeping aspect
@@ -59,16 +60,12 @@ fun HomeKudosSection(
         // Note — exact text from node 6885:9054; first line acts as a gold sub-heading
         Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
             Text(
-                text = "ĐIỂM MỚI CỦA SAA 2025",
+                text = stringResource(R.string.home_kudos_new_highlight),
                 style = MaterialTheme.typography.labelLarge,
                 color = KudosGold
             )
             Text(
-                text = "Hoạt động ghi nhận và cảm ơn đồng nghiệp - lần đầu tiên được diễn ra " +
-                    "dành cho tất cả Sunner. Hoạt động sẽ được triển khai vào tháng 11/2025, " +
-                    "khuyến khích người Sun* chia sẻ những lời ghi nhận, cảm ơn đồng nghiệp " +
-                    "trên hệ thống do BTC công bố. Đây sẽ là chất liệu để Hội đồng Heads tham " +
-                    "khảo trong quá trình lựa chọn người đạt giải.",
+                text = stringResource(R.string.home_kudos_body),
                 style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Light),
                 color = KudosWhite
             )
@@ -76,7 +73,7 @@ fun HomeKudosSection(
 
         // "Chi tiết ↗" secondary button — mms_5.3_Button
         KudosSecondaryButton(
-            text = "Chi tiết",
+            text = stringResource(R.string.home_kudos_detail_button),
             onClick = onKudosDetail,
             showExternalIcon = true,
             modifier = Modifier.width(120.dp)

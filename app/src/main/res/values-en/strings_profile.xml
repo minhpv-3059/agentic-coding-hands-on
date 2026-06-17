@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- ============ Profile — English ============ -->
+
+    <!-- Stats card labels (ProfileStatsCard) -->
+    <string name="profile_stat_kudos_received">Kudos you have received</string>
+    <string name="profile_stat_kudos_sent">Kudos you have sent</string>
+    <string name="profile_stat_hearts_received">Hearts you have received</string>
+    <string name="profile_stat_secret_box_opened">Secret Boxes you have opened</string>
+    <string name="profile_stat_secret_box_unopened">Secret Boxes unopened</string>
+
+    <!-- Secret Box CTA button (ProfileStatsCard) -->
+    <string name="profile_open_secret_box">Open Secret Box 🎁</string>
+
+    <!-- Kudos filter tab labels (ProfileKudosFilter) — %1$d is the count -->
+    <string name="profile_tab_received">Received (%1$d)</string>
+    <string name="profile_tab_sent">Sent (%1$d)</string>
+
+    <!-- Section header (ProfileSectionHeader / UserProfileSectionHeader) -->
+    <string name="profile_section_awards_subtitle">Sun* Annual Awards 2025</string>
+    <string name="profile_section_kudos_headline">KUDOS</string>
+
+    <!-- Icon collection label (ProfileIconCollection / UserProfileScreen inline) -->
+    <string name="profile_icon_collection_label">My icon collection</string>
+
+    <!-- Send-kudos CTA (ProfileSendKudosCta) — %1$s is the recipient first name -->
+    <string name="profile_send_cta">Send thanks and recognition to %1$s…</string>
+
+    <!-- Received-kudos label (ProfileReceivedKudosLabel) — %1$d is the count -->
+    <string name="profile_received_kudos_label">Received %1$d kudos</string>
+</resources>

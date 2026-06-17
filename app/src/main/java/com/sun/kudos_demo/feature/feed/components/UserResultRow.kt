@@ -17,8 +17,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.sun.kudos_demo.R
 import com.sun.kudos_demo.feature.feed.KudoUser
 import com.sun.kudos_demo.feature.feed.KudosMockData
 import com.sun.kudos_demo.ui.components.KudoAvatar
@@ -83,7 +85,7 @@ fun UserResultRow(
             ) {
                 Icon(
                     imageVector = Icons.Filled.Close,
-                    contentDescription = "Remove from recent",
+                    contentDescription = stringResource(R.string.feed_search_remove_recent_desc),
                     tint = KudosGray,
                     modifier = Modifier.size(20.dp)
                 )

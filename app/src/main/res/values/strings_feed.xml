@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- ============ Feed — Screen titles & top bars ============ -->
+    <string name="feed_screen_title_all_kudos">All Kudos</string>
+    <string name="feed_screen_heading_all_kudos">ALL KUDOS</string>
+    <string name="feed_screen_title_kudo_detail">Kudo</string>
+
+    <!-- ============ Feed — Navigation content descriptions ============ -->
+    <string name="feed_nav_back_desc">Quay lại</string>
+
+    <!-- ============ Feed — Hero banner ============ -->
+    <string name="feed_hero_tagline">Hệ thống ghi nhận và cảm ơn</string>
+    <string name="feed_hero_logo_desc">Sun* Kudos</string>
+
+    <!-- ============ Feed — Section headers & eyebrows ============ -->
+    <string name="feed_section_eyebrow">Sun* Annual Awards 2025</string>
+    <string name="feed_section_highlight_kudos">HIGHLIGHT KUDOS</string>
+    <string name="feed_section_spotlight_board">SPOTLIGHT BOARD</string>
+    <string name="feed_section_all_kudos">ALL KUDOS</string>
+
+    <!-- ============ Feed — Send Kudos prompt ============ -->
+    <string name="feed_send_kudos_desc">Gửi Kudos</string>
+    <string name="feed_send_kudos_prompt">Hôm nay, bạn muốn gửi kudos đến ai?</string>
+
+    <!-- ============ Feed — Highlight carousel navigation ============ -->
+    <string name="feed_carousel_prev">Trước</string>
+    <string name="feed_carousel_next">Tiếp</string>
+
+    <!-- ============ Feed — Empty state ============ -->
+    <string name="feed_empty_kudos">Hiện tại chưa có Kudos nào.</string>
+
+    <!-- ============ Feed — View all link ============ -->
+    <string name="feed_view_all_kudos">View all Kudos</string>
+
+    <!-- ============ Feed — Spotlight search ============ -->
+    <string name="feed_spotlight_search_hint">Tìm kiếm sunner</string>
+
+    <!-- ============ Feed — Stats block ============ -->
+    <string name="feed_stats_received">Số Kudos bạn nhận được:</string>
+    <string name="feed_stats_sent">Số Kudos bạn đã gửi:</string>
+    <string name="feed_stats_hearts">Số tim bạn nhận được:</string>
+    <string name="feed_stats_hearts_x2_desc">x2 tim</string>
+    <string name="feed_stats_secret_box_opened">Số Secret Box bạn đã mở:</string>
+    <string name="feed_stats_secret_box_unopened">Số Secret Box chưa mở:</string>
+    <string name="feed_open_secret_box">Mở Secret Box 🎁</string>
+
+    <!-- ============ Feed — Gift recipients section ============ -->
+    <string name="feed_gift_recipients_title">10 SUNNER NHẬN QUÀ MỚI NHẤT</string>
+    <string name="feed_gift_recipients_empty">Chưa có dữ liệu.</string>
+
+    <!-- ============ Feed — Kudo detail card actions ============ -->
+    <string name="feed_kudo_send_to_desc">Gửi tới</string>
+    <string name="feed_kudo_anonymous_sender">Người gửi ẩn danh</string>
+    <string name="feed_kudo_unlike_desc">Bỏ thích</string>
+    <string name="feed_kudo_like_desc">Thích</string>
+    <string name="feed_kudo_copy_link">Copy Link</string>
+    <string name="feed_kudo_view_detail">Xem chi tiết</string>
+
+    <!-- ============ Feed — Search screen ============ -->
+    <string name="feed_search_hint">Search Sunner</string>
+    <string name="feed_search_recent_title">Recent</string>
+    <string name="feed_search_view_all">View all</string>
+    <string name="feed_search_back_desc">Back</string>
+    <string name="feed_search_remove_recent_desc">Remove from recent</string>
+</resources>

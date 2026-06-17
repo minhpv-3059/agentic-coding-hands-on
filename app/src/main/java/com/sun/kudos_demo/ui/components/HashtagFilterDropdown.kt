@@ -29,7 +29,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.sun.kudos_demo.R
 import com.sun.kudos_demo.feature.feed.KudosMockData
 import com.sun.kudos_demo.ui.theme.KudosAppTheme
 import com.sun.kudos_demo.ui.theme.KudosBorder
@@ -80,7 +82,7 @@ fun HashtagFilterDropdown(
                 .padding(horizontal = 8.dp)
         ) {
             Text(
-                text = if (selected != null) "#$selected" else "Hashtag",
+                text = if (selected != null) "#$selected" else stringResource(R.string.filter_hashtag),
                 style = MaterialTheme.typography.labelMedium,
                 color = labelColor
             )

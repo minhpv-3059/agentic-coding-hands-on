@@ -24,6 +24,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.res.stringResource
 import com.sun.kudos_demo.R
 import com.sun.kudos_demo.ui.theme.KudosAppTheme
 import com.sun.kudos_demo.ui.theme.KudosGold
@@ -50,9 +51,9 @@ fun CountdownRow(
         horizontalArrangement = Arrangement.spacedBy(16.dp),
         verticalAlignment = Alignment.Bottom
     ) {
-        CountdownUnit(value = days, label = "DAYS")
-        CountdownUnit(value = hours, label = "HOURS")
-        CountdownUnit(value = minutes, label = "MINUTES")
+        CountdownUnit(value = days, label = stringResource(R.string.home_days))
+        CountdownUnit(value = hours, label = stringResource(R.string.home_hours))
+        CountdownUnit(value = minutes, label = stringResource(R.string.home_minutes))
     }
 }
 

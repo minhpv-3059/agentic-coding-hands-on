@@ -46,4 +46,15 @@
     <string name="error_go_home">Go back to Home</string>
     <string name="error_back">Back</string>
     <string name="error_illustration_desc">Error illustration</string>
+
+    <!-- ============ Shared KudosCard ============ -->
+    <string name="card_anonymous_sender">Anonymous sender</string>
+    <string name="card_liked">Liked</string>
+    <string name="card_like">Like</string>
+    <string name="card_copy_link">Copy Link</string>
+    <string name="card_view_detail">View details</string>
+
+    <!-- Feed filter dropdown labels -->
+    <string name="filter_hashtag">Hashtag</string>
+    <string name="filter_department">Department</string>
 </resources>

@@ -2,6 +2,7 @@ package com.sun.kudos_demo
 
 import android.content.res.Configuration
 import android.os.Bundle
+import android.view.ContextThemeWrapper
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -45,10 +46,14 @@ class MainActivity : ComponentActivity() {
             }
 
             val baseContext = LocalContext.current
+            // Wrap the Activity (not createConfigurationContext, which detaches it) so the
+            // context chain still reaches the ComponentActivity — otherwise activity-scoped
+            // CompositionLocals like LocalActivityResultRegistryOwner (used by the Send-Kudos
+            // photo picker) can't be resolved and crash.
             val localizedContext = remember(language, baseContext) {
                 val config = Configuration(baseContext.resources.configuration)
                 config.setLocale(Locale.forLanguageTag(language.locale))
-                baseContext.createConfigurationContext(config)
+                ContextThemeWrapper(baseContext, 0).apply { applyOverrideConfiguration(config) }
             }
 
             CompositionLocalProvider(

@@ -23,10 +23,11 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.sun.kudos_demo.R
+import androidx.compose.ui.unit.sp
 import com.sun.kudos_demo.ui.theme.KudosAppTheme
 import com.sun.kudos_demo.ui.theme.KudosBackground
 import com.sun.kudos_demo.ui.theme.KudosGold
@@ -76,7 +77,7 @@ fun FeedHeroBanner(modifier: Modifier = Modifier) {
             horizontalAlignment = Alignment.Start   // design is left-aligned; artwork sits on the right
         ) {
             Text(
-                text = "Hệ thống ghi nhận và cảm ơn",
+                text = stringResource(R.string.feed_hero_tagline),
                 style = MaterialTheme.typography.bodyMedium,
                 color = KudosGold
             )
@@ -84,7 +85,7 @@ fun FeedHeroBanner(modifier: Modifier = Modifier) {
             // Sun* Kudos brand wordmark (red mark + cream KUDOS) — traced to ic_kudos_wordmark (221×39)
             Image(
                 painter = painterResource(R.drawable.ic_kudos_wordmark),
-                contentDescription = "Sun* Kudos",
+                contentDescription = stringResource(R.string.feed_hero_logo_desc),
                 modifier = Modifier
                     .height(40.dp)
                     .width(227.dp)

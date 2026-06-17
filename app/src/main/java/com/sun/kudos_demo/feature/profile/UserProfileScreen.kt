@@ -21,6 +21,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -97,13 +98,11 @@ fun UserProfileScreen(
 
         // Detail-screen header: back arrow + no scrim so the key-visual shows behind it
         KudosTopBar(
-            currentLanguage = currentLanguage,
             unreadCount = unreadCount,
             showScrim = false,
             onBack = onBack,
             onSearchClick = onSearch,
             onNotificationClick = onNotifications,
-            onLanguageClick = onLanguage,
             modifier = Modifier.align(Alignment.TopCenter)
         )
     }
@@ -155,7 +154,7 @@ private fun UserProfileContent(
         item {
             Spacer(Modifier.height(12.dp))
             Text(
-                text = "Bộ sưu tập icon của tôi",
+                text = stringResource(R.string.profile_icon_collection_label),
                 style = MaterialTheme.typography.titleMedium.copy(
                     fontSize = 14.sp, lineHeight = 20.sp,
                     fontWeight = FontWeight.Medium, color = KudosWhite

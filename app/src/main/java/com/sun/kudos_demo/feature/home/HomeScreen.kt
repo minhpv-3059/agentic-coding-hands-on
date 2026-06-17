@@ -107,11 +107,9 @@ fun HomeScreen(
 
         // KudosTopBar pinned at top, drawn over hero background
         KudosTopBar(
-            currentLanguage = currentLanguage,
             unreadCount = unreadCount,
             onSearchClick = onSearch,
             onNotificationClick = onNotifications,
-            onLanguageClick = onLanguageClick,
             modifier = Modifier.align(Alignment.TopCenter)
         )
 

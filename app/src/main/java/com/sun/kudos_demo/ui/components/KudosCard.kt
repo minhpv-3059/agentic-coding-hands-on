@@ -27,11 +27,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.sun.kudos_demo.R
 import com.sun.kudos_demo.feature.feed.Kudo
 import com.sun.kudos_demo.feature.feed.KudosMockData
 import com.sun.kudos_demo.feature.feed.KudoUser
@@ -194,7 +196,7 @@ private fun KudosParticipantSlot(
             }
             if (isAnonymous) {
                 Text(
-                    text = "Người gửi ẩn danh",
+                    text = stringResource(R.string.card_anonymous_sender),
                     style = MaterialTheme.typography.labelSmall,
                     color = KudosCardFaint
                 )
@@ -323,7 +325,7 @@ private fun KudosCardActions(
             )
             Icon(
                 imageVector = if (isLiked) Icons.Filled.Favorite else Icons.Filled.FavoriteBorder,
-                contentDescription = if (isLiked) "Đã thích" else "Thích",
+                contentDescription = stringResource(if (isLiked) R.string.card_liked else R.string.card_like),
                 tint = if (isLiked) KudosAccentRed else KudosCardFaint,
                 modifier = Modifier.size(16.dp)
             )
@@ -333,7 +335,7 @@ private fun KudosCardActions(
 
         // Copy Link
         Text(
-            text = "Copy Link",
+            text = stringResource(R.string.card_copy_link),
             style = MaterialTheme.typography.labelMedium,
             color = KudosCardMuted,
             modifier = Modifier.clickable(onClick = onCopyLink)
@@ -346,7 +348,7 @@ private fun KudosCardActions(
             horizontalArrangement = Arrangement.spacedBy(2.dp)
         ) {
             Text(
-                text = "Xem chi tiết",
+                text = stringResource(R.string.card_view_detail),
                 style = MaterialTheme.typography.labelMedium,
                 color = KudosDarkText
             )

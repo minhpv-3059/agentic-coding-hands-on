@@ -4,8 +4,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import com.sun.kudos_demo.R
 import com.sun.kudos_demo.ui.theme.KudosAppTheme
 import com.sun.kudos_demo.ui.theme.KudosWhite
 
@@ -19,13 +21,7 @@ import com.sun.kudos_demo.ui.theme.KudosWhite
 @Composable
 fun HomeNoteSection(modifier: Modifier = Modifier) {
     Text(
-        text = "Không đơn thuần là một cái tên, \"Root Further\" chính là tinh thần mà mỗi " +
-            "người Sun* đang hướng tới: luôn nhìn nhận sâu sắc trong mọi bối cảnh và không " +
-            "ngừng sáng tạo, mở rộng bản thân để vượt qua những giới hạn mà chính mình đã " +
-            "từng đặt ra. Mượn hình ảnh ẩn dụ của lý thuyết phối màu, chỉ từ ba màu cơ bản: " +
-            "đỏ, vàng và lam, sức sáng tạo vô tận của mỗi cá nhân có thể tạo ra số lượng màu " +
-            "sắc gần như vô hạn, với mỗi gam màu đều đại diện cho sự bứt phá và sáng tạo " +
-            "không giới hạn.",
+        text = stringResource(R.string.home_theme_note),
         style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Light),
         color = KudosWhite,
         modifier = modifier

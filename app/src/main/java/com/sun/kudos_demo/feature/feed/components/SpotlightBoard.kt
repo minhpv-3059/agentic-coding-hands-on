@@ -35,6 +35,7 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextLayoutResult
 import androidx.compose.ui.text.TextMeasurer
 import androidx.compose.ui.text.TextStyle
@@ -43,8 +44,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.sun.kudos_demo.R
+import androidx.compose.ui.unit.sp
 import com.sun.kudos_demo.feature.feed.SpotlightData
 import com.sun.kudos_demo.feature.feed.SpotlightMockData
 import com.sun.kudos_demo.feature.feed.SpotlightNode
@@ -207,7 +208,7 @@ private fun SearchPillOverlay(
             decorationBox = { inner ->
                 if (query.isEmpty()) {
                     Text(
-                        text = "Tìm kiếm sunner",
+                        text = stringResource(R.string.feed_spotlight_search_hint),
                         style = TextStyle(color = KudosGray, fontSize = 10.sp)
                     )
                 }

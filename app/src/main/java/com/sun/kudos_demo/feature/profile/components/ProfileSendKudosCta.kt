@@ -19,9 +19,11 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.sun.kudos_demo.R
 import com.sun.kudos_demo.ui.theme.KudosAppTheme
 import com.sun.kudos_demo.ui.theme.KudosBorder
 import com.sun.kudos_demo.ui.theme.KudosGold
@@ -78,7 +80,7 @@ fun ProfileSendKudosCta(
             )
             Spacer(Modifier.width(8.dp))
             Text(
-                text = "Gửi lời cảm ơn và ghi nhận tới $firstName...",
+                text = stringResource(R.string.profile_send_cta, firstName),
                 style = MaterialTheme.typography.titleMedium.copy(
                     color = KudosWhite
                 ),

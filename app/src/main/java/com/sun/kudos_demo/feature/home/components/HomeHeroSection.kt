@@ -17,6 +17,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -72,7 +73,7 @@ fun HomeHeroSection(
 
             // "Coming soon" — 14sp, light, white (node 6885:8987)
             Text(
-                text = "Coming soon",
+                text = stringResource(R.string.home_coming_soon),
                 style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Light),
                 color = KudosWhite
             )
@@ -85,14 +86,14 @@ fun HomeHeroSection(
             Spacer(Modifier.height(16.dp))
 
             // Event info rows (node 6885:9016)
-            EventInfoRow(label = "Thời gian: ", value = "26/12/2025")
+            EventInfoRow(label = stringResource(R.string.home_event_time_label), value = "26/12/2025")
             Spacer(Modifier.height(8.dp))
-            EventInfoRow(label = "Địa điểm:", value = "Âu Cơ Art Center")
+            EventInfoRow(label = stringResource(R.string.home_event_location_label), value = "Âu Cơ Art Center")
             Spacer(Modifier.height(8.dp))
 
             // Livestream note (node 6885:9024)
             Text(
-                text = "Tường thuật trực tiếp tại Group Facebook Sun* Family",
+                text = stringResource(R.string.home_livestream_note),
                 style = MaterialTheme.typography.bodyMedium,
                 color = KudosWhite
             )

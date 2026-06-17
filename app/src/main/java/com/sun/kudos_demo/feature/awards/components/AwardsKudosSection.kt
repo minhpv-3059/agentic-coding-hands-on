@@ -14,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -46,14 +47,14 @@ fun AwardsKudosSection(
         verticalArrangement = Arrangement.spacedBy(24.dp)
     ) {
         SectionHeader(
-            eyebrow = "Phong trào ghi nhận",
-            title = "Sun* Kudos"
+            eyebrow = stringResource(R.string.award_kudos_eyebrow),
+            title = stringResource(R.string.award_kudos_title)
         )
 
         // Kudos banner — shared asset img_kudos_banner (335×145), width-filling
         Image(
             painter = painterResource(R.drawable.img_kudos_banner),
-            contentDescription = "Sun* Kudos",
+            contentDescription = stringResource(R.string.award_kudos_title),
             contentScale = ContentScale.FillWidth,
             modifier = Modifier
                 .fillMaxWidth()
@@ -63,16 +64,12 @@ fun AwardsKudosSection(
         // Note block — exact same text as HomeKudosSection (Figma node 6885:9054)
         Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
             Text(
-                text = "ĐIỂM MỚI CỦA SAA 2025",
+                text = stringResource(R.string.award_kudos_new_label),
                 style = MaterialTheme.typography.labelLarge,
                 color = KudosGold
             )
             Text(
-                text = "Hoạt động ghi nhận và cảm ơn đồng nghiệp - lần đầu tiên được diễn ra " +
-                    "dành cho tất cả Sunner. Hoạt động sẽ được triển khai vào tháng 11/2025, " +
-                    "khuyến khích người Sun* chia sẻ những lời ghi nhận, cảm ơn đồng nghiệp " +
-                    "trên hệ thống do BTC công bố. Đây sẽ là chất liệu để Hội đồng Heads tham " +
-                    "khảo trong quá trình lựa chọn người đạt giải.",
+                text = stringResource(R.string.award_kudos_body),
                 style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Light),
                 color = KudosWhite
             )
@@ -80,7 +77,7 @@ fun AwardsKudosSection(
 
         // "Chi tiết ↗" button
         KudosSecondaryButton(
-            text = "Chi tiết",
+            text = stringResource(R.string.award_kudos_detail_button),
             onClick = onKudosDetail,
             showExternalIcon = true,
             modifier = Modifier.width(120.dp)

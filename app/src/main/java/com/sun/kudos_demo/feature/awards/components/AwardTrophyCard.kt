@@ -18,6 +18,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -57,7 +58,7 @@ fun AwardTrophyCard(
         // the transparent areas let the key-visual show through behind it.
         Image(
             painter = painterResource(award.trophy),
-            contentDescription = award.dropdownLabel,
+            contentDescription = stringResource(award.dropdownLabelRes),
             contentScale = ContentScale.Fit,
             modifier = Modifier.size(160.dp)
         )
@@ -81,7 +82,7 @@ fun AwardTrophyCard(
                     modifier = Modifier.size(24.dp)
                 )
                 Text(
-                    text = award.dropdownLabel,
+                    text = stringResource(award.dropdownLabelRes),
                     style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Bold),
                     color = KudosGold
                 )
@@ -89,7 +90,7 @@ fun AwardTrophyCard(
 
             // Description paragraph (6885:10771): 14sp light 300 white
             Text(
-                text = award.description,
+                text = stringResource(award.descriptionRes),
                 style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Light),
                 color = KudosWhite
             )
@@ -102,11 +103,11 @@ fun AwardTrophyCard(
 
         Spacer(Modifier.height(16.dp))
 
-        // Quantity row (6885:10773): "Số lượng giải thưởng" + "01 Cá nhân"
+        // Quantity row (6885:10773): quantity label + "01 Cá nhân / Individual"
         AwardStatRow(
             iconRes = R.drawable.ic_award_diamond,
-            label = "Số lượng giải thưởng",
-            valueRows = listOf(AwardValue(award.quantity, award.quantityUnit))
+            label = stringResource(R.string.award_quantity_label),
+            valueRows = listOf(AwardValue(award.quantity, award.quantityUnitRes))
         )
 
         Spacer(Modifier.height(16.dp))
@@ -116,10 +117,10 @@ fun AwardTrophyCard(
 
         Spacer(Modifier.height(16.dp))
 
-        // Prize value row(s) (6885:10781): "Giá trị giải thưởng" + 1–2 value rows
+        // Prize value row(s) (6885:10781): prize value label + 1–2 value rows
         AwardStatRow(
             iconRes = R.drawable.ic_award_flag,
-            label = "Giá trị giải thưởng",
+            label = stringResource(R.string.award_value_label),
             valueRows = award.values
         )
     }
@@ -176,7 +177,7 @@ private fun AwardStatRow(
                 )
                 // Note: 14sp light 300, letterSpacing 0.25sp, white
                 Text(
-                    text = value.note,
+                    text = stringResource(value.noteRes),
                     style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Light),
                     color = KudosWhite
                 )

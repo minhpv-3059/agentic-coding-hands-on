@@ -30,9 +30,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.sun.kudos_demo.R
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.util.lerp
 import com.sun.kudos_demo.feature.feed.Kudo
@@ -122,7 +124,7 @@ fun HighlightCarousel(
             CarouselNavButton(
                 icon = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
                 enabled = pagerState.currentPage > 0,
-                contentDesc = "Trước"
+                contentDesc = stringResource(R.string.feed_carousel_prev)
             ) { scope.launch { pagerState.animateScrollToPage((pagerState.currentPage - 1).coerceAtLeast(0)) } }
 
             Text(
@@ -138,7 +140,7 @@ fun HighlightCarousel(
             CarouselNavButton(
                 icon = Icons.AutoMirrored.Filled.KeyboardArrowRight,
                 enabled = pagerState.currentPage < kudos.size - 1,
-                contentDesc = "Tiếp"
+                contentDesc = stringResource(R.string.feed_carousel_next)
             ) { scope.launch { pagerState.animateScrollToPage((pagerState.currentPage + 1).coerceAtMost(kudos.size - 1)) } }
         }
     }
@@ -191,7 +193,7 @@ internal fun EmptyKudosHint(modifier: Modifier = Modifier) {
         contentAlignment = Alignment.Center
     ) {
         Text(
-            text = "Hiện tại chưa có Kudos nào.",
+            text = stringResource(R.string.feed_empty_kudos),
             style = MaterialTheme.typography.bodyMedium,
             color = KudosGray
         )

@@ -2,7 +2,6 @@ package com.sun.kudos_demo.ui.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -11,28 +10,33 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Badge
 import androidx.compose.material3.BadgedBox
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
-import androidx.compose.material3.minimumInteractiveComponentSize
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Popup
+import androidx.compose.ui.window.PopupProperties
 import com.sun.kudos_demo.R
+import com.sun.kudos_demo.feature.auth.LanguageManager
 import com.sun.kudos_demo.ui.theme.KudosAppTheme
 import com.sun.kudos_demo.ui.theme.KudosAccentRed
 import com.sun.kudos_demo.ui.theme.KudosBackground
@@ -41,16 +45,18 @@ import com.sun.kudos_demo.ui.theme.KudosWhite
 // Top app bar matching the design:
 // [Logo]    [VN ▼]  [🔍]  [🔔 + badge]
 // Height: 56 dp as per code-standards.md, horizontal padding: 16 dp
+//
+// The language selector self-manages a dropdown panel (tap → open VN/EN options) and drives
+// the app-wide [LanguageManager], so every header screen switches language consistently —
+// matching the Login dropdown behaviour.
 @Composable
 fun KudosTopBar(
     modifier: Modifier = Modifier,
-    currentLanguage: String = "VN",
     unreadCount: Int = 0,
     showScrim: Boolean = true,
     onBack: (() -> Unit)? = null,
     onSearchClick: () -> Unit = {},
-    onNotificationClick: () -> Unit = {},
-    onLanguageClick: () -> Unit = {}
+    onNotificationClick: () -> Unit = {}
 ) {
     // Gradient overlay matching LoginHeader: top-heavy dark, fades to transparent
     val gradient = Brush.verticalGradient(
@@ -94,35 +100,7 @@ fun KudosTopBar(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(10.dp)
         ) {
-            // Language selector: flag emoji + code + arrow — 90×32 in design
-            Row(
-                modifier = Modifier
-                    .minimumInteractiveComponentSize()
-                    .clickable(onClick = onLanguageClick)
-                    .padding(start = 8.dp, top = 4.dp, bottom = 4.dp),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(8.dp)
-            ) {
-                // Real flag assets — VN (ic_vn_flag) / EN (ic_uk_flag), consistent with LanguageDropdown
-                Image(
-                    painter = painterResource(
-                        if (currentLanguage == "VN") R.drawable.ic_vn_flag else R.drawable.ic_uk_flag
-                    ),
-                    contentDescription = if (currentLanguage == "VN") "Vietnam" else "English",
-                    modifier = Modifier.size(width = 24.dp, height = 16.dp)
-                )
-                Text(
-                    text = currentLanguage,
-                    style = MaterialTheme.typography.labelMedium,
-                    color = KudosWhite
-                )
-                Icon(
-                    imageVector = Icons.Filled.KeyboardArrowDown,
-                    contentDescription = null,
-                    tint = KudosWhite,
-                    modifier = Modifier.size(16.dp)
-                )
-            }
+            LanguageSelector()
 
             // Search icon
             IconButton(onClick = onSearchClick, modifier = Modifier.size(40.dp)) {
@@ -160,11 +138,39 @@ fun KudosTopBar(
     }
 }
 
+/** Header language selector — opens a dropdown panel and drives the global [LanguageManager]. */
+@Composable
+private fun LanguageSelector() {
+    val language by LanguageManager.language.collectAsState()
+    var expanded by remember { mutableStateOf(false) }
+    val dropOffsetY = with(LocalDensity.current) { 28.dp.roundToPx() }
+
+    Box {
+        LanguageTrigger(selected = language, onClick = { expanded = !expanded })
+        if (expanded) {
+            Popup(
+                alignment = Alignment.TopStart,
+                offset = IntOffset(0, dropOffsetY),
+                onDismissRequest = { expanded = false },
+                properties = PopupProperties(focusable = true)
+            ) {
+                LanguageDropdownPanel(
+                    selected = language,
+                    onSelect = {
+                        LanguageManager.set(it)
+                        expanded = false
+                    }
+                )
+            }
+        }
+    }
+}
+
 @Preview(showBackground = true, backgroundColor = 0xFF00101A)
 @Composable
 private fun KudosTopBarPreview() {
     KudosAppTheme {
-        KudosTopBar(currentLanguage = "VN", unreadCount = 3)
+        KudosTopBar(unreadCount = 3)
     }
 }
 
@@ -172,6 +178,6 @@ private fun KudosTopBarPreview() {
 @Composable
 private fun KudosTopBarNoUnreadPreview() {
     KudosAppTheme {
-        KudosTopBar(currentLanguage = "VN", unreadCount = 0)
+        KudosTopBar(unreadCount = 0)
     }
 }

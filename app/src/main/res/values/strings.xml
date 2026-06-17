@@ -51,4 +51,15 @@
     <string name="error_go_home">Về trang chủ</string>
     <string name="error_back">Quay lại</string>
     <string name="error_illustration_desc">Hình minh họa lỗi</string>
+
+    <!-- ============ Shared KudosCard (feed / profile / view) ============ -->
+    <string name="card_anonymous_sender">Người gửi ẩn danh</string>
+    <string name="card_liked">Đã thích</string>
+    <string name="card_like">Thích</string>
+    <string name="card_copy_link">Copy Link</string>
+    <string name="card_view_detail">Xem chi tiết</string>
+
+    <!-- Feed filter dropdown labels (shared components) -->
+    <string name="filter_hashtag">Hashtag</string>
+    <string name="filter_department">Phòng ban</string>
 </resources>

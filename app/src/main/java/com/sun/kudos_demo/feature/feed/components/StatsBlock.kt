@@ -24,11 +24,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.sun.kudos_demo.R
+import androidx.compose.ui.unit.sp
 import com.sun.kudos_demo.feature.feed.KudoStats
 import com.sun.kudos_demo.feature.feed.KudosMockData
 import com.sun.kudos_demo.ui.theme.KudosAppTheme
@@ -62,18 +63,18 @@ fun StatsBlock(
             .padding(12.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
-        StatRow(label = "Số Kudos bạn nhận được:", value = stats.received.toString())
-        StatRow(label = "Số Kudos bạn đã gửi:", value = stats.sent.toString())
+        StatRow(label = stringResource(R.string.feed_stats_received), value = stats.received.toString())
+        StatRow(label = stringResource(R.string.feed_stats_sent), value = stats.sent.toString())
         StatRow(
-            label = "Số tim bạn nhận được:",
+            label = stringResource(R.string.feed_stats_hearts),
             value = stats.heartsReceived.toString(),
             showFireBadge = stats.fireBonusActive
         )
 
         HorizontalDivider(color = KudosDivider, thickness = 1.dp)
 
-        StatRow(label = "Số Secret Box bạn đã mở:", value = stats.secretBoxOpened.toString())
-        StatRow(label = "Số Secret Box chưa mở:", value = stats.secretBoxUnopened.toString())
+        StatRow(label = stringResource(R.string.feed_stats_secret_box_opened), value = stats.secretBoxOpened.toString())
+        StatRow(label = stringResource(R.string.feed_stats_secret_box_unopened), value = stats.secretBoxUnopened.toString())
 
         Button(
             onClick = onOpenSecretBox,
@@ -87,7 +88,7 @@ fun StatsBlock(
             )
         ) {
             Text(
-                text = "Mở Secret Box 🎁",
+                text = stringResource(R.string.feed_open_secret_box),
                 style = MaterialTheme.typography.labelLarge.copy(
                     fontWeight = FontWeight.Medium,
                     letterSpacing = 0.25.sp
@@ -123,7 +124,7 @@ private fun StatRow(
                 Box(contentAlignment = Alignment.Center, modifier = Modifier.size(26.dp)) {
                     Image(
                         painter = painterResource(R.drawable.ic_fire),
-                        contentDescription = "x2 tim",
+                        contentDescription = stringResource(R.string.feed_stats_hearts_x2_desc),
                         modifier = Modifier.size(26.dp)
                     )
                     Text(

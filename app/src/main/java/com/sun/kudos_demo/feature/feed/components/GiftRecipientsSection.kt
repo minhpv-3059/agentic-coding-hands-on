@@ -17,10 +17,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.sun.kudos_demo.R
 import com.sun.kudos_demo.feature.feed.GiftRecipient
 import com.sun.kudos_demo.feature.feed.KudosMockData
 import com.sun.kudos_demo.ui.components.KudoAvatar
@@ -51,7 +53,7 @@ fun GiftRecipientsSection(
             .padding(12.dp)
     ) {
         Text(
-            text = "10 SUNNER NHẬN QUÀ MỚI NHẤT",
+            text = stringResource(R.string.feed_gift_recipients_title),
             style = MaterialTheme.typography.labelLarge,
             color = KudosGold,
             textAlign = TextAlign.Center,
@@ -61,7 +63,7 @@ fun GiftRecipientsSection(
 
         if (recipients.isEmpty()) {
             Text(
-                text = "Chưa có dữ liệu.",
+                text = stringResource(R.string.feed_gift_recipients_empty),
                 style = MaterialTheme.typography.bodySmall,
                 color = KudosGray,
                 modifier = Modifier.padding(vertical = 8.dp)

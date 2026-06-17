@@ -190,12 +190,10 @@ fun MyProfileScreen(
 
         // Top bar — overlays the key-visual (same z-order pattern as Home/Feed)
         KudosTopBar(
-            currentLanguage = currentLanguage,
             unreadCount = unreadCount,
             showScrim = false, // full-bleed key-visual shows behind the header
             onSearchClick = onSearch,
             onNotificationClick = onNotifications,
-            onLanguageClick = onLanguage,
             modifier = Modifier.align(Alignment.TopCenter)
         )
 
