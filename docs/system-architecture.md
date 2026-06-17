@@ -25,6 +25,13 @@ com.sun.kudos_demo/
 │   ├── NotificationsRepository.kt  — in-memory singleton; MutableStateFlow<List<AppNotification>> seeded from NotificationsMockData; exposes notifications: StateFlow, unreadCount: StateFlow<Int>, markRead(id), markAllRead(); observed by Home + Feed + Profile ViewModels for bell-badge sync
 │   └── SecretBoxRepository.kt      — in-memory singleton; MutableStateFlow<SecretBoxCounts> (unopened/opened tallies); openOne() decrements unopened and increments opened; observed by SecretBoxViewModel and MyProfileViewModel so Profile stats card stays in sync
 ├── feature/
+│   ├── error/
+│   │   ├── ErrorScreen.kt          — shared full-screen error scaffold: robot illustration, localized message, CTA button
+│   │   ├── AccessDeniedScreen.kt   — 403 screen (wraps ErrorScreen); wired from Rules demo trigger
+│   │   └── NotFoundScreen.kt       — 404 screen (wraps ErrorScreen); wired from Rules demo trigger
+│   ├── rules/
+│   │   ├── RulesScreen.kt          — Rules/Thể lệ detail screen (back arrow, no bottom nav); reachable from Home "Chi tiết ↗"
+│   │   └── components/             — 2 composables: RulesHeroSection, RulesIconGrid
 │   ├── awards/
 │   │   ├── AwardsScreen.kt     — Awards bottom-nav TAB; dropdown over 6 award types (MVP, Best Manager, Signature 2025-Creator, Top Project, Top Project Leader, Top Talent); selecting updates the Award Information Block; display-only (eligibility logic out of scope)
 │   │   ├── AwardViewModel.kt   — plain ViewModel; holds selected award StateFlow; onAwardSelected(); accepts optional pre-select arg from nav
@@ -32,8 +39,9 @@ com.sun.kudos_demo/
 │   │   ├── AwardData.kt        — data definitions and mock dataset for all 6 award types
 │   │   └── components/         — 4 composables: AwardHeaderSection, AwardKvSection, AwardTrophyCard, AwardsKudosSection
 │   ├── auth/
-│   │   ├── LoginScreen.kt   — login UI (key-visual, ROOT FURTHER logo, Google SSO button, language overlay)
-│   │   └── LoginViewModel.kt — AndroidViewModel; AppLanguage enum, loading StateFlow, 1s mock auth; persists current user via KudosPreferences.setCurrentUser on login
+│   │   ├── LoginScreen.kt    — login UI (key-visual, ROOT FURTHER logo, Google SSO button, language overlay)
+│   │   ├── LoginViewModel.kt — AndroidViewModel; loading StateFlow, 1s mock auth; calls LanguageManager.set() + KudosPreferences on language/login changes
+│   │   └── AppLanguage.kt    — AppLanguage enum (VN/EN; locale field = "vi"/"en"); LanguageManager process-global StateFlow singleton (loadInitial / set)
 │   ├── feed/
 │   │   ├── KudosFeedScreen.kt  — main Feed: hero banner, highlight carousel, kudos list, stats, gift-recipients, Spotlight; slot pattern (filterRow, spotlight)
 │   │   ├── AllKudosScreen.kt   — full kudos list with like, copy-link, hashtag-tap
@@ -104,7 +112,8 @@ com.sun.kudos_demo/
         ├── KudosCard.kt             — shared card surface; renders kudo message via MarkdownText
         ├── MarkdownText.kt          — shared inline-markdown renderer: parseKudoMarkdown() → AnnotatedString (**bold**, *italic*, ~~strike~~, [label](url)); MarkdownText composable. Used by KudosCard, KudoDetailCard, and KudoPreviewDialog.
         ├── HashtagFilterDropdown.kt — overlay hashtag filter (AND logic with department)
-        └── DepartmentFilterDropdown.kt — overlay department filter
+        ├── DepartmentFilterDropdown.kt — overlay department filter
+        └── LanguageDropdown.kt     — reusable VN/EN language selector; backed by LanguageManager.set()
 ```
 
 ## Navigation
@@ -119,9 +128,11 @@ The app uses `navigation-compose 2.8.0` with a single `NavHost` defined in `AppN
 - `PROFILE_ME` uses the distinct path `"my-profile"` (not `"profile/me"`) to prevent the `PROFILE_USER = "profile/{userId}"` wildcard from capturing it as `userId="me"`.
 - Feature-specific route composables are extracted to dedicated navigation files (`KudosFeedNavigation.kt`, `ProfileNavigation.kt`, `SendKudosNavigation.kt`) to keep `AppNavGraph.kt` under 200 lines — follow this pattern for future feature modules.
 - Hashtag cross-screen navigation: secondary screens (View / AllKudos) stash the tag on the Feed's `SavedStateHandle` and pop back, so the Feed ViewModel picks it up without re-composing.
-- Real screens: LOGIN, HOME, KUDOS_FEED, KUDOS_ALL, KUDOS_VIEW, KUDOS_SEARCH, KUDOS_SEND, KUDOS_COMMUNITY_STANDARDS, PROFILE_ME, PROFILE_USER, NOTIFICATIONS, SECRET_BOX, AWARDS. Remaining routes still use placeholder composables.
+- Real screens: LOGIN, HOME, KUDOS_FEED, KUDOS_ALL, KUDOS_VIEW, KUDOS_SEARCH, KUDOS_SEND, KUDOS_COMMUNITY_STANDARDS, PROFILE_ME, PROFILE_USER, NOTIFICATIONS, SECRET_BOX, AWARDS, RULES, ERROR_403, ERROR_404. All major routes are now wired to real screens.
 - `NOTIFICATIONS` is a detail screen (back arrow, no bottom nav) — same treatment as `PROFILE_USER`. `KudosApp` suppresses the global bottom bar for this route.
 - `AWARDS` uses an optional query param (`awards?award={award}`) for pre-selection from Home award cards. `KudosApp` matches the Awards tab by base route (strips `?award=…`) so the tab stays highlighted regardless of the query string.
+- `RULES` is a detail screen (back arrow, no bottom nav); navigated to from Home "Chi tiết ↗" on award cards. It exposes demo navigation triggers to `ERROR_403` and `ERROR_404`.
+- `ERROR_403` and `ERROR_404` are full-screen error screens sharing the `ErrorScreen` scaffold (robot illustration, localized message, CTA). Both are detail screens with no bottom nav.
 
 ## Theme System
 
@@ -205,3 +216,21 @@ Tokens added in Phase 06:
 ## Image Handling
 
 The app intentionally avoids image-loading libraries (no Coil, no Glide) for bitmap thumbnails in the Send Kudos photo picker. Selected images from the Android Photo Picker are decoded synchronously via `android.graphics.BitmapFactory` in the ViewModel's coroutine scope. This keeps the dependency surface minimal during the mock phase. Add Coil when the feature moves to remote URLs.
+
+## Localization / i18n Architecture
+
+Introduced in Phase 11. Supports runtime locale switching between Vietnamese (default) and English without Activity recreation.
+
+**Components:**
+
+- `AppLanguage` enum (`feature/auth/AppLanguage.kt`) — two variants: `VN(code="VN", locale="vi")`, `EN(code="EN", locale="en")`. `fromCode(String?)` maps a persisted code back; unknown → `VN`.
+- `LanguageManager` object (`feature/auth/AppLanguage.kt`) — process-global `StateFlow<AppLanguage>`. `loadInitial(language)` seeds from DataStore at startup; `set(language)` triggers live switch. Observed by `MainActivity`.
+- `KudosPreferences.languageCode: Flow<String>` + `setLanguageCode(code)` — persists the selected language code to DataStore so the choice survives process death.
+- `MainActivity` — collects `LanguageManager.language` as Compose state; builds a locale-overridden `Context` from the base context; wraps `KudosApp` in `CompositionLocalProvider(LocalContext provides localizedContext, LocalConfiguration provides localizedContext.resources.configuration)`. Every `stringResource(...)` call inside the tree re-resolves against the correct `values` / `values-en` bucket — no `recreate()` call needed.
+
+**String resources:**
+
+- `res/values/strings.xml` — Vietnamese (default locale). This is the canonical source; add new user-facing strings here first.
+- `res/values-en/strings.xml` — English overrides. Must mirror every key in `values/strings.xml`.
+
+**Convention:** Only screens explicitly scoped for i18n (Login, Rules, Error screens as of Phase 11) use `stringResource(...)`. Other screens that still have hardcoded Vietnamese strings are intentionally left as-is during the mock phase — migrate them when full i18n is required. Do not add `stringResource(...)` calls to un-scoped screens unless also adding the corresponding EN string.

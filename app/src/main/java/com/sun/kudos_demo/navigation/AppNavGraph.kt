@@ -1,13 +1,8 @@
 package com.sun.kudos_demo.navigation
 
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
@@ -16,8 +11,11 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.sun.kudos_demo.feature.auth.LoginScreen
+import com.sun.kudos_demo.feature.error.AccessDeniedScreen
+import com.sun.kudos_demo.feature.error.NotFoundScreen
 import com.sun.kudos_demo.feature.home.HomeScreen
 import com.sun.kudos_demo.feature.home.HomeViewModel
+import com.sun.kudos_demo.feature.rules.RulesScreen
 import com.sun.kudos_demo.feature.send.CommunityStandardsScreen
 
 @Composable
@@ -51,7 +49,10 @@ fun AppNavGraph(
                 onAboutAward = { navigateOnce(NavRoutes.AWARDS) },
                 onAboutKudos = { navigateOnce(NavRoutes.KUDOS_FEED) },
                 onAwardDetail = { awardId -> navigateOnce(NavRoutes.awards(awardId)) },
-                onKudosDetail = { navigateOnce(NavRoutes.KUDOS_FEED) },
+                // "Chi tiết ↗" of the Sun* Kudos section → Rules/Thể lệ (consistent with the
+                // Awards screen's recognition-movement "Chi tiết" entry). Feed stays reachable
+                // via the FAB kudos icon + hero "Về Sun* Kudos" CTA.
+                onKudosDetail = { navigateOnce(NavRoutes.RULES) },
                 onSendKudos = { navigateOnce(NavRoutes.KUDOS_SEND) },
                 onOpenKudosFeed = { navigateOnce(NavRoutes.KUDOS_FEED) },
                 onSearch = { navigateOnce(NavRoutes.SEARCH) },
@@ -106,20 +107,38 @@ fun AppNavGraph(
                 defaultValue = ""
             })
         ) { AwardsRoute(navController) }
-        composable(NavRoutes.RULES) { PlaceholderScreen("Rules") }
+        composable(NavRoutes.RULES) {
+            RulesScreen(
+                onClose = { navController.popBackStack() },
+                onWriteKudos = {
+                    navController.navigate(NavRoutes.KUDOS_SEND) { launchSingleTop = true }
+                },
+                // Demo affordances so the 403/404 error screens are reachable in the mock app
+                // (they have no real backend trigger). User-approved entry point (clarifications).
+                onDemoForbidden = { navController.navigate(NavRoutes.ERROR_403) },
+                onDemoNotFound = { navController.navigate(NavRoutes.ERROR_404) }
+            )
+        }
 
-        composable(NavRoutes.ERROR_403) { PlaceholderScreen("403 — Access Denied") }
-        composable(NavRoutes.ERROR_404) { PlaceholderScreen("404 — Not Found") }
+        composable(NavRoutes.ERROR_403) {
+            AccessDeniedScreen(
+                onBack = { navController.popBackStack() },
+                onHome = { navController.navigateToHome() }
+            )
+        }
+        composable(NavRoutes.ERROR_404) {
+            NotFoundScreen(
+                onBack = { navController.popBackStack() },
+                onHome = { navController.navigateToHome() }
+            )
+        }
     }
 }
 
-/** Temporary screen body used until each real screen is implemented. */
-@Composable
-private fun PlaceholderScreen(label: String) {
-    Box(
-        modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
-    ) {
-        Text(text = label, style = MaterialTheme.typography.titleLarge)
+/** Return to the Home tab, clearing the error/unknown destination from the back stack. */
+private fun NavHostController.navigateToHome() {
+    navigate(NavRoutes.HOME) {
+        popUpTo(NavRoutes.HOME) { inclusive = true }
+        launchSingleTop = true
     }
 }

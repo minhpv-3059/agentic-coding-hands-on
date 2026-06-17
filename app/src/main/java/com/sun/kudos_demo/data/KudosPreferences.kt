@@ -24,6 +24,7 @@ class KudosPreferences(private val context: Context) {
     private val likedKey = stringSetPreferencesKey("liked_kudo_ids")
     private val recentKey = stringPreferencesKey("recent_search_user_ids")
     private val currentUserKey = stringPreferencesKey("current_user_id")
+    private val languageKey = stringPreferencesKey("app_language_code")
 
     val likedKudoIds: Flow<Set<String>> =
         context.kudosDataStore.data.map { it[likedKey] ?: emptySet() }
@@ -38,6 +39,15 @@ class KudosPreferences(private val context: Context) {
     /** Persist the signed-in Sunner's id — "creates" the local session at login. */
     suspend fun setCurrentUser(id: String) {
         context.kudosDataStore.edit { prefs -> prefs[currentUserKey] = id }
+    }
+
+    /** Selected UI-language code ("VN" / "EN"); defaults to "VN" before first choice. */
+    val languageCode: Flow<String> =
+        context.kudosDataStore.data.map { it[languageKey] ?: "VN" }
+
+    /** Persist the chosen UI-language code so it survives process death. */
+    suspend fun setLanguageCode(code: String) {
+        context.kudosDataStore.edit { prefs -> prefs[languageKey] = code }
     }
 
     /** Toggle a kudo's liked state (add if absent, remove if present). */

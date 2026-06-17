@@ -1,5 +1,31 @@
 # Project Changelog
 
+## [Unreleased] — Phase 11: Supporting Screens (2026-06-17)
+
+### Added
+- `feature/rules/RulesScreen.kt` — Rules/Thể lệ detail screen (back arrow, no bottom nav); reachable from Home award card "Chi tiết ↗"
+- `feature/rules/components/RulesHeroSection.kt`, `RulesIconGrid.kt` — two composable components for the Rules screen
+- `feature/error/ErrorScreen.kt` — shared full-screen error scaffold: robot illustration (`img_error_robot.png`), localized message, CTA button
+- `feature/error/AccessDeniedScreen.kt` — 403 Access Denied screen (wraps `ErrorScreen`; wired from Rules demo trigger)
+- `feature/error/NotFoundScreen.kt` — 404 Not Found screen (wraps `ErrorScreen`; wired from Rules demo trigger)
+- `ui/components/LanguageDropdown.kt` — reusable language selector composable extracted from `LoginScreen`; shared across screens that display the VN/EN toggle
+- `res/values/strings.xml` — Vietnamese string resources (default locale); first use of Android string resources in the project
+- `res/values-en/strings.xml` — English string resource overrides
+- Assets: `img_error_robot.png` (error illustration), `ic_uk_flag.png` (EN flag for language selector)
+
+### Changed
+- `feature/auth/AppLanguage.kt` — `LanguageManager` process-global `StateFlow` singleton added (`language: StateFlow<AppLanguage>`, `loadInitial()`, `set()`); `AppLanguage` enum gains `locale` field (`"vi"` / `"en"`)
+- `data/KudosPreferences.kt` — `languageCode: Flow<String>` + `setLanguageCode(code: String)` added; language selection is now DataStore-persisted across sessions
+- `MainActivity` — observes `LanguageManager.language` and wraps `KudosApp` in `CompositionLocalProvider(LocalContext + LocalConfiguration)` with a locale-overridden `Context`; locale switches at runtime without Activity recreation
+- `navigation/NavRoutes.kt` — `RULES = "rules"`, `ERROR_403 = "error/403"`, `ERROR_404 = "error/404"` route constants added
+- `navigation/AppNavGraph.kt` — `RULES`, `ERROR_403`, `ERROR_404` wired to real screens; Home "Chi tiết ↗" navigates to `RULES`; Rules demo callbacks navigate to error routes
+- Login, Rules, and Error screens — user-facing strings migrated to `stringResource(...)` calls backed by `strings.xml`; other screens intentionally still use hardcoded Vietnamese strings (i18n migration is incremental)
+
+### Tests
+- 26 test files green; build `assembleDebug` PASS; full test suite passing
+
+---
+
 ## [Unreleased] — Phase 10: Awards (2026-06-17)
 
 ### Added

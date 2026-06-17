@@ -82,6 +82,23 @@ Implemented two profile screens (own profile + other-user profile) from MoMorph 
 - `UserProfileScreen` is a detail screen (back arrow, no bottom nav, full-bleed key-visual); `MyProfileScreen` retains bottom nav
 - ~315 unit tests passing
 
+## Phase 11 — Supporting Screens [Complete]
+
+Added Rules/Thể lệ screen, Access Denied + Not Found error screens, and the first app-wide i18n architecture (runtime locale switching without Activity recreation).
+
+**Delivered:**
+- `feature/rules/RulesScreen.kt` + 2 components (`RulesHeroSection`, `RulesIconGrid`) — Rules/Thể lệ detail screen; reachable from Home "Chi tiết ↗" on award cards
+- `feature/error/ErrorScreen.kt` — shared error scaffold (full-screen robot illustration + message + CTA); used by both error screens
+- `feature/error/AccessDeniedScreen.kt` — 403 screen (wired from Rules demo trigger)
+- `feature/error/NotFoundScreen.kt` — 404 screen (wired from Rules demo trigger)
+- `feature/auth/AppLanguage.kt` (extended) — `LanguageManager` process-global `StateFlow` singleton added; `loadInitial()` seeds from DataStore at startup; `set()` triggers live locale switch
+- `data/KudosPreferences.kt` (extended) — `languageCode: Flow<String>` + `setLanguageCode()` added; language selection is now DataStore-persisted across sessions
+- `MainActivity` — observes `LanguageManager.language`, wraps `KudosApp` in `CompositionLocalProvider(LocalContext + LocalConfiguration)` with a locale-overridden context; no Activity recreation required
+- `res/values/strings.xml` (VN default) + `res/values-en/strings.xml` (EN) — first use of Android string resources in the project; Login, Rules, and Error screens migrated; other screens intentionally still use hardcoded VN strings
+- `ui/components/LanguageDropdown.kt` — extracted reusable language selector composable
+- Assets: `img_error_robot.png` (404/403 illustration), `ic_uk_flag.png` (EN flag in language selector)
+- Nav: `RULES`, `ERROR_403`, `ERROR_404` route constants added; Home "Chi tiết ↗" → `RULES`; `RULES` demo triggers → `ERROR_403` / `ERROR_404`
+
 ## Phase 10 — Awards [Complete]
 
 Implemented the Awards bottom-nav TAB: award type dropdown, information block, trophy assets, and nav wiring.

@@ -8,6 +8,7 @@ import com.sun.kudos_demo.data.KudosPreferences
 import com.sun.kudos_demo.data.KudosRepository
 import com.sun.kudos_demo.data.NotificationsRepository
 import com.sun.kudos_demo.feature.auth.AppLanguage
+import com.sun.kudos_demo.feature.auth.LanguageManager
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -47,11 +48,11 @@ class KudosFeedViewModel(app: Application) : AndroidViewModel(app) {
 
     private val selectedHashtag = MutableStateFlow<String?>(null)
     private val selectedDepartment = MutableStateFlow<String?>(null)
-    private val language = MutableStateFlow(AppLanguage.VN)
 
     val uiState: StateFlow<FeedUiState> =
         combine(
-            KudosRepository.kudos, selectedHashtag, selectedDepartment, prefs.likedKudoIds, language
+            KudosRepository.kudos, selectedHashtag, selectedDepartment, prefs.likedKudoIds,
+            LanguageManager.language
         ) { kudos, tag, dept, liked, lang ->
             buildState(kudos, tag, dept, liked, lang)
         }.combine(NotificationsRepository.unreadCount) { state, unread ->
@@ -103,7 +104,9 @@ class KudosFeedViewModel(app: Application) : AndroidViewModel(app) {
         selectedHashtag.value = tag
     }
 
+    /** Header switcher drives the app-wide language (persisted + re-renders i18n screens). */
     fun toggleLanguage() {
-        language.value = if (language.value == AppLanguage.VN) AppLanguage.EN else AppLanguage.VN
+        val current = LanguageManager.language.value
+        LanguageManager.set(if (current == AppLanguage.VN) AppLanguage.EN else AppLanguage.VN)
     }
 }

@@ -178,6 +178,15 @@ For ViewModels that expose `StateFlow` built with `combine(...).stateIn(WhileSub
 
 This pattern applies to any ViewModel that uses `SharingStarted.WhileSubscribed` — not just SecretBox.
 
+## String Resources and Localization
+
+User-facing strings are managed via Android string resources (`res/values/strings.xml` + `res/values-en/strings.xml`) for screens that are explicitly i18n-scoped (Login, Rules, Error screens as of Phase 11).
+
+- **Add new strings to `values/strings.xml` (VN) first**, then add the EN equivalent to `values-en/strings.xml`. Both files must stay in sync.
+- Use `stringResource(R.string.key)` inside composables for i18n-scoped screens. Do not use `stringResource(...)` in screens that still have hardcoded Vietnamese text unless you also add the EN override — partial migration produces a mixed-locale UI.
+- Non-i18n-scoped screens may continue to hardcode Vietnamese strings during the mock phase. This is intentional, not a bug.
+- Do not use `LocalContext.current.getString(...)` inside composables — use `stringResource(...)` so the string resolves against the `CompositionLocal`-overridden locale (see `system-architecture.md` → "Localization / i18n Architecture").
+
 ## Previews
 
 Every component file must include at least one `@Preview` using `KudosAppTheme` with `backgroundColor = 0xFF00101A` (or the relevant surface color) so previews render on the correct dark background.

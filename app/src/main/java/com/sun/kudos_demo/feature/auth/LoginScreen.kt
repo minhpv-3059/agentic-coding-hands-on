@@ -1,6 +1,5 @@
 package com.sun.kudos_demo.feature.auth
 
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -18,8 +17,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -35,14 +32,14 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.sun.kudos_demo.R
+import com.sun.kudos_demo.ui.components.LanguageDropdownPanel
+import com.sun.kudos_demo.ui.components.LanguageTrigger
 import com.sun.kudos_demo.ui.theme.KudosBackground
-import com.sun.kudos_demo.ui.theme.KudosBorder
-import com.sun.kudos_demo.ui.theme.KudosContainer2
 import com.sun.kudos_demo.ui.theme.KudosDarkText
 import com.sun.kudos_demo.ui.theme.KudosGold
 import com.sun.kudos_demo.ui.theme.KudosWhite
@@ -53,6 +50,7 @@ fun LoginScreen(
     vm: LoginViewModel = viewModel()
 ) {
     val state by vm.uiState.collectAsState()
+    val language by vm.language.collectAsState()
 
     Box(Modifier.fillMaxSize().background(KudosBackground)) {
         Image(
@@ -64,7 +62,7 @@ fun LoginScreen(
 
         Column(Modifier.fillMaxSize()) {
             LoginHeader(
-                language = state.language,
+                language = language,
                 onLanguageClick = vm::toggleLanguageDropdown,
                 modifier = Modifier.height(104.dp)
             )
@@ -76,7 +74,7 @@ fun LoginScreen(
             )
             Spacer(Modifier.height(32.dp))
             Text(
-                text = descriptionText(state.language),
+                text = stringResource(R.string.login_description),
                 style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Light),
                 color = KudosWhite,
                 modifier = Modifier.fillMaxWidth().padding(horizontal = 20.dp)
@@ -92,14 +90,14 @@ fun LoginScreen(
             Spacer(Modifier.height(98.dp))
             Box(Modifier.fillMaxWidth().height(48.dp), contentAlignment = Alignment.Center) {
                 Text(
-                    text = copyrightText(state.language),
+                    text = stringResource(R.string.login_copyright),
                     style = MaterialTheme.typography.bodySmall,
                     color = KudosWhite
                 )
             }
         }
 
-        // Dropdown dismiss overlay + dropdown panel
+        // Dropdown dismiss overlay + reusable dropdown panel
         if (state.showLanguageDropdown) {
             Box(
                 Modifier.fillMaxSize().clickable(
@@ -108,8 +106,8 @@ fun LoginScreen(
                     onClick = vm::dismissLanguageDropdown
                 )
             )
-            LanguageDropdown(
-                selected = state.language,
+            LanguageDropdownPanel(
+                selected = language,
                 onSelect = vm::selectLanguage,
                 modifier = Modifier.align(Alignment.TopEnd).padding(top = 96.dp, end = 20.dp)
             )
@@ -136,21 +134,13 @@ private fun LoginHeader(
             modifier = Modifier.align(Alignment.BottomStart).padding(start = 20.dp, bottom = 8.dp)
                 .width(48.dp).height(44.dp)
         )
-        Row(
+        LanguageTrigger(
+            selected = language,
+            onClick = onLanguageClick,
             modifier = Modifier.align(Alignment.BottomEnd).padding(end = 20.dp, bottom = 4.dp)
                 .heightIn(min = 48.dp)
-                .clickable(onClick = onLanguageClick)
                 .padding(horizontal = 4.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(4.dp)
-        ) {
-            Text(
-                text = if (language == AppLanguage.VN) "🇻🇳" else "🇬🇧",
-                fontSize = 16.sp
-            )
-            Text(language.code, style = MaterialTheme.typography.labelMedium, color = KudosWhite)
-            Icon(Icons.Filled.KeyboardArrowDown, null, tint = KudosWhite, modifier = Modifier.size(16.dp))
-        }
+        )
     }
 }
 
@@ -175,7 +165,11 @@ private fun LoginGoogleButton(
                     horizontalArrangement = Arrangement.spacedBy(8.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Text("LOGIN With Google", style = MaterialTheme.typography.labelLarge, color = KudosDarkText)
+                    Text(
+                        stringResource(R.string.login_google_button),
+                        style = MaterialTheme.typography.labelLarge,
+                        color = KudosDarkText
+                    )
                     Icon(
                         painter = painterResource(R.drawable.ic_google),
                         contentDescription = null,
@@ -186,49 +180,4 @@ private fun LoginGoogleButton(
             }
         }
     }
-}
-
-@Composable
-private fun LanguageDropdown(
-    selected: AppLanguage,
-    onSelect: (AppLanguage) -> Unit,
-    modifier: Modifier = Modifier
-) {
-    Surface(
-        shape = RoundedCornerShape(8.dp),
-        color = KudosContainer2,
-        border = BorderStroke(1.dp, KudosBorder),
-        modifier = modifier.width(122.dp)
-    ) {
-        Column(Modifier.padding(6.dp)) {
-            LanguageOption(AppLanguage.VN, selected == AppLanguage.VN) { onSelect(AppLanguage.VN) }
-            LanguageOption(AppLanguage.EN, selected == AppLanguage.EN) { onSelect(AppLanguage.EN) }
-        }
-    }
-}
-
-@Composable
-private fun LanguageOption(language: AppLanguage, isSelected: Boolean, onClick: () -> Unit) {
-    val flag = if (language == AppLanguage.VN) "🇻🇳" else "🇬🇧"
-    Row(
-        modifier = Modifier.fillMaxWidth()
-            .background(if (isSelected) Color(0xFF1E2D39) else Color.Transparent, RoundedCornerShape(4.dp))
-            .clickable(onClick = onClick)
-            .padding(horizontal = 8.dp, vertical = 8.dp),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(8.dp)
-    ) {
-        Text(flag, fontSize = 16.sp)
-        Text(language.code, style = MaterialTheme.typography.labelMedium, color = KudosWhite)
-    }
-}
-
-private fun descriptionText(language: AppLanguage) = when (language) {
-    AppLanguage.VN -> "Bắt đầu hành trình của bạn cùng SAA 2025.\nĐăng nhập để khám phá!"
-    AppLanguage.EN -> "Start your journey with SAA 2025. Log in to explore!"
-}
-
-private fun copyrightText(language: AppLanguage) = when (language) {
-    AppLanguage.VN -> "Bản quyền thuộc về Sun* © 2025"
-    AppLanguage.EN -> "Copyright belongs to Sun* © 2025"
 }

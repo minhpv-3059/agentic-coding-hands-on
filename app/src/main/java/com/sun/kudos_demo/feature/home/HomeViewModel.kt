@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sun.kudos_demo.data.NotificationsRepository
 import com.sun.kudos_demo.feature.auth.AppLanguage
+import com.sun.kudos_demo.feature.auth.LanguageManager
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -44,6 +45,14 @@ class HomeViewModel : ViewModel() {
     init {
         startCountdown()
         observeUnreadNotifications()
+        observeLanguage()
+    }
+
+    /** Reflect the app-wide language in the header switcher. */
+    private fun observeLanguage() {
+        viewModelScope.launch {
+            LanguageManager.language.collect { lang -> _uiState.update { it.copy(language = lang) } }
+        }
     }
 
     /** Keep the header bell badge in sync as notifications are marked read elsewhere. */
@@ -66,11 +75,10 @@ class HomeViewModel : ViewModel() {
         }
     }
 
-    /** Header language switcher — flips VN/EN (full language UI is Phase 11). */
+    /** Header switcher drives the app-wide language (persisted + re-renders i18n screens). */
     fun toggleLanguage() {
-        _uiState.update {
-            it.copy(language = if (it.language == AppLanguage.VN) AppLanguage.EN else AppLanguage.VN)
-        }
+        val current = LanguageManager.language.value
+        LanguageManager.set(if (current == AppLanguage.VN) AppLanguage.EN else AppLanguage.VN)
     }
 }
 

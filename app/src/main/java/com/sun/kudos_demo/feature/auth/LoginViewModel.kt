@@ -12,12 +12,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-enum class AppLanguage(val code: String) {
-    VN("VN"), EN("EN")
-}
-
 data class LoginUiState(
-    val language: AppLanguage = AppLanguage.VN,
     val isLoading: Boolean = false,
     val showLanguageDropdown: Boolean = false
 )
@@ -29,6 +24,9 @@ class LoginViewModel(app: Application) : AndroidViewModel(app) {
     private val _uiState = MutableStateFlow(LoginUiState())
     val uiState: StateFlow<LoginUiState> = _uiState.asStateFlow()
 
+    /** Current app-wide language (drives the dropdown selection + the localized Login text). */
+    val language: StateFlow<AppLanguage> = LanguageManager.language
+
     fun toggleLanguageDropdown() {
         _uiState.update { it.copy(showLanguageDropdown = !it.showLanguageDropdown) }
     }
@@ -38,7 +36,9 @@ class LoginViewModel(app: Application) : AndroidViewModel(app) {
     }
 
     fun selectLanguage(language: AppLanguage) {
-        _uiState.update { it.copy(language = language, showLanguageDropdown = false) }
+        // Switch globally — the root re-renders all stringResource() text + persists the choice.
+        LanguageManager.set(language)
+        _uiState.update { it.copy(showLanguageDropdown = false) }
     }
 
     fun onLoginClick(onSuccess: () -> Unit) {

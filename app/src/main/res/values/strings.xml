@@ -1,3 +1,54 @@
 <resources>
     <string name="app_name">Kudos App</string>
+
+    <!-- ============ Login (Phase 11 i18n) — default = Vietnamese (matches design) ============ -->
+    <string name="login_description">Bắt đầu hành trình của bạn cùng SAA 2025.\nĐăng nhập để khám phá!</string>
+    <string name="login_copyright">Bản quyền thuộc về Sun* © 2025</string>
+    <string name="login_google_button">LOGIN With Google</string>
+
+    <!-- ============ Rules / Thể lệ (design is Vietnamese) ============ -->
+    <string name="rules_title">Thể lệ</string>
+    <string name="rules_recipient_subtitle">NGƯỜI NHẬN KUDOS: HUY HIỆU HERO CHO NHỮNG ẢNH HƯỞNG TÍCH CỰC</string>
+    <string name="rules_recipient_desc">Dựa trên số lượng đồng đội gửi trao Kudos, bạn sẽ sở hữu Huy hiệu Hero tương ứng, được hiển thị trực tiếp cạnh tên profile</string>
+
+    <!-- Hero level names are proper nouns — identical across languages -->
+    <string name="rules_hero_new">New Hero</string>
+    <string name="rules_hero_rising">Rising Hero</string>
+    <string name="rules_hero_super">Super Hero</string>
+    <string name="rules_hero_legend">Legend Hero</string>
+    <string name="rules_hero_new_count">Có 1-4 người gửi Kudos cho bạn</string>
+    <string name="rules_hero_rising_count">Có 5-9 người gửi Kudos cho bạn</string>
+    <string name="rules_hero_super_count">Có 10–20 người gửi Kudos cho bạn</string>
+    <string name="rules_hero_legend_count">Có hơn 20 người gửi Kudos cho bạn</string>
+    <string name="rules_hero_desc_early">Hành trình lan tỏa điều tốt đẹp bắt đầu – những lời cảm ơn và ghi nhận đầu tiên đã tìm đến bạn.</string>
+    <string name="rules_hero_desc_late">Bạn đã trở thành biểu tượng được tin tưởng và yêu quý, người luôn sẵn sàng hỗ trợ và được nhiều đồng đội nhớ đến.</string>
+
+    <string name="rules_sender_subtitle">NGƯỜI GỬI KUDOS: SƯU TẬP TRỌN BỘ 6 ICON, NHẬN NGAY PHẦN QUÀ BÍ ẨN</string>
+    <string name="rules_sender_desc">Mỗi lời Kudos được đăng tải, nhận lượt ❤️ từ cộng đồng Sunner. Cứ mỗi 5 lượt ❤️ được mở 1 Secret Box, cơ hội nhận 1 trong 6 icon độc quyền của SAA.</string>
+    <string name="rules_sender_conclusion">Những Sunner thu thập trọn bộ 6 icon sẽ nhận về một phần quà bí ẩn từ SAA 2025.</string>
+
+    <!-- Collection icon names are proper nouns — identical across languages -->
+    <string name="rules_icon_revival">REVIVAL</string>
+    <string name="rules_icon_touch_of_light">TOUCH OF LIGHT</string>
+    <string name="rules_icon_stay_gold">STAY GOLD</string>
+    <string name="rules_icon_flow_to_horizon">FLOW TO HORIZON</string>
+    <string name="rules_icon_beyond_boundary">BEYOND THE BOUNDARY</string>
+    <string name="rules_icon_root_futher">ROOT FUTHER</string>
+
+    <string name="rules_national_title">KUDOS QUỐC DÂN</string>
+    <string name="rules_national_desc">5 Kudos nhận về nhiều ❤️ nhất toàn Sun* sẽ chính thức trở thành Kudos Quốc Dân và được trao phần quà đặc biệt từ SAA 2025: Root Further.</string>
+
+    <string name="rules_close">Đóng</string>
+    <string name="rules_write_kudos">Viết Kudos</string>
+
+    <!-- Entry point label on Home/Feed -->
+    <string name="rules_entry_label">Thể lệ</string>
+
+    <!-- ============ Error screens (design is English → VN here is the localized variant) ============ -->
+    <string name="error_403_title">Truy cập bị từ chối</string>
+    <string name="error_404_title">Không tìm thấy</string>
+    <string name="error_message">Nội dung bạn đang tìm không tồn tại hoặc đã bị gỡ bỏ.</string>
+    <string name="error_go_home">Về trang chủ</string>
+    <string name="error_back">Quay lại</string>
+    <string name="error_illustration_desc">Hình minh họa lỗi</string>
 </resources>

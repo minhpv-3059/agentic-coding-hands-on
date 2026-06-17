@@ -103,16 +103,14 @@ fun KudosTopBar(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                // VN flag — real Figma asset (ic_vn_flag); other locales fall back to emoji
-                if (currentLanguage == "VN") {
-                    Image(
-                        painter = painterResource(R.drawable.ic_vn_flag),
-                        contentDescription = "Vietnam",
-                        modifier = Modifier.size(20.dp)
-                    )
-                } else {
-                    Text(text = "🇬🇧", style = MaterialTheme.typography.bodyMedium)
-                }
+                // Real flag assets — VN (ic_vn_flag) / EN (ic_uk_flag), consistent with LanguageDropdown
+                Image(
+                    painter = painterResource(
+                        if (currentLanguage == "VN") R.drawable.ic_vn_flag else R.drawable.ic_uk_flag
+                    ),
+                    contentDescription = if (currentLanguage == "VN") "Vietnam" else "English",
+                    modifier = Modifier.size(width = 24.dp, height = 16.dp)
+                )
                 Text(
                     text = currentLanguage,
                     style = MaterialTheme.typography.labelMedium,
