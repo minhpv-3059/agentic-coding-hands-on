@@ -1,0 +1,60 @@
+<resources>
+    <!-- ============ Login ============ -->
+    <string name="login_description">Start your journey with SAA 2025. Log in to explore!</string>
+    <string name="login_copyright">Copyright belongs to Sun* © 2025</string>
+    <string name="login_google_button">LOGIN With Google</string>
+
+    <!-- ============ Rules / Thể lệ — English ============ -->
+    <string name="rules_title">Rules</string>
+    <string name="rules_recipient_subtitle">KUDOS RECIPIENTS: HERO BADGES FOR POSITIVE IMPACT</string>
+    <string name="rules_recipient_desc">Based on how many teammates send you Kudos, you earn the matching Hero badge, shown right next to your profile name.</string>
+
+    <string name="rules_hero_new">New Hero</string>
+    <string name="rules_hero_rising">Rising Hero</string>
+    <string name="rules_hero_super">Super Hero</string>
+    <string name="rules_hero_legend">Legend Hero</string>
+    <string name="rules_hero_new_count">1-4 people have sent you Kudos</string>
+    <string name="rules_hero_rising_count">5-9 people have sent you Kudos</string>
+    <string name="rules_hero_super_count">10–20 people have sent you Kudos</string>
+    <string name="rules_hero_legend_count">More than 20 people have sent you Kudos</string>
+    <string name="rules_hero_desc_early">The journey of spreading good begins – your first thank-yous and recognitions have found their way to you.</string>
+    <string name="rules_hero_desc_late">You have become a trusted and beloved icon, always ready to help and remembered by many teammates.</string>
+
+    <string name="rules_sender_subtitle">KUDOS SENDERS: COLLECT ALL 6 ICONS TO RECEIVE A MYSTERY GIFT</string>
+    <string name="rules_sender_desc">Each Kudos you post earns ❤️ from the Sunner community. For every 5 ❤️, you open 1 Secret Box for a chance to receive 1 of 6 exclusive SAA icons.</string>
+    <string name="rules_sender_conclusion">Sunners who collect the full set of 6 icons will receive a mystery gift from SAA 2025.</string>
+
+    <string name="rules_icon_revival">REVIVAL</string>
+    <string name="rules_icon_touch_of_light">TOUCH OF LIGHT</string>
+    <string name="rules_icon_stay_gold">STAY GOLD</string>
+    <string name="rules_icon_flow_to_horizon">FLOW TO HORIZON</string>
+    <string name="rules_icon_beyond_boundary">BEYOND THE BOUNDARY</string>
+    <string name="rules_icon_root_futher">ROOT FUTHER</string>
+
+    <string name="rules_national_title">NATIONAL KUDOS</string>
+    <string name="rules_national_desc">The 5 Kudos with the most ❤️ across all of Sun* officially become National Kudos and receive a special gift from SAA 2025: Root Further.</string>
+
+    <string name="rules_close">Close</string>
+    <string name="rules_write_kudos">Write Kudos</string>
+
+    <string name="rules_entry_label">Rules</string>
+
+    <!-- ============ Error screens — exact design English ============ -->
+    <string name="error_403_title">Access Denied</string>
+    <string name="error_404_title">NOT FOUND</string>
+    <string name="error_message">The resource you\'re looking for doesn\'t exist or has been removed.</string>
+    <string name="error_go_home">Go back to Home</string>
+    <string name="error_back">Back</string>
+    <string name="error_illustration_desc">Error illustration</string>
+
+    <!-- ============ Shared KudosCard ============ -->
+    <string name="card_anonymous_sender">Anonymous sender</string>
+    <string name="card_liked">Liked</string>
+    <string name="card_like">Like</string>
+    <string name="card_copy_link">Copy Link</string>
+    <string name="card_view_detail">View details</string>
+
+    <!-- Feed filter dropdown labels -->
+    <string name="filter_hashtag">Hashtag</string>
+    <string name="filter_department">Department</string>
+</resources>

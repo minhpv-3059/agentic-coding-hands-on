@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- ============ Home — Hero section ============ -->
+    <string name="home_coming_soon">Coming soon</string>
+    <string name="home_event_time_label">Time: </string>
+    <string name="home_event_location_label">Venue:</string>
+    <string name="home_livestream_note">Live coverage on Sun* Family Facebook Group</string>
+
+    <!-- ============ Home — Countdown labels ============ -->
+    <string name="home_days">DAYS</string>
+    <string name="home_hours">HOURS</string>
+    <string name="home_minutes">MINUTES</string>
+
+    <!-- ============ Home — Hero CTA buttons ============ -->
+    <string name="home_about_award">ABOUT AWARD</string>
+    <string name="home_about_kudos">ABOUT KUDOS</string>
+
+    <!-- ============ Home — Note section ============ -->
+    <string name="home_theme_note">More than just a name, \"Root Further\" embodies the spirit every Sunner strives toward: always looking deeper in every context and continuously creating, expanding oneself to transcend the limits once set by oneself. Borrowing the metaphor of color theory — from just three primary colors: red, yellow, and blue — the boundless creativity of each individual can produce a near-infinite palette, with every hue representing unbounded breakthrough and innovation.</string>
+
+    <!-- ============ Home — Awards section ============ -->
+    <string name="home_awards_eyebrow">Sun* Annual Awards 2025</string>
+    <string name="home_awards_title">Award System</string>
+    <string name="home_award_detail_button">Detail</string>
+
+    <!-- ============ Home — Kudos section ============ -->
+    <string name="home_kudos_eyebrow">Recognition movement</string>
+    <string name="home_kudos_title">Sun* Kudos</string>
+    <string name="home_kudos_new_highlight">WHAT\'S NEW IN SAA 2025</string>
+    <string name="home_kudos_body">A colleague recognition and appreciation activity — happening for the first time for all Sunners. The activity will launch in November 2025, encouraging Sun* members to share recognitions and thank-yous to colleagues on the system announced by the organizing committee. This will serve as material for the Heads Council to reference when selecting award recipients.</string>
+    <string name="home_kudos_detail_button">Detail</string>
+
+    <!-- ============ Home — FAB content descriptions (TalkBack) ============ -->
+    <string name="home_fab_send_kudos_desc">Send Kudos</string>
+    <string name="home_fab_kudos_feed_desc">Kudos Feed</string>
+</resources>

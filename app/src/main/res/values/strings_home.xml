@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- ============ Home — Hero section ============ -->
+    <string name="home_coming_soon">Coming soon</string>
+    <string name="home_event_time_label">Thời gian: </string>
+    <string name="home_event_location_label">Địa điểm:</string>
+    <string name="home_livestream_note">Tường thuật trực tiếp tại Group Facebook Sun* Family</string>
+
+    <!-- ============ Home — Countdown labels ============ -->
+    <string name="home_days">NGÀY</string>
+    <string name="home_hours">GIỜ</string>
+    <string name="home_minutes">PHÚT</string>
+
+    <!-- ============ Home — Hero CTA buttons ============ -->
+    <string name="home_about_award">VỀ GIẢI THƯỞNG</string>
+    <string name="home_about_kudos">VỀ KUDOS</string>
+
+    <!-- ============ Home — Note section ============ -->
+    <string name="home_theme_note">Không đơn thuần là một cái tên, \"Root Further\" chính là tinh thần mà mỗi người Sun* đang hướng tới: luôn nhìn nhận sâu sắc trong mọi bối cảnh và không ngừng sáng tạo, mở rộng bản thân để vượt qua những giới hạn mà chính mình đã từng đặt ra. Mượn hình ảnh ẩn dụ của lý thuyết phối màu, chỉ từ ba màu cơ bản: đỏ, vàng và lam, sức sáng tạo vô tận của mỗi cá nhân có thể tạo ra số lượng màu sắc gần như vô hạn, với mỗi gam màu đều đại diện cho sự bứt phá và sáng tạo không giới hạn.</string>
+
+    <!-- ============ Home — Awards section ============ -->
+    <string name="home_awards_eyebrow">Sun* Annual Awards 2025</string>
+    <string name="home_awards_title">Hệ thống giải thưởng</string>
+    <string name="home_award_detail_button">Chi tiết</string>
+
+    <!-- ============ Home — Kudos section ============ -->
+    <string name="home_kudos_eyebrow">Phong trào ghi nhận</string>
+    <string name="home_kudos_title">Sun* Kudos</string>
+    <string name="home_kudos_new_highlight">ĐIỂM MỚI CỦA SAA 2025</string>
+    <string name="home_kudos_body">Hoạt động ghi nhận và cảm ơn đồng nghiệp - lần đầu tiên được diễn ra dành cho tất cả Sunner. Hoạt động sẽ được triển khai vào tháng 11/2025, khuyến khích người Sun* chia sẻ những lời ghi nhận, cảm ơn đồng nghiệp trên hệ thống do BTC công bố. Đây sẽ là chất liệu để Hội đồng Heads tham khảo trong quá trình lựa chọn người đạt giải.</string>
+    <string name="home_kudos_detail_button">Chi tiết</string>
+
+    <!-- ============ Home — FAB content descriptions (TalkBack) ============ -->
+    <string name="home_fab_send_kudos_desc">Gửi Kudos</string>
+    <string name="home_fab_kudos_feed_desc">Bảng tin Kudos</string>
+</resources>

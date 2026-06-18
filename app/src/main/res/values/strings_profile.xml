@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- ============ Profile — default Vietnamese ============ -->
+
+    <!-- Stats card labels (ProfileStatsCard) -->
+    <string name="profile_stat_kudos_received">Số Kudos bạn nhận được</string>
+    <string name="profile_stat_kudos_sent">Số Kudos bạn đã gửi</string>
+    <string name="profile_stat_hearts_received">Số tim bạn nhận được</string>
+    <string name="profile_stat_secret_box_opened">Số Secret Box bạn đã mở</string>
+    <string name="profile_stat_secret_box_unopened">Số Secret Box chưa mở</string>
+
+    <!-- Secret Box CTA button (ProfileStatsCard) -->
+    <string name="profile_open_secret_box">Mở Secret Box 🎁</string>
+
+    <!-- Kudos filter tab labels (ProfileKudosFilter) — %1$d is the count -->
+    <string name="profile_tab_received">Đã nhận (%1$d)</string>
+    <string name="profile_tab_sent">Đã gửi (%1$d)</string>
+
+    <!-- Section header (ProfileSectionHeader / UserProfileSectionHeader) -->
+    <string name="profile_section_awards_subtitle">Sun* Annual Awards 2025</string>
+    <string name="profile_section_kudos_headline">KUDOS</string>
+
+    <!-- Icon collection label (ProfileIconCollection / UserProfileScreen inline) -->
+    <string name="profile_icon_collection_label">Bộ sưu tập icon của tôi</string>
+
+    <!-- Send-kudos CTA (ProfileSendKudosCta) — %1$s is the recipient first name -->
+    <string name="profile_send_cta">Gửi lời cảm ơn và ghi nhận tới %1$s…</string>
+
+    <!-- Received-kudos label (ProfileReceivedKudosLabel) — %1$d is the count -->
+    <string name="profile_received_kudos_label">Đã nhận %1$d kudos</string>
+</resources>

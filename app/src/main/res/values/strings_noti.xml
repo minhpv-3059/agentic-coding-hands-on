@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- ============ Notifications — Screen title ============ -->
+    <string name="noti_title">Thông báo</string>
+
+    <!-- ============ Notifications — Top bar ============ -->
+    <string name="noti_back_desc">Quay lại</string>
+
+    <!-- ============ Notifications — Actions ============ -->
+    <string name="noti_mark_all_read">Đánh dấu đọc tất cả</string>
+
+    <!-- ============ Notifications — Inline link (CONTENT_HIDDEN) ============ -->
+    <string name="noti_standards_link">Tiêu chuẩn cộng đồng ↗</string>
+
+    <!-- ============ Notifications — Relative-time labels ============ -->
+    <string name="noti_time_15_min">15 phút trước</string>
+    <string name="noti_time_1_hour">1 giờ trước</string>
+    <string name="noti_time_1_day">1 ngày trước</string>
+    <string name="noti_time_1_month">1 tháng trước</string>
+</resources>

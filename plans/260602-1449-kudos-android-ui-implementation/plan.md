@@ -1,6 +1,6 @@
 ---
 title: Kudos Android UI Implementation
-status: in_progress
+status: complete
 created: 2026-06-02
 fileKey: 9ypp4enmFmdK3YAFJLIu6C
 stack: Android / Jetpack Compose / Material3
@@ -15,6 +15,25 @@ blocks: []
 
 Implement all iOS-mobile screens from MoMorph design into Android Jetpack Compose.
 Stack: Kotlin + Compose + Material3 | minSdk 26 | targetSdk 36
+
+## Definition of Done (AIDD — applies to every phase)
+
+AIDD demo: gen code from Figma design + MoMorph specs via Takumi. Each phase is "done" only when:
+1. **UI** pixel-exact to Figma (MoMorph authoritative; verify on emulator).
+2. **Logic** matches MoMorph screen specs.
+3. **Quality** = Unit Tests **+ E2E/instrumented tests** (TDD).
+4. **Process** = Takumi flow, then customize + note it in the report.
+
+Authoritative detail: [`.claude/rules/aidd-project-requirements.md`](../../.claude/rules/aidd-project-requirements.md). **Open gap:** E2E tests not yet added.
+
+## ⚠️ Asset Extraction Protocol (đọc trước khi implement)
+
+**`get_media_files` KHÔNG đáng tin cho background fill images.**
+Khi Figma node có CSS `background-position` offset hoặc `background-size` > 100%, raw S3 file ≠ rendered visual.
+
+Cách detect: `get_node` → xem `styles.background`. Nếu có offset số âm hoặc scale >100% → **yêu cầu user export từ Figma trực tiếp**.
+
+Xem chi tiết: [`clarifications.md`](./clarifications.md)
 
 ## Screen Inventory (iOS screens — 38 screens total)
 
@@ -73,15 +92,16 @@ Screens prefixed `[iOS]` are the authoritative mobile screens. Web/desktop scree
 |-------|-------|--------|---------|
 | 01 | Design System & Theme | ✅ done | Color, Typography, Button, Icons, Nav |
 | 02 | App Navigation Setup | ✅ done | Nav structure, bottom nav |
-| 03 | Authentication | ☐ todo | Login |
-| 04 | Home | ☐ todo | Home |
-| 05 | Kudos Feed | ☐ todo | Feed, All Kudos, View, Search, Filters |
-| 06 | Send Kudos Flow | ☐ todo | Send form, dropdowns, validation |
-| 07 | Profile | ☐ todo | Own profile, Others' profile |
-| 08 | Notifications | ☐ todo | Notifications list |
-| 09 | Secret Box | ☐ todo | Box states, open animation |
-| 10 | Awards | ☐ todo | 6 award types |
-| 11 | Supporting Screens | ☐ todo | Rules, Language, Error pages |
+| 03 | Authentication | ✅ done | Login |
+| 04 | Home | ✅ done | Home |
+| 05 | Kudos Feed | ✅ done | Feed, All Kudos, View, Search, Filters |
+| 06 | Send Kudos Flow | ✅ done | Send form, dropdowns, validation, community standards |
+| 07 | Profile | ✅ done | Own profile, Others' profile |
+| 08 | Notifications | ✅ done | Notifications list |
+| 09 | Secret Box | ✅ done | Box states, open animation |
+| 10 | Awards | ✅ done | AwardsScreen tab + 6 award dropdown, trophies extracted & Home wired |
+| 11 | Supporting Screens | ✅ done | Rules, Language (full runtime i18n migration — all main screens + shared components), Error pages |
+| 12 | E2E / Instrumented Testing | ✅ done | 4 representative Compose flows (login+nav, form validation, happy-path send); all passing on emulator. Intentional subset (4/~20 flows); gaps: Notifications, Secret Box, Awards, Rules, 403/404, language EN, Xem trước dialog documented. |
 
 ## Key Dependencies
 

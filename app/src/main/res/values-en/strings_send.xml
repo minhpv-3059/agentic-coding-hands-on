@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- ============ Send Kudos — Top bar ============ -->
+    <string name="send_screen_title">New Kudo</string>
+    <string name="send_nav_back_desc">Go back</string>
+    <string name="send_form_tagline">Send appreciation and recognition to your teammates</string>
+
+    <!-- ============ Send Kudos — Recipient field ============ -->
+    <string name="send_recipient_label">Recipient</string>
+    <string name="send_recipient_required">*</string>
+    <string name="send_recipient_placeholder">Search</string>
+    <string name="send_recipient_cd">Select Kudos recipient</string>
+
+    <!-- ============ Send Kudos — Title (Danh hiệu) field ============ -->
+    <string name="send_title_label">Title</string>
+    <string name="send_title_required">*</string>
+    <string name="send_title_placeholder">Dedicate a title to...</string>
+    <string name="send_title_helper">Example: My motivator.\nThe title will be displayed as the heading of your Kudos.</string>
+
+    <!-- ============ Send Kudos — Message field ============ -->
+    <string name="send_message_label">Message</string>
+    <string name="send_message_placeholder">Share your appreciation and message to your teammate here</string>
+    <string name="send_message_helper">You can use \"@ + name\" to mention another colleague</string>
+
+    <!-- ============ Send Kudos — Community Standards link ============ -->
+    <string name="send_community_standards_link">Community Standards</string>
+
+    <!-- ============ Send Kudos — Hashtag section ============ -->
+    <string name="send_hashtag_label">Hashtag</string>
+    <string name="send_hashtag_required">*</string>
+    <!-- %1$d = max hashtag count -->
+    <string name="send_hashtag_add_button"> Hashtag (Max %1$d)</string>
+    <string name="send_hashtag_remove_cd">Remove hashtag %1$s</string>
+
+    <!-- ============ Send Kudos — Image attach row ============ -->
+    <string name="send_image_label">Image</string>
+    <!-- %1$d = max image count -->
+    <string name="send_image_add_button"> Image (Max %1$d)</string>
+    <string name="send_image_thumbnail_cd">Attached image</string>
+    <string name="send_image_remove_cd">Remove image</string>
+
+    <!-- ============ Send Kudos — Anonymous section ============ -->
+    <string name="send_anonymous_checkbox">Send appreciation and recognition anonymously</string>
+    <string name="send_anonymous_nickname_label">Anonymous nickname</string>
+    <string name="send_anonymous_nickname_required"> *</string>
+    <string name="send_anonymous_nickname_placeholder">Enter nickname...</string>
+
+    <!-- ============ Send Kudos — Action buttons ============ -->
+    <string name="send_btn_cancel">Cancel</string>
+    <string name="send_btn_submit">Send</string>
+    <string name="send_btn_preview">Preview Kudo</string>
+
+    <!-- ============ Send Kudos — Error banner ============ -->
+    <string name="send_error_missing_fields">Please fill in Recipient, Message and Hashtag to send Kudos!</string>
+
+    <!-- ============ Send Kudos — Success toast ============ -->
+    <string name="send_success_toast">Kudos sent!</string>
+
+    <!-- ============ Send Kudos — Preview dialog ============ -->
+    <string name="send_preview_title">Preview</string>
+    <string name="send_preview_close">Close</string>
+
+    <!-- ============ Community Standards — Top bar ============ -->
+    <string name="send_community_standards_screen_title">Community Standards</string>
+    <string name="send_community_standards_back_cd">Go back</string>
+
+    <!-- ============ Community Standards — Logo banner ============ -->
+    <string name="send_root_further_cd">ROOT FURTHER — SAA 2025</string>
+
+    <!-- ============ Community Standards — Section B title ============ -->
+    <string name="send_community_section_title">Community Standards</string>
+    <string name="send_community_intro_bold">Community Standards are established to ensure a civilised, safe and positive environment for all members participating in the Sun* Kudos recognition and appreciation programme.</string>
+    <string name="send_community_criteria_intro">Content found to meet one of the violation criteria below will be labelled as Spam and proactively hidden by the system.</string>
+
+    <!-- Community criteria — 10 items (indices 1–10) -->
+    <string name="send_community_criterion_1">Use of profanity, vulgar language, or content that is offensive or defamatory.</string>
+    <string name="send_community_criterion_2">References to political, religious, or gender-discriminatory topics.</string>
+    <string name="send_community_criterion_3">Contains specific figures (revenue, contracts, KPIs, clients, project codes, account numbers, etc.).</string>
+    <string name="send_community_criterion_4">Mentions partner names, clients, or external organisations.</string>
+    <string name="send_community_criterion_5">Contains personal information (email, phone number, address, family details).</string>
+    <string name="send_community_criterion_6">Sending 3+ messages with similar content repeatedly in a short period.</string>
+    <string name="send_community_criterion_7">Kudos content is too short (under 30 characters) with no context (\"Thanks a lot\", \"Thanks!\", \"Good job!\").</string>
+    <string name="send_community_criterion_8">Sending to too many people/groups in a short period (&lt;3s/message).</string>
+    <string name="send_community_criterion_9">Spam language (containing only characters such as \".\", \",\", \"...\", or meaningless characters).</string>
+    <string name="send_community_criterion_10">Abnormal spike in \"hearts\" (based on average user behaviour).</string>
+
+    <!-- ============ Community Standards — Section C (Security) ============ -->
+    <string name="send_security_section_title">Security Standards</string>
+    <string name="send_security_intro">Sunners are committed to protecting information. Every member is responsible for keeping shared content secure on the system.</string>
+    <string name="send_security_item_a_label">Information Security</string>
+    <string name="send_security_item_a_body">All information Sunners share will be kept secure on the system.</string>
+    <string name="send_security_item_b_label">Scope of Sharing</string>
+    <string name="send_security_item_b_body">All personnel and project information in the system is confidential. Sunners are requested to share only within Sun* internally.</string>
+    <string name="send_security_contact_label">Contact Support: </string>
+    <string name="send_security_contact_body">For any questions, Sunners please contact the SAA Organising Committee representative: Slack duong.thi.thuy.an for assistance.</string>
+</resources>
