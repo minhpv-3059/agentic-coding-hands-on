@@ -82,6 +82,20 @@ Implemented two profile screens (own profile + other-user profile) from MoMorph 
 - `UserProfileScreen` is a detail screen (back arrow, no bottom nav, full-bleed key-visual); `MyProfileScreen` retains bottom nav
 - ~315 unit tests passing
 
+## E2E / Instrumented Tests — First Suite [Partial]
+
+Closes the "E2E / instrumented tests NOT yet added" gap identified in the project DoD. 4 Compose UI flows verified on a real emulator: Login → Home, bottom-nav round-trip, Send Kudos empty-form validation, Send Kudos happy-path → feed update.
+
+**Delivered:**
+- `app/src/androidTest/.../e2e/LoginAndNavigationFlowTest.kt` — Flow 1 (login → home) + Flow 2 (bottom-nav tabs)
+- `app/src/androidTest/.../e2e/SendKudosFlowTest.kt` — Flow 3 (validation banner) + Flow 4 (happy path → feed)
+- `app/src/androidTest/.../e2e/E2eSupport.kt` — shared login helper and wait utilities
+- `app/src/main/.../ui/KudosTestTags.kt` — `testTag` constants for recipient input, message input, submit button
+
+**Remaining (not yet covered):** Notifications, Secret Box, Awards, Rules, 403/404, language switch, preview dialog.
+
+Run: `./gradlew :app:connectedDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.package=com.sun.kudos_demo.e2e`
+
 ## Phase 11 — Supporting Screens + Full-App i18n [Complete]
 
 Added Rules/Thể lệ screen, Access Denied + Not Found error screens, established the runtime i18n architecture, then expanded i18n to cover all main screens.

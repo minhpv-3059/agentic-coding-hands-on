@@ -178,6 +178,24 @@ For ViewModels that expose `StateFlow` built with `combine(...).stateIn(WhileSub
 
 This pattern applies to any ViewModel that uses `SharingStarted.WhileSubscribed` — not just SecretBox.
 
+## Compose UI / Instrumented Tests (E2E)
+
+E2E tests live under `app/src/androidTest/java/com/sun/kudos_demo/e2e/`. Use the Compose testing APIs; tests run on a real emulator via `connectedDebugAndroidTest`.
+
+**Structure:**
+- One `*FlowTest.kt` file per feature flow (e.g., `LoginAndNavigationFlowTest`, `SendKudosFlowTest`)
+- `E2eSupport.kt` — shared helpers: `loginAsTestUser()`, idle-wait utilities
+
+**Run a specific package:**
+```
+./gradlew :app:connectedDebugAndroidTest \
+  -Pandroid.testInstrumentationRunnerArguments.package=com.sun.kudos_demo.e2e
+```
+
+**Test tags:** Production code exposes stable `testTag` identifiers via `app/src/main/.../ui/KudosTestTags.kt`. Add constants there when a new UI element needs to be targeted by E2E tests — keep this file additive only (no behavior logic).
+
+**Coverage scope (as of 2026-06-17):** Login → Home, bottom-nav tabs, Send Kudos validation, Send Kudos happy-path → feed update. Remaining flows (Notifications, Secret Box, Awards, Rules, error screens, language switch, preview dialog) are not yet covered.
+
 ## String Resources and Localization
 
 All main screens use Android string resources for user-facing text. Runtime locale switching (VN ↔ EN) is handled by `LanguageManager` + `CompositionLocalProvider` in `MainActivity` — no Activity recreation required.

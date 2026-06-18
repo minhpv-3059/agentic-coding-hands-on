@@ -1,5 +1,23 @@
 # Project Changelog
 
+## [Unreleased] — E2E / Instrumented Test Suite (2026-06-17)
+
+### Added
+- `app/src/androidTest/java/com/sun/kudos_demo/e2e/` — first Compose UI / instrumented test suite; 4 flows verified on a real emulator:
+  - **Flow 1** (`LoginAndNavigationFlowTest`): Login → Home screen lands with bottom nav visible
+  - **Flow 2** (`LoginAndNavigationFlowTest`): Bottom-nav round-trip — Home ↔ Kudos ↔ Profile tabs switch correctly
+  - **Flow 3** (`SendKudosFlowTest`): Send Kudos empty-form submission shows validation error banner
+  - **Flow 4** (`SendKudosFlowTest`): Send Kudos happy-path — valid form submits and new kudo appears at top of feed
+- `app/src/androidTest/java/com/sun/kudos_demo/e2e/E2eSupport.kt` — shared test helpers (login helper, wait utilities)
+- `app/src/main/java/com/sun/kudos_demo/ui/KudosTestTags.kt` — `testTag` constants for recipient input, message input, and submit button (additive; no behavior change)
+
+### Notes
+- Run cmd: `./gradlew :app:connectedDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.package=com.sun.kudos_demo.e2e`
+- Closes the long-standing "E2E / instrumented tests NOT yet added" gap in the project DoD
+- Coverage is intentionally a representative subset (4 of ~20 main flows); flows not yet covered: Notifications, Secret Box, Awards, Rules, 403/404, language switch, preview dialog
+
+---
+
 ## [Unreleased] — Phase 11: Full-App Runtime i18n + Bug Fix (2026-06-17)
 
 ### Added
