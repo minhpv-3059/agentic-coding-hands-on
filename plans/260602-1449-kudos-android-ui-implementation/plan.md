@@ -1,6 +1,6 @@
 ---
 title: Kudos Android UI Implementation
-status: in_progress
+status: complete
 created: 2026-06-02
 fileKey: 9ypp4enmFmdK3YAFJLIu6C
 stack: Android / Jetpack Compose / Material3
@@ -101,7 +101,7 @@ Screens prefixed `[iOS]` are the authoritative mobile screens. Web/desktop scree
 | 09 | Secret Box | ✅ done | Box states, open animation |
 | 10 | Awards | ✅ done | AwardsScreen tab + 6 award dropdown, trophies extracted & Home wired |
 | 11 | Supporting Screens | ✅ done | Rules, Language (full runtime i18n migration — all main screens + shared components), Error pages |
-| E2E | E2E / Instrumented Testing | ☐ todo | Dedicated pass after P0 screens — Compose UI tests for login → feed → send → kudo-appears, etc. (DoD requirement; deferred per decision 2026-06-15) |
+| 12 | E2E / Instrumented Testing | ✅ done | 4 representative Compose flows (login+nav, form validation, happy-path send); all passing on emulator. Intentional subset (4/~20 flows); gaps: Notifications, Secret Box, Awards, Rules, 403/404, language EN, Xem trước dialog documented. |
 
 ## Key Dependencies
 
